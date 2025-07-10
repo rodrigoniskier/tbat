@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Teologia Bíblica do Antigo Testamento</title>
+    <style>
+        /* CSS Interno Completo */
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Lato:wght@400;700&display=swap');
+
+        :root {
+            --cor-fundo: #f0f2f5;
+            --cor-texto: #333333;
+            --cor-primaria: #0d1b2a;
+            --cor-secundaria: #1b263b;
+            --cor-destaque: #415a77;
+            --cor-luz: #e0e1dd;
+            --sombra-padrao: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --gradiente-menu: linear-gradient(180deg, var(--cor-primaria) 0%, var(--cor-secundaria) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+            display: flex;
+        }
+
+        .app-container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* --- Menu Lateral --- */
+        .sidebar {
+            width: 280px;
+            background: var(--gradiente-menu);
+            color: var(--cor-luz);
+            padding: 25px 15px;
+            overflow-y: auto;
+            transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--cor-destaque);
+        }
+
+        .sidebar-header h1 {
+            font-family: 'EB Garamond', serif;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .sidebar-header p {
+            font-size: 0.9em;
+            font-style: italic;
+            opacity: 0.8;
+        }
+
+        #menu-lateral {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        #menu-lateral li a {
+            display: block;
+            padding: 12px 15px;
+            color: var(--cor-luz);
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            transition: background-color 0.2s ease, padding-left 0.2s ease;
+            font-weight: bold;
+        }
+
+        #menu-lateral li a:hover, #menu-lateral li a.active {
+            background-color: var(--cor-destaque);
+            padding-left: 20px;
+        }
+        
+        .sidebar-footer {
+            font-size: 0.8em;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--cor-destaque);
+            opacity: 0.7;
+        }
+
+        /* --- Área de Conteúdo --- */
+        .content-area {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cg fill-rule="evenodd"%3E%3Cg fill="%23cccccc" fill-opacity="0.1"%3E%3Cpath opacity=".5" d="M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z"/%3E%3Cpath d="M6 5V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h9V0h1v5h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v5h-1v-5h-9v5h-1v-5h-9v5h-1v-5h-9v5h-1v-5h-9v5h-1v-5h-9v5h-1v-5h-9v5h-1v-5h-9v5h-1v-5H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0v-1h5v-9H0V5h6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+        }
+        
+        #capitulos-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .capitulo-box {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: var(--sombra-padrao);
+            overflow: hidden;
+            scroll-margin-top: 20px;
+        }
+
+        .acordeao-header {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.5);
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+        }
+
+        .acordeao-header h2 {
+            font-family: 'EB Garamond', serif;
+            font-size: 1.6em;
+            color: var(--cor-primaria);
+        }
+        
+        .acordeao-header .toggle-icon {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--cor-destaque);
+            transition: transform 0.3s ease;
+        }
+
+        .acordeao-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            padding: 0 25px;
+        }
+        
+        .acordeao-content.open {
+            padding: 25px;
+        }
+        
+        .capitulo-conteudo h3 {
+            font-family: 'EB Garamond', serif;
+            color: var(--cor-secundaria);
+            margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid var(--cor-destaque);
+            padding-bottom: 5px;
+        }
+
+        .capitulo-conteudo p {
+            margin-bottom: 15px;
+        }
+
+        .capitulo-conteudo ul, .capitulo-conteudo ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        .termos-chave {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--cor-destaque);
+        }
+        
+        .termo {
+            font-weight: bold;
+            color: var(--cor-secundaria);
+            border-bottom: 2px dotted var(--cor-destaque);
+            cursor: help;
+            position: relative;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--cor-primaria);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -125px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .termo:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .btn {
+            background-color: var(--cor-destaque);
+            color: var(--cor-luz);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--cor-primaria);
+            transform: translateY(-2px);
+        }
+        
+        /* --- Modal (Quizz, etc) --- */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none; /* Alterado para none por padrão */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: var(--cor-fundo);
+            margin: auto;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 700px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            animation: slide-down 0.5s ease-out;
+        }
+        
+        @keyframes slide-down {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h2 {
+            font-family: 'EB Garamond', serif;
+            color: var(--cor-primaria);
+        }
+
+        .close-btn {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover, .close-btn:focus {
+            color: var(--cor-texto);
+        }
+
+        .quizz-pergunta {
+            margin-bottom: 20px;
+        }
+        
+        .quizz-pergunta p {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .quizz-opcoes label {
+            display: block;
+            margin-bottom: 8px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .quizz-opcoes label:hover {
+            background-color: #eef;
+        }
+        
+        #quizz-resultado {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* --- Loading / Error --- */
+        .status-message {
+            text-align: center;
+            padding: 50px;
+            font-family: 'EB Garamond', serif;
+            font-size: 1.5em;
+        }
+        
+        /* --- Responsividade --- */
+        @media (max-width: 768px) {
+            .app-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                padding: 10px 20px;
+            }
+            .sidebar-header h1 { font-size: 1.4em; }
+            .sidebar-header p, .sidebar-footer { display: none; }
+            #menu-lateral {
+                display: flex;
+                flex-grow: 0;
+            }
+            #menu-lateral li a {
+                padding: 8px 10px;
+                margin: 0 2px;
+            }
+            .content-area {
+                padding: 20px;
+            }
+            .acordeao-header h2 { font-size: 1.3em; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>Teologia Bíblica</h1>
+                <p>Antigo Testamento</p>
+            </div>
+            <ul id="menu-lateral">
+                </ul>
+            <div class="sidebar-footer">
+                <p>Soli Deo Gloria</p>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            <div id="capitulos-container">
+                <div class="status-message" id="loading-message">Carregando o conteúdo do curso...</div>
+            </div>
+        </main>
+    </div>
+
+    <div id="quizz-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="quizz-titulo">Quizz do Capítulo</h2>
+                <span class="close-btn">&times;</span>
+            </div>
+            <div id="quizz-body">
+                </div>
+            <div class="modal-footer">
+                <button id="submit-quizz-btn" class="btn">Verificar Respostas</button>
+                <div id="quizz-resultado"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript Interno Completo
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuLateral = document.getElementById('menu-lateral');
+            const capitulosContainer = document.getElementById('capitulos-container');
+            const loadingMessage = document.getElementById('loading-message');
+
+            const arquivos = [
+                'capitulo1.json',
+                'capitulo2.json',
+                'capitulo3.json',
+                'capitulo4.json',
+                'capitulo5.json'
+            ];
+
+            // Assim como Neemias inspecionou os muros de Jerusalém antes de reconstruir,
+            // usamos Promise.all para garantir que todos os nossos "materiais" (arquivos JSON)
+            // sejam carregados antes de começarmos a edificar a página.
+            Promise.all(arquivos.map(url => 
+                fetch(url).then(resp => {
+                    if (!resp.ok) {
+                        throw new Error(`Não foi possível carregar o arquivo: ${url}. Verifique se ele existe na mesma pasta que o index.html.`);
+                    }
+                    return resp.json();
+                })
+            ))
+            .then(dadosDosCapitulos => {
+                loadingMessage.style.display = 'none';
+                renderizarPagina(dadosDosCapitulos);
+            })
+            .catch(error => {
+                console.error("Erro ao carregar os dados do curso:", error);
+                loadingMessage.innerHTML = `
+                    <p>Ocorreu um erro ao carregar o conteúdo.</p>
+                    <p><em>${error.message}</em></p>
+                    <p>Por favor, certifique-se de que os arquivos .json (capitulo1.json, etc.) foram criados e estão na mesma pasta que este arquivo HTML.</p>
+                `;
+                loadingMessage.style.color = 'red';
+            });
+
+            function renderizarPagina(dados) {
+                // Limpa o conteúdo padrão
+                menuLateral.innerHTML = '';
+                capitulosContainer.innerHTML = '';
+
+                // Para cada capítulo carregado, criamos um item no menu e um bloco de conteúdo
+                dados.forEach((capitulo, index) => {
+                    // 1. Renderizar link no menu lateral
+                    const linkMenu = document.createElement('li');
+                    linkMenu.innerHTML = `<a href="#capitulo-${index + 1}">${capitulo.icone} ${capitulo.titulo}</a>`;
+                    menuLateral.appendChild(linkMenu);
+
+                    // 2. Renderizar o conteúdo do capítulo
+                    const divCapitulo = document.createElement('div');
+                    divCapitulo.className = 'capitulo-box';
+                    divCapitulo.id = `capitulo-${index + 1}`;
+                    
+                    // Processa o conteúdo para adicionar tooltips
+                    let conteudoProcessado = capitulo.conteudo;
+                    if(capitulo.termosChave) {
+                        capitulo.termosChave.forEach(termo => {
+                            const regex = new RegExp(`\\b(${termo.termo})\\b`, 'gi');
+                            conteudoProcessado = conteudoProcessado.replace(regex, 
+                                `<span class="termo">$1<span class="tooltip-text">${termo.definicao}</span></span>`
+                            );
+                        });
+                    }
+
+                    divCapitulo.innerHTML = `
+                        <div class="acordeao-header">
+                            <h2>${capitulo.icone} ${capitulo.titulo}</h2>
+                            <span class="toggle-icon">+</span>
+                        </div>
+                        <div class="acordeao-content">
+                            <div class="capitulo-conteudo">
+                                ${conteudoProcessado}
+                            </div>
+                            <div class="capitulo-acoes">
+                                <button class="btn btn-quizz" data-index="${index}">Iniciar Quizz</button>
+                                </div>
+                        </div>
+                    `;
+                    capitulosContainer.appendChild(divCapitulo);
+                });
+                
+                // Após renderizar tudo, adicionamos os ouvintes de eventos (a interatividade)
+                adicionarOuvintesDeEventos(dados);
+            }
+
+            function adicionarOuvintesDeEventos(dados) {
+                // Evento para abrir/fechar o acordeão de cada capítulo
+                capitulosContainer.querySelectorAll('.acordeao-header').forEach(header => {
+                    header.addEventListener('click', () => {
+                        const content = header.nextElementSibling;
+                        const icon = header.querySelector('.toggle-icon');
+                        
+                        content.classList.toggle('open');
+                        
+                        if (content.classList.contains('open')) {
+                            content.style.maxHeight = content.scrollHeight + 50 + 'px';
+                            icon.textContent = '−';
+                        } else {
+                            content.style.maxHeight = '0';
+                            icon.textContent = '+';
+                        }
+                    });
+                });
+                
+                // Evento para os links do menu que rolam a página suavemente
+                menuLateral.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        document.querySelector(link.getAttribute('href')).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        // Ativa o acordeão correspondente
+                        const targetId = link.getAttribute('href');
+                        const targetCapitulo = document.querySelector(targetId);
+                        if (targetCapitulo) {
+                            const content = targetCapitulo.querySelector('.acordeao-content');
+                            if (!content.classList.contains('open')) {
+                                targetCapitulo.querySelector('.acordeao-header').click();
+                            }
+                        }
+                    });
+                });
+                
+                // Evento para abrir o modal do Quizz
+                capitulosContainer.querySelectorAll('.btn-quizz').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const capituloIndex = e.target.getAttribute('data-index');
+                        abrirModalQuizz(dados[capituloIndex]);
+                    });
+                });
+            }
+
+            // --- Lógica do Modal e do Quizz ---
+            const modal = document.getElementById('quizz-modal');
+            const closeBtn = modal.querySelector('.close-btn');
+            
+            closeBtn.onclick = () => modal.style.display = "none";
+            window.onclick = (event) => {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            function abrirModalQuizz(capitulo) {
+                const quizzTitulo = document.getElementById('quizz-titulo');
+                const quizzBody = document.getElementById('quizz-body');
+                const quizzResultado = document.getElementById('quizz-resultado');
+                const submitBtn = document.getElementById('submit-quizz-btn');
+                
+                quizzTitulo.innerHTML = `Quizz: ${capitulo.titulo}`;
+                quizzBody.innerHTML = ''; // Limpa quizz anterior
+                quizzResultado.innerHTML = '';
+                quizzResultado.style.backgroundColor = 'transparent';
+                
+                capitulo.quizz.forEach((pergunta, index) => {
+                    const perguntaDiv = document.createElement('div');
+                    perguntaDiv.className = 'quizz-pergunta';
+                    
+                    let opcoesHtml = '';
+                    pergunta.opcoes.forEach((opcao, i) => {
+                        opcoesHtml += `
+                            <label>
+                                <input type="radio" name="pergunta-${index}" value="${opcao}">
+                                ${opcao}
+                            </label>
+                        `;
+                    });
+
+                    perguntaDiv.innerHTML = `
+                        <p>${index + 1}. ${pergunta.pergunta}</p>
+                        <div class="quizz-opcoes" data-correta="${pergunta.respostaCorreta}">
+                            ${opcoesHtml}
+                        </div>
+                    `;
+                    quizzBody.appendChild(perguntaDiv);
+                });
+                
+                submitBtn.onclick = () => {
+                    let acertos = 0;
+                    const totalPerguntas = capitulo.quizz.length;
+                    
+                    quizzBody.querySelectorAll('.quizz-opcoes').forEach((grupoOpcoes, index) => {
+                        const inputSelecionado = grupoOpcoes.querySelector(`input[name="pergunta-${index}"]:checked`);
+                        const respostaCorreta = grupoOpcoes.dataset.correta;
+                        
+                        // Reseta a estilização anterior
+                        grupoOpcoes.querySelectorAll('label').forEach(label => {
+                            label.style.border = '1px solid #ddd';
+                        });
+
+                        if (inputSelecionado) {
+                            const labelSelecionado = inputSelecionado.parentElement;
+                            if(inputSelecionado.value === respostaCorreta) {
+                                acertos++;
+                                labelSelecionado.style.border = '2px solid #28a745'; // Verde para correto
+                            } else {
+                                labelSelecionado.style.border = '2px solid #dc3545'; // Vermelho para incorreto
+                                // Mostra a resposta correta
+                                grupoOpcoes.querySelectorAll('input').forEach(input => {
+                                    if(input.value === respostaCorta) {
+                                        input.parentElement.style.border = '2px solid #28a745';
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    
+                    const percentual = (acertos / totalPerguntas) * 100;
+                    quizzResultado.innerHTML = `Você acertou ${acertos} de ${totalPerguntas} perguntas (${percentual.toFixed(0)}%).`;
+                    
+                    if(percentual > 70) {
+                        quizzResultado.style.backgroundColor = '#d4edda';
+                        quizzResultado.style.color = '#155724';
+                    } else {
+                        quizzResultado.style.backgroundColor = '#f8d7da';
+                        quizzResultado.style.color = '#721c24';
+                    }
+                };
+
+                modal.style.display = "flex";
+            }
+        });
+    </script>
+</body>
+</html>
