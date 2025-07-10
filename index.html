@@ -3,364 +3,353 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso Interativo de Teologia Bíblica do AT</title>
+    <title>Teologia Bíblica do Antigo Testamento</title>
     <style>
-        /* CSS v2.0 - com componentes interativos */
-        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600&family=Lato:wght@400;700&display=swap');
+        /* CSS Integrado */
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap');
 
         :root {
-            --cor-fundo: #f0f2f5;
-            --cor-texto: #333333;
-            --cor-primaria: #0d1b2a;
-            --cor-secundaria: #1b263b;
-            --cor-destaque: #415a77;
-            --cor-luz: #e0e1dd;
-            --cor-sucesso: #28a745;
-            --cor-aviso: #ffc107;
-            --cor-perigo: #dc3545;
-            --sombra-padrao: 0 4px 12px rgba(0, 0, 0, 0.15);
-            --gradiente-menu: linear-gradient(180deg, var(--cor-primaria) 0%, var(--cor-secundaria) 100%);
+            --cor-fundo: #1a1a1a;
+            --cor-texto: #e0e0e0;
+            --cor-primaria: #a98f5b;
+            --cor-fundo-container: #2c2c2c;
+            --cor-borda: #444;
+            --cor-sucesso: #5cb85c;
+            --cor-erro: #d9534f;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Lato', sans-serif;
+            font-family: 'Merriweather', serif;
             background-color: var(--cor-fundo);
             color: var(--cor-texto);
-            line-height: 1.6;
-            display: flex;
-        }
-
-        .app-container { display: flex; width: 100vw; height: 100vh; }
-
-        .sidebar {
-            width: 280px;
-            background: var(--gradiente-menu);
-            color: var(--cor-luz);
-            padding: 25px 15px;
-            overflow-y: auto;
-            transition: transform 0.3s ease-in-out;
+            line-height: 1.8;
+            margin: 0;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
 
-        .sidebar-header {
+        header {
+            background-color: #111;
+            padding: 1rem 2rem;
+            border-bottom: 2px solid var(--cor-primaria);
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--cor-destaque);
         }
-        .sidebar-header h1 { font-family: 'EB Garamond', serif; font-size: 1.8em; margin-bottom: 5px; }
-        .sidebar-header p { font-size: 0.9em; font-style: italic; opacity: 0.8; }
-        #menu-lateral { list-style: none; flex-grow: 1; }
-        #menu-lateral li a { display: block; padding: 12px 15px; color: var(--cor-luz); text-decoration: none; border-radius: 6px; margin-bottom: 5px; transition: background-color 0.2s ease, padding-left 0.2s ease; font-weight: bold; }
-        #menu-lateral li a:hover, #menu-lateral li a.active { background-color: var(--cor-destaque); padding-left: 20px; }
-        .sidebar-footer { font-size: 0.8em; text-align: center; padding-top: 20px; border-top: 1px solid var(--cor-destaque); opacity: 0.7; }
-        .content-area { flex-grow: 1; padding: 40px; overflow-y: auto; }
-        #capitulos-container { max-width: 900px; margin: 0 auto; }
 
-        .capitulo-box {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0,0,0,0.1);
-            margin-bottom: 25px;
+        header h1 {
+            font-family: 'Lato', sans-serif;
+            color: var(--cor-primaria);
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .container-principal {
+            display: flex;
+            flex: 1;
+        }
+
+        aside#navegacao {
+            width: 250px;
+            background-color: #222;
+            padding: 1.5rem;
+            border-right: 1px solid var(--cor-borda);
+        }
+
+        aside#navegacao h2 {
+            font-family: 'Lato', sans-serif;
+            color: var(--cor-primaria);
+            border-bottom: 1px solid var(--cor-borda);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+
+        aside#navegacao ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        aside#navegacao li a {
+            color: var(--cor-texto);
+            text-decoration: none;
+            display: block;
+            padding: 0.75rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        aside#navegacao li a:hover, aside#navegacao li a.ativo {
+            background-color: var(--cor-primaria);
+            color: var(--cor-fundo);
+        }
+
+        main#conteudo {
+            flex: 1;
+            padding: 2rem 3rem;
+            overflow-y: auto;
+        }
+
+        #area-renderizacao h1 {
+            font-family: 'Lato', sans-serif;
+            color: var(--cor-primaria);
+            border-bottom: 2px solid var(--cor-primaria);
+            padding-bottom: 0.5rem;
+        }
+
+        .titulo_secao {
+            font-family: 'Lato', sans-serif;
+            font-size: 1.5em;
+            color: var(--cor-primaria);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--cor-primaria);
+            padding-left: 1rem;
+        }
+
+        .paragrafo {
+            margin-bottom: 1.2rem;
+            font-size: 1.1em;
+            text-align: justify;
+        }
+        
+        .lista_ordenada, .lista_numerada_com_titulo {
+            padding-left: 2rem;
+            font-size: 1.1em;
+        }
+        
+        .lista_ordenada li, .lista_numerada_com_titulo li {
+            margin-bottom: 0.8rem;
+        }
+
+        .lista_numerada_com_titulo strong {
+            color: var(--cor-primaria);
+            font-family: 'Lato', sans-serif;
+        }
+
+        .conceito_chave {
+            background-color: rgba(169, 143, 91, 0.1);
+            border-left: 4px solid var(--cor-primaria);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            font-size: 1.2em;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .quiz-container {
+            background-color: var(--cor-fundo-container);
+            border: 1px solid var(--cor-borda);
             border-radius: 8px;
-            box-shadow: var(--sombra-padrao);
-            overflow: hidden;
-            scroll-margin-top: 20px;
+            padding: 1.5rem 2rem;
+            margin-top: 3rem;
         }
         
-        .acordeao-header { padding: 20px 25px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.5); border-bottom: 1px solid rgba(0,0,0,0.08); }
-        .acordeao-header h2 { font-family: 'EB Garamond', serif; font-size: 1.6em; color: var(--cor-primaria); }
-        .acordeao-header .toggle-icon { font-size: 1.8em; font-weight: bold; color: var(--cor-destaque); transition: transform 0.3s ease; }
-        .acordeao-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; }
-        .acordeao-content.open { max-height: 5000px; /* valor alto para acomodar conteúdo */ }
+        .quiz-container h3 {
+             font-family: 'Lato', sans-serif;
+             color: var(--cor-primaria);
+             margin-top: 0;
+        }
 
-        /* Abas de Conteúdo */
-        .abas-nav { display: flex; border-bottom: 1px solid #ccc; background-color: #f8f9fa; padding: 0 15px; }
-        .aba-btn { background: none; border: none; padding: 15px 20px; cursor: pointer; font-size: 1em; font-weight: bold; color: var(--cor-destaque); border-bottom: 3px solid transparent; }
-        .aba-btn.active { border-bottom-color: var(--cor-primaria); color: var(--cor-primaria); }
-        .aba-painel { padding: 25px; animation: fadeIn 0.5s; }
-        .aba-painel h3 { font-family: 'EB Garamond', serif; color: var(--cor-secundaria); margin-top: 20px; margin-bottom: 10px; border-bottom: 2px solid var(--cor-destaque); padding-bottom: 5px; }
-        .aba-painel > *:first-child { margin-top: 0; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .quiz-opcoes button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background-color: #3e3e3e;
+            border: 1px solid var(--cor-borda);
+            color: var(--cor-texto);
+            text-align: left;
+            font-family: 'Lato', sans-serif;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
 
-        /* Caixas de Destaque */
-        .caixa-destaque { margin: 20px 0; padding: 15px; border-left: 5px solid; border-radius: 0 4px 4px 0; }
-        .caixa-destaque h4 { margin-top: 0; display: flex; align-items: center; }
-        .caixa-destaque h4::before { margin-right: 10px; font-size: 1.2em; }
-        .caixa-reflexao { background-color: #e9f7fd; border-color: #2ab7ca; }
-        .caixa-reflexao h4::before { content: '💡'; }
-        .caixa-conexao { background-color: #fff4e6; border-color: #ff9800; }
-        .caixa-conexao h4::before { content: '🔗'; }
+        .quiz-opcoes button:hover {
+            border-color: var(--cor-primaria);
+            background-color: #4a4a4a;
+        }
         
-        /* Flashcards */
-        .flashcards-container { display: flex; flex-wrap: wrap; gap: 20px; perspective: 1000px; }
-        .flashcard { width: 200px; height: 120px; cursor: pointer; position: relative; }
-        .flashcard-inner { position: absolute; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; box-shadow: var(--sombra-padrao); border-radius: 6px; }
-        .flashcard.flip .flashcard-inner { transform: rotateY(180deg); }
-        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 10px; border-radius: 6px; }
-        .flashcard-front { background-color: var(--cor-luz); color: var(--cor-primaria); font-weight: bold; border: 1px solid var(--cor-destaque); }
-        .flashcard-back { background-color: var(--cor-destaque); color: var(--cor-luz); transform: rotateY(180deg); font-size: 0.9em; }
-
-        /* Linha do Tempo */
-        .timeline { position: relative; padding: 20px 0; }
-        .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 4px; background: #ddd; }
-        .timeline-item { margin-bottom: 20px; position: relative; padding-left: 50px; }
-        .timeline-item::before { content: ''; position: absolute; left: 10px; top: 5px; width: 24px; height: 24px; background: white; border: 4px solid var(--cor-destaque); border-radius: 50%; z-index: 1; }
-        .timeline-item h4 { margin: 0; color: var(--cor-primaria); }
-
-        /* Modal (Quizz) */
-        .modal { position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.6); display: none; align-items: center; justify-content: center; }
-        .modal-content { background-color: var(--cor-fundo); margin: auto; padding: 30px; border-radius: 8px; width: 90%; max-width: 700px; box-shadow: 0 5px 20px rgba(0,0,0,0.3); animation: slide-down 0.5s ease-out; }
-        @keyframes slide-down { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: 15px; margin-bottom: 20px; }
-        .modal-header h2 { font-family: 'EB Garamond', serif; color: var(--cor-primaria); }
-        .close-btn { color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
-        .quizz-pergunta { margin-bottom: 20px; }
-        .quizz-pergunta p { font-weight: bold; margin-bottom: 10px; }
-        .quizz-opcoes label { display: block; margin-bottom: 8px; background-color: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ddd; cursor: pointer; }
-        #quizz-resultado { margin-top: 20px; padding: 15px; border-radius: 5px; font-weight: bold; }
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+            display: none; /* Inicia escondido */
+        }
         
-        .btn { background-color: var(--cor-destaque); color: var(--cor-luz); padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 10px; transition: background-color 0.2s ease, transform 0.2s ease; }
-        .btn:hover { background-color: var(--cor-primaria); transform: translateY(-2px); }
+        .quiz-feedback.correto {
+            background-color: var(--cor-sucesso);
+            color: white;
+        }
+        
+        .quiz-feedback.incorreto {
+            background-color: var(--cor-erro);
+            color: white;
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #111;
+            border-top: 1px solid var(--cor-borda);
+            font-size: 0.9em;
+            font-family: 'Lato', sans-serif;
+        }
+        footer p {
+            margin: 0;
+            color: #888;
+        }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h1>Teologia Bíblica</h1>
-                <p>Antigo Testamento</p>
-            </div>
-            <ul id="menu-lateral"></ul>
-            <div class="sidebar-footer">
-                <p>Soli Deo Gloria</p>
-            </div>
+    <header>
+        <h1>Teologia Bíblica do Antigo Testamento</h1>
+    </header>
+
+    <div class="container-principal">
+        <aside id="navegacao">
+            <h2>Sumário</h2>
+            <ul>
+                <li><a href="#" class="ativo" data-capitulo="capitulo1">Cap. 1: Introdução</a></li>
+                </ul>
         </aside>
 
-        <main class="content-area">
-            <div id="capitulos-container">
-                <div class="status-message" id="loading-message">Carregando o conteúdo do curso...</div>
-            </div>
+        <main id="conteudo">
+            <div id="area-renderizacao">
+                </div>
         </main>
     </div>
-
-    <div id="quizz-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="quizz-titulo">Quizz do Capítulo</h2>
-                <span class="close-btn">&times;</span>
-            </div>
-            <div id="quizz-body"></div>
-            <div class="modal-footer">
-                <button id="submit-quizz-btn" class="btn">Verificar Respostas</button>
-                <div id="quizz-resultado"></div>
-            </div>
-        </div>
-    </div>
+    
+    <footer>
+        <p>Soli Deo Gloria</p>
+    </footer>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const menuLateral = document.getElementById('menu-lateral');
-        const capitulosContainer = document.getElementById('capitulos-container');
-        const loadingMessage = document.getElementById('loading-message');
-
-        const arquivos = ['capitulo1.json', 'capitulo2.json', 'capitulo3.json', 'capitulo4.json', 'capitulo5.json'];
-
-        Promise.all(arquivos.map(url => fetch(url).then(resp => resp.ok ? resp.json() : Promise.reject(new Error(`Falha ao carregar ${url}`)))))
-        .then(dadosDosCapitulos => {
-            loadingMessage.style.display = 'none';
-            renderizarPagina(dadosDosCapitulos);
-        })
-        .catch(error => {
-            console.error("Erro ao carregar os dados do curso:", error);
-            loadingMessage.textContent = `Ocorreu um erro: ${error.message}. Verifique os arquivos JSON.`;
-        });
-
-        function renderizarPagina(dados) {
-            menuLateral.innerHTML = '';
-            capitulosContainer.innerHTML = '';
-
-            dados.forEach((capitulo, index) => {
-                const capituloId = `capitulo-${index + 1}`;
-                
-                // Renderizar link no menu
-                const linkMenu = document.createElement('li');
-                linkMenu.innerHTML = `<a href="#${capituloId}">${capitulo.icone} ${capitulo.titulo}</a>`;
-                menuLateral.appendChild(linkMenu);
-
-                // Criar a estrutura do capítulo
-                const divCapitulo = document.createElement('div');
-                divCapitulo.className = 'capitulo-box';
-                divCapitulo.id = capituloId;
-                
-                let abasNavHtml = '';
-                let abasConteudoHtml = '';
-
-                // Abas de Conteúdo
-                if (capitulo.conteudo_por_abas) {
-                    const abas = Object.keys(capitulo.conteudo_por_abas);
-                    abas.forEach((nomeAba, abaIndex) => {
-                        const chaveAba = nomeAba.toLowerCase().replace(/ /g, '-');
-                        abasNavHtml += `<button class="aba-btn ${abaIndex === 0 ? 'active' : ''}" data-aba="${chaveAba}-${index}">${nomeAba}</button>`;
-                        abasConteudoHtml += `<div id="${chaveAba}-${index}" class="aba-painel" style="display: ${abaIndex === 0 ? 'block' : 'none'};">${capitulo.conteudo_por_abas[nomeAba]}</div>`;
-                    });
-                }
-
-                // Aba da Linha do Tempo
-                if (capitulo.linha_do_tempo) {
-                    abasNavHtml += `<button class="aba-btn" data-aba="timeline-${index}">Linha do Tempo</button>`;
-                    abasConteudoHtml += `<div id="timeline-${index}" class="aba-painel" style="display: none;">${renderizarLinhaDoTempo(capitulo.linha_do_tempo)}</div>`;
-                }
-                
-                // Aba de Flashcards
-                if (capitulo.termos_para_flashcards) {
-                    abasNavHtml += `<button class="aba-btn" data-aba="flashcards-${index}">Termos-Chave</button>`;
-                    abasConteudoHtml += `<div id="flashcards-${index}" class="aba-painel" style="display: none;">${renderizarFlashcards(capitulo.termos_para_flashcards)}</div>`;
-                }
-
-                // Aba do Quizz
-                if (capitulo.quizz) {
-                     abasNavHtml += `<button class="aba-btn btn-quizz" data-index="${index}">Iniciar Quizz</button>`;
-                }
-
-                divCapitulo.innerHTML = `
-                    <div class="acordeao-header">
-                        <h2>${capitulo.icone} ${capitulo.titulo}</h2>
-                        <span class="toggle-icon">+</span>
-                    </div>
-                    <div class="acordeao-content">
-                        <div class="abas-nav">${abasNavHtml}</div>
-                        <div class="abas-conteudo">${abasConteudoHtml}</div>
-                    </div>
-                `;
-                capitulosContainer.appendChild(divCapitulo);
-            });
+        // JavaScript Integrado
+        document.addEventListener('DOMContentLoaded', () => {
             
-            adicionarOuvintesDeEventos(dados);
-        }
-        
-        function renderizarLinhaDoTempo(eventos) {
-            let timelineHtml = '<div class="timeline">';
-            eventos.forEach(evento => {
-                timelineHtml += `
-                    <div class="timeline-item">
-                        <h4>${evento.data}</h4>
-                        <p>${evento.evento}</p>
-                    </div>
-                `;
-            });
-            timelineHtml += '</div>';
-            return timelineHtml;
-        }
+            const areaRenderizacao = document.getElementById('area-renderizacao');
 
-        function renderizarFlashcards(termos) {
-            let flashcardsHtml = '<div class="flashcards-container">';
-            termos.forEach(item => {
-                flashcardsHtml += `
-                    <div class="flashcard">
-                        <div class="flashcard-inner">
-                            <div class="flashcard-front">${item.termo}</div>
-                            <div class="flashcard-back">${item.definicao}</div>
-                        </div>
-                    </div>
-                `;
-            });
-            flashcardsHtml += '</div>';
-            return flashcardsHtml;
-        }
-
-        function adicionarOuvintesDeEventos(dados) {
-            // Lógica do Acordeão
-            capitulosContainer.querySelectorAll('.acordeao-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    const content = header.nextElementSibling;
-                    content.classList.toggle('open');
-                    header.querySelector('.toggle-icon').textContent = content.classList.contains('open') ? '−' : '+';
-                });
-            });
-
-            // Lógica das Abas
-            capitulosContainer.querySelectorAll('.aba-btn:not(.btn-quizz)').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const targetAbaId = e.target.dataset.aba;
-                    const abaPai = e.target.closest('.abas-nav');
-                    const conteudoPai = abaPai.nextElementSibling;
-
-                    abaPai.querySelectorAll('.aba-btn').forEach(btn => btn.classList.remove('active'));
-                    e.target.classList.add('active');
-
-                    conteudoPai.querySelectorAll('.aba-painel').forEach(painel => painel.style.display = 'none');
-                    document.getElementById(targetAbaId).style.display = 'block';
-                });
-            });
-
-            // Lógica dos Flashcards
-            capitulosContainer.querySelectorAll('.flashcard').forEach(card => {
-                card.addEventListener('click', () => card.classList.toggle('flip'));
-            });
-
-            // Lógica dos Quizzes
-            capitulosContainer.querySelectorAll('.btn-quizz').forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const capituloIndex = e.target.getAttribute('data-index');
-                    abrirModalQuizz(dados[capituloIndex]);
-                });
-            });
-        }
-        
-        // --- Lógica do Modal e Quizz (semelhante à v1.0, mas adaptada) ---
-        const modal = document.getElementById('quizz-modal');
-        const closeBtn = modal.querySelector('.close-btn');
-        closeBtn.onclick = () => modal.style.display = "none";
-        window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
-
-        function abrirModalQuizz(capitulo) {
-             const quizzTitulo = document.getElementById('quizz-titulo');
-             const quizzBody = document.getElementById('quizz-body');
-             const quizzResultado = document.getElementById('quizz-resultado');
-             const submitBtn = document.getElementById('submit-quizz-btn');
+            async function carregarConteudo(arquivo) {
+                try {
+                    const resposta = await fetch(arquivo);
+                    if (!resposta.ok) {
+                        throw new Error(`Erro ao buscar o arquivo: ${resposta.statusText}`);
+                    }
+                    const dados = await resposta.json();
+                    renderizarConteudo(dados);
+                } catch (erro) {
+                    console.error("Falha ao carregar conteúdo:", erro);
+                    areaRenderizacao.innerHTML = `<p class="paragrafo" style="color: var(--cor-erro);">Não foi possível carregar o conteúdo do capítulo. Verifique o console para mais detalhes.</p>`;
+                }
+            }
+            
+            function renderizarConteudo(dados) {
+                areaRenderizacao.innerHTML = ''; // Limpa o conteúdo anterior
                 
-             quizzTitulo.innerHTML = `Quizz: ${capitulo.titulo}`;
-             quizzBody.innerHTML = '';
-             quizzResultado.innerHTML = '';
-             quizzResultado.style.backgroundColor = 'transparent';
-             
-             capitulo.quizz.forEach((pergunta, index) => {
-                 let opcoesHtml = '';
-                 pergunta.opcoes.forEach(opcao => {
-                     opcoesHtml += `<label><input type="radio" name="pergunta-${index}" value="${opcao}"> ${opcao}</label>`;
-                 });
-                 const perguntaDiv = document.createElement('div');
-                 perguntaDiv.className = 'quizz-pergunta';
-                 perguntaDiv.innerHTML = `<p>${index + 1}. ${pergunta.pergunta}</p><div class="quizz-opcoes" data-correta="${pergunta.respostaCorreta}">${opcoesHtml}</div>`;
-                 quizzBody.appendChild(perguntaDiv);
-             });
-                
-             submitBtn.onclick = () => {
-                 let acertos = 0;
-                 quizzBody.querySelectorAll('.quizz-opcoes').forEach((grupo, index) => {
-                     const inputSelecionado = grupo.querySelector(`input[name="pergunta-${index}"]:checked`);
-                     const respostaCorreta = grupo.dataset.correta;
-                     grupo.querySelectorAll('label').forEach(l => l.style.border = '1px solid #ddd');
-                     if (inputSelecionado) {
-                         if(inputSelecionado.value === respostaCorreta) {
-                             acertos++;
-                             inputSelecionado.parentElement.style.border = '2px solid var(--cor-sucesso)';
-                         } else {
-                             inputSelecionado.parentElement.style.border = '2px solid var(--cor-perigo)';
-                         }
-                     }
-                 });
-                 quizzResultado.textContent = `Você acertou ${acertos} de ${capitulo.quizz.length}.`;
-             };
+                const tituloCapitulo = document.createElement('h1');
+                tituloCapitulo.textContent = `Capítulo ${dados.capitulo}: ${dados.titulo}`;
+                areaRenderizacao.appendChild(tituloCapitulo);
 
-             modal.style.display = "flex";
-        }
-    });
+                dados.conteudo.forEach(item => {
+                    let elemento;
+                    switch (item.tipo) {
+                        case 'paragrafo':
+                            elemento = document.createElement('p');
+                            elemento.className = 'paragrafo';
+                            elemento.textContent = item.texto;
+                            break;
+                        
+                        case 'titulo_secao':
+                            elemento = document.createElement('h2');
+                            elemento.className = 'titulo_secao';
+                            elemento.textContent = item.texto;
+                            break;
+                        
+                        case 'lista_ordenada':
+                            elemento = document.createElement('ol');
+                            elemento.className = 'lista_ordenada';
+                            item.itens.forEach(textoItem => {
+                                const li = document.createElement('li');
+                                li.textContent = textoItem;
+                                elemento.appendChild(li);
+                            });
+                            break;
+                        
+                        case 'lista_numerada_com_titulo':
+                             elemento = document.createElement('ol');
+                             elemento.className = 'lista_numerada_com_titulo';
+                             item.itens.forEach(itemDetalhado => {
+                                const li = document.createElement('li');
+                                li.innerHTML = `<strong>${itemDetalhado.titulo}:</strong> ${itemDetalhado.texto}`;
+                                elemento.appendChild(li);
+                             });
+                             break;
+
+                        case 'conceito_chave':
+                            elemento = document.createElement('div');
+                            elemento.className = 'conceito_chave';
+                            elemento.innerHTML = `<p><strong>Conceito-Chave:</strong> ${item.texto}</p>`;
+                            break;
+
+                        case 'quiz':
+                            elemento = criarElementoQuiz(item);
+                            break;
+                    }
+                    if (elemento) {
+                        areaRenderizacao.appendChild(elemento);
+                    }
+                });
+            }
+
+            function criarElementoQuiz(itemQuiz) {
+                const container = document.createElement('div');
+                container.className = 'quiz-container';
+
+                const titulo = document.createElement('h3');
+                titulo.textContent = 'Verifique seu Conhecimento';
+                container.appendChild(titulo);
+
+                const pergunta = document.createElement('p');
+                pergunta.className = 'paragrafo';
+                pergunta.textContent = itemQuiz.pergunta;
+                container.appendChild(pergunta);
+
+                const divOpcoes = document.createElement('div');
+                divOpcoes.className = 'quiz-opcoes';
+                
+                const feedback = document.createElement('div');
+                feedback.className = 'quiz-feedback';
+                
+                itemQuiz.opcoes.forEach(opcaoTexto => {
+                    const botaoOpcao = document.createElement('button');
+                    botaoOpcao.textContent = opcaoTexto;
+                    botaoOpcao.onclick = () => {
+                        feedback.style.display = 'block';
+                        if(opcaoTexto === itemQuiz.resposta_correta) {
+                            feedback.textContent = 'Correto! Louvado seja Deus pelo entendimento concedido.';
+                            feedback.className = 'quiz-feedback correto';
+                        } else {
+                            feedback.textContent = 'Incorreto. Medite novamente sobre o tema e tente outra vez.';
+                            feedback.className = 'quiz-feedback incorreto';
+                        }
+                    };
+                    divOpcoes.appendChild(botaoOpcao);
+                });
+
+                container.appendChild(divOpcoes);
+                container.appendChild(feedback);
+
+                return container;
+            }
+
+            // Carregar o primeiro capítulo por padrão
+            carregarConteudo('capitulo1.json');
+        });
     </script>
 </body>
 </html>
