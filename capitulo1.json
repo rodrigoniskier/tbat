@@ -1,0 +1,73 @@
+{
+  "titulo": "Introdução: Natureza e Método da Teologia Bíblica",
+  "icone": "📜",
+  "conteudo": "<h3>A Natureza da Teologia e a Necessidade de Revelação</h3><p>De acordo com sua etimologia, a teologia é a ciência concernente a Deus. Outras definições, como 'a ciência da religião', ou se mostram equivocadas (reduzindo a teologia à antropologia) ou, em última análise, nos levam de volta a Deus. Para conhecer a Deus, um Ser pessoal, espiritual e infinitamente exaltado, não podemos tomar a iniciativa; Ele precisa se revelar. Toda vida espiritual é, por natureza, uma vida escondida, e somente por meio da auto-revelação do próprio Deus podemos conhecê-lO. Como disse o apóstolo Paulo, 'assim, também as coisas de Deus, ninguém as conhece, senão o Espírito de Deus' (1Co 2.11). Essa necessidade é acentuada pelo estado de pecado do homem, que criou uma separação que apenas a soberana iniciativa divina poderia transpor.</p><h3>A Divisão da Teologia e o Lugar da Teologia Bíblica</h3><p>O estudo teológico é tradicionalmente dividido em quatro áreas: Teologia Exegética, Teologia Histórica, Teologia Sistemática e Teologia Prática. A Teologia Exegética ocupa o primeiro lugar, pois reconhece a atitude fundamental do crente: uma postura passivo-receptiva, na qual Deus fala e o homem escuta. Dentro da Teologia Exegética, temos quatro disciplinas: o estudo do conteúdo da Escritura, a Introdução Bíblica (origem dos livros), a Canônica (formação da Bíblia) e, finalmente, a <strong>Teologia Bíblica</strong>, que é o ramo que lida com o processo da autorrevelação de Deus registrada na Bíblia.</p><h3>Definição e Características da Teologia Bíblica</h3><p>A Teologia Bíblica não estuda a revelação como um produto final e estático, mas como uma <strong>atividade divina em progresso</strong>. Esse processo de revelação divina possui quatro características marcantes:</p><ul><li><strong>1. Progressividade Histórica:</strong> A revelação não foi completada num único ato, mas se desdobrou ao longo da história, inseparavelmente ligada à história da redenção. Ela acompanha a redenção <strong>objetiva-central</strong> (os atos únicos de Cristo: encarnação, expiação, ressurreição) e não a redenção <strong>subjetiva-individual</strong> (regeneração, justificação, etc., que se repetem em cada crente).</li><li><strong>2. Incorporação na História:</strong> A revelação não apenas acontece *durante* a história, mas se *encarna* nela. Os próprios fatos históricos (<strong>ato-revelação</strong>) adquirem significado revelador, sempre acompanhados pela <strong>palavra-revelação</strong> (preditiva, como no AT; ou interpretativa, como nas Epístolas) para lhes dar o sentido correto.</li><li><strong>3. Natureza Orgânica:</strong> O progresso da revelação é orgânico, como uma semente que cresce até se tornar uma árvore. Isso explica como a revelação podia ser perfeita em cada estágio (uma semente é perfeita como semente) e conter a suficiência salvadora desde o início. Também explica sua crescente multiformidade (muitos autores, muitos estilos), que não é sinal de imperfeição, mas de riqueza, pois Deus soberanamente moldou cada autor (Paulo, Pedro, etc.) para o propósito específico que ele deveria servir.</li><li><strong>4. Adaptabilidade Prática:</strong> A revelação não foi dada para um propósito primariamente intelectual. Seu ambiente não é uma escola, mas um <strong>'pacto'</strong>. Ela surge em resposta às necessidades religiosas práticas do povo de Deus à medida que estas emergiam no curso da história.</li></ul><h3>Princípios e Método</h3><p>Um tratamento correto da Teologia Bíblica deve reconhecer o caráter infalível e objetivo da revelação, bem como a inspiração plenária das Escrituras. Seu método principal é seguir a progressão histórica da revelação, observando os períodos demarcados pelos próprios pactos (alianças) de Deus. O objetivo é entrar na perspectiva dos recipientes originais da revelação e entender a verdade como ela lhes foi apresentada, crescendo organicamente de um período para o outro.</p>",
+  "termosChave": [
+    {
+      "termo": "Teologia",
+      "definicao": "A ciência que tem como objeto o próprio Deus e que se baseia em Sua auto-revelação."
+    },
+    {
+      "termo": "Revelação",
+      "definicao": "O ato soberano pelo qual Deus, um ser pessoal e espiritual, escolhe se expor e se tornar conhecido ao homem."
+    },
+    {
+      "termo": "Teologia Bíblica",
+      "definicao": "O ramo da teologia exegética que lida com o processo orgânico e histórico da autorrevelação de Deus, conforme registrado na Bíblia."
+    },
+    {
+      "termo": "Natureza Orgânica",
+      "definicao": "A característica da revelação de progredir como um organismo vivo, de um estado germinal a um crescimento pleno, sendo perfeita e suficiente em cada estágio."
+    },
+    {
+      "termo": "Ato-revelação e Palavra-revelação",
+      "definicao": "A revelação divina ocorre tanto através de atos históricos redentores (ato-revelação) quanto da palavra verbal que os prediz e interpreta (palavra-revelação)."
+    },
+    {
+      "termo": "Pacto (Ambiente da Revelação)",
+      "definicao": "O contexto relacional e histórico no qual a revelação de Deus é dada, em resposta às necessidades práticas de Seu povo, em contraste com um ambiente puramente acadêmico ou escolar."
+    }
+  ],
+  "quizz": [
+    {
+      "pergunta": "Por que a teologia, como ciência de Deus, depende fundamentalmente da revelação?",
+      "opcoes": [
+        "Porque a razão humana é suficiente para descobrir tudo sobre Deus.",
+        "Porque Deus é um Ser pessoal e infinito que só pode ser conhecido se Ele mesmo se revelar.",
+        "Porque os livros de teologia são muito complexos sem a revelação.",
+        "Porque a revelação é apenas uma ajuda, mas não essencial."
+      ],
+      "respostaCorreta": "Porque Deus é um Ser pessoal e infinito que só pode ser conhecido se Ele mesmo se revelar."
+    },
+    {
+      "pergunta": "Qual é a principal diferença entre Teologia Bíblica e Teologia Sistemática?",
+      "opcoes": [
+        "A Sistemática usa a Bíblia e a Bíblica não.",
+        "A Bíblica foca no processo histórico e orgânico da revelação, enquanto a Sistemática organiza a verdade de forma lógica e temática.",
+        "A Bíblica é mais antiga e a Sistemática é moderna.",
+        "Não há diferença real entre as duas."
+      ],
+      "respostaCorreta": "A Bíblica foca no processo histórico e orgânico da revelação, enquanto a Sistemática organiza a verdade de forma lógica e temática."
+    },
+    {
+      "pergunta": "O que significa dizer que a revelação tem uma 'natureza orgânica'?",
+      "opcoes": [
+        "Que ela foi escrita em pergaminhos de pele de animal.",
+        "Que ela é contraditória e cheia de erros.",
+        "Que ela evoluiu de falsa para verdadeira ao longo do tempo.",
+        "Que ela progrediu do simples ao complexo, como uma semente se tornando árvore, sendo perfeita e suficiente em cada estágio."
+      ],
+      "respostaCorreta": "Que ela progrediu do simples ao complexo, como uma semente se tornando árvore, sendo perfeita e suficiente em cada estágio."
+    },
+    {
+      "pergunta": "Segundo o texto, o ambiente em que a revelação divina acontece não é uma 'escola', mas um...?",
+      "opcoes": [
+        "Laboratório",
+        "Pacto",
+        "Sonho",
+        "Parlamento"
+      ],
+      "respostaCorreta": "Pacto"
+    }
+  ]
+}
