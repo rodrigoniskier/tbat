@@ -1,0 +1,69 @@
+{
+  "titulo": "Introdução: Natureza e Método da Teologia Bíblica",
+  "icone": "📜",
+  [cite_start]"conteudo": "<h3>O que é Teologia?</h3><p>Em sua essência, a teologia é a ciência concernente a Deus[cite: 4]. [cite_start]Qualquer outra definição acaba, em última análise, por nos conduzir a este mesmo ponto[cite: 5]. [cite_start]Não podemos conhecer a Deus por nossos próprios meios, pois Ele é um Ser pessoal, espiritual e infinitamente exaltado[cite: 11, 22]. [cite_start]Portanto, todo conhecimento verdadeiro de Deus deve se basear em Sua própria revelação [cite: 9] [cite_start]– Ele precisa vir até nós antes que possamos ir a Ele[cite: 20]. [cite_start]Essa necessidade de revelação é ainda mais acentuada pelo estado de pecado do homem, que produziu uma separação entre a criatura e o Criador [cite: 30, 31, 32][cite_start].</p><h3>A Divisão da Teologia</h3><p>O estudo teológico é tradicionalmente dividido em quatro grandes áreas [cite: 35][cite_start]:</p><ul><li><b>Teologia Exegética:</b> A base de tudo, onde ouvimos Deus falar através das Escrituras [cite: 41][cite_start].</li><li><b>Teologia Histórica:</b> O estudo do desenvolvimento da doutrina na história da igreja.</li><li><b>Teologia Sistemática:</b> A organização lógica das verdades bíblicas.</li><li><b>Teologia Prática:</b> A aplicação da teologia à vida e ministério.</li></ul><p>A Teologia Exegética, por sua vez, compreende quatro disciplinas, que se apresentam à mente do investigador nesta ordem [cite: 51][cite_start]:</p><ol><li>O estudo do conteúdo da Escritura [cite: 45][cite_start].</li><li>A investigação da origem dos livros (Introdução Bíblica) [cite: 46][cite_start].</li><li>O estudo da formação do Cânon (Canônica) [cite: 47, 48][cite_start].</li><li>O estudo da autorrevelação de Deus na história, que é a <strong>Teologia Bíblica</strong> [cite: 49, 50][cite_start].</li></ol><p>Se olharmos pela perspectiva divina, a ordem é inversa, começando pela autorrevelação de Deus [cite: 52, 53][cite_start].</p><h3>Definição e Características da Teologia Bíblica</h3><p>A Teologia Bíblica é, portanto, <strong>o ramo da teologia exegética que lida com o processo da autorrevelação de Deus registrada na Bíblia</strong>[cite: 59]. [cite_start]Ela estuda a revelação como uma atividade divina em progresso[cite: 61], e não apenas como um produto final. [cite_start]Esse processo possui características marcantes:</p><ul><li><strong>Progressividade Histórica:</strong> A revelação não foi dada de uma só vez, mas se desdobrou ao longo da história, acompanhando a história da redenção[cite: 65, 69].</li><li><strong>Incorporação na História:</strong> A revelação se encarna na própria história. [cite_start]Os fatos históricos, como a Cruz e a Ressurreição, são eles mesmos atos de revelação (ato-revelação), sempre acompanhados da palavra-revelação (profecia e interpretação) [cite: 89, 90, 91, 96][cite_start].</li><li><strong>Natureza Orgânica:</strong> O progresso da revelação é como o de uma semente que se torna uma árvore[cite: 103, 104]. [cite_start]Ela cresce de forma orgânica, com períodos de maior desenvolvimento coincidindo com grandes atos redentores de Deus [cite: 108, 110][cite_start].</li><li><strong>Adaptabilidade Prática:</strong> A revelação divina não foi dada para satisfazer uma curiosidade meramente intelectual[cite: 125]. [cite_start]Seu ambiente não é a academia, mas o 'pacto' [cite: 137][cite_start], respondendo às necessidades práticas do povo de Deus ao longo da história[cite: 139].</li></ul>",
+  "termosChave": [
+    {
+      "termo": "Teologia",
+      [cite_start]"definicao": "Etimologicamente, é a ciência concernente a Deus[cite: 4]."
+    },
+    {
+      "termo": "Revelação",
+      [cite_start]"definicao": "Ato pelo qual Deus, um ser pessoal e espiritual, escolhe se expor e se tornar conhecido ao homem[cite: 12, 19]."
+    },
+    {
+      "termo": "Teologia Bíblica",
+      [cite_start]"definicao": "Ramo da teologia exegética que lida com o processo histórico da autorrevelação de Deus registrada na Bíblia[cite: 59]."
+    },
+    {
+      "termo": "Ato-revelação",
+      [cite_start]"definicao": "Grandes fatos da história, como a crucificação, que adquirem uma significação reveladora em si mesmos[cite: 90, 91]."
+    },
+    {
+      "termo": "Palavra-revelação",
+      [cite_start]"definicao": "A revelação verbal que precede, acompanha e interpreta os atos-revelação[cite: 96]."
+    }
+  ],
+  "quizz": [
+    {
+      "pergunta": "De acordo com sua etimologia, qual é a definição fundamental de 'teologia'?",
+      "opcoes": [
+        "A ciência da religião",
+        "O estudo do comportamento humano",
+        "A ciência concernente a Deus",
+        "A filosofia da fé"
+      ],
+      "respostaCorreta": "A ciência concernente a Deus"
+    },
+    {
+      "pergunta": "Qual disciplina teológica é definida como 'o ramo da teologia exegética que lida com o processo da autorrevelação de Deus registrada na Bíblia'?",
+      "opcoes": [
+        "Teologia Sistemática",
+        "Teologia Prática",
+        "Canônica",
+        "Teologia Bíblica"
+      ],
+      "respostaCorreta": "Teologia Bíblica"
+    },
+    {
+      "pergunta": "Qual das seguintes opções NÃO é uma das características do processo de revelação discutidas no texto?",
+      "opcoes": [
+        "Natureza orgânica",
+        "Conclusão em um único ato, de uma só vez",
+        "Progressividade histórica",
+        "Adaptabilidade prática"
+      ],
+      "respostaCorreta": "Conclusão em um único ato, de uma só vez"
+    },
+    {
+      "pergunta": "O texto afirma que o ambiente da revelação não é uma escola, mas um...?",
+      "opcoes": [
+        "Templo",
+        "Debate filosófico",
+        "Pacto",
+        "Momento de inspiração individual"
+      ],
+      "respostaCorreta": "Pacto"
+    }
+  ]
+}
