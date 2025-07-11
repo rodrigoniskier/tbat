@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Texto do Antigo Testamento - Estudo Interativo</title>
+
+    <style>
+        :root {
+            --bg-dark: #1A202C;
+            --bg-medium: #2D3748;
+            --bg-light: #4A5568;
+            --text-primary: #E2E8F0;
+            --text-secondary: #A0AEC0;
+            --accent-primary: #4FD1C5;
+            --accent-secondary: #81E6D9;
+            --success: #68D391;
+            --error: #FC8181;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* --- Reset e Configurações Globais --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            line-height: 1.7;
+            text-rendering: optimizeLegibility;
+        }
+
+        /* --- Contêiner Principal e Views --- */
+        .app-view {
+            display: none;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .app-view.visible {
+            display: block;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Barra de Progresso --- */
+        #progress-bar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: transparent;
+            z-index: 1000;
+        }
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--accent-primary);
+            transition: width 0.1s linear;
+        }
+
+        /* --- Tela de Menu --- */
+        #menu-view .header {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--bg-medium);
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .menu-item {
+            background-color: var(--bg-medium);
+            border: none;
+            border-left: 5px solid var(--accent-primary);
+            color: var(--text-primary);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-item:hover {
+            background-color: var(--bg-light);
+            transform: translateY(-3px);
+        }
+
+        .menu-item.interactive {
+            border-left-color: var(--accent-secondary);
+        }
+        
+        .menu-emoji {
+            font-size: 1.5rem;
+        }
+
+        /* --- Botão de Voltar Universal --- */
+        .back-button {
+            background: none;
+            border: none;
+            color: var(--accent-primary);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Tela de Conteúdo --- */
+        .content-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--bg-light);
+            padding-bottom: 15px;
+        }
+
+        .paragraph {
+            margin-bottom: 16px;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+        
+        .list-container {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .list-item {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        .bullet-point {
+            color: var(--accent-primary);
+            font-weight: bold;
+        }
+        
+        /* Acordeão */
+        .accordion-button {
+            background-color: var(--bg-medium);
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: 0.4s;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .accordion-button:hover, .accordion-button.active {
+            background-color: var(--bg-light);
+        }
+        .accordion-button::after {
+            content: '+';
+            color: var(--accent-primary);
+            font-weight: bold;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        .accordion-button.active::after {
+            content: "−";
+            transform: rotate(180deg);
+        }
+        .accordion-panel {
+            padding: 0 18px;
+            background-color: transparent;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-left: 2px solid var(--bg-light);
+            margin-left: 10px;
+        }
+        .accordion-panel > .paragraph:first-child,
+        .accordion-panel > .list-container:first-child {
+            margin-top: 18px;
+        }
+
+        /* --- Tela de Flashcards --- */
+        .flashcard-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            padding-top: 40px;
+        }
+        .flashcard {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: var(--bg-medium);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            border: 2px solid var(--bg-light);
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+            font-size: 1.1rem;
+            align-items: flex-start;
+        }
+        .flashcard-nav {
+            margin-top: 30px;
+            display: flex;
+            gap: 20px;
+        }
+        .nav-button {
+            background-color: var(--bg-medium);
+            color: var(--text-primary);
+            border: 2px solid var(--accent-primary);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: var(--accent-primary);
+            color: var(--bg-dark);
+        }
+        #flashcard-counter {
+            margin-top: 15px;
+            color: var(--text-secondary);
+        }
+
+        /* --- Tela de Quiz --- */
+        #quiz-question {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .quiz-option {
+            background-color: var(--bg-medium);
+            border: 2px solid var(--bg-light);
+            color: var(--text-primary);
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .quiz-option:hover {
+            background-color: var(--bg-light);
+        }
+        .quiz-option.correct {
+            background-color: var(--success);
+            border-color: var(--success);
+            color: var(--bg-dark);
+            font-weight: bold;
+        }
+        .quiz-option.incorrect {
+            background-color: var(--error);
+            border-color: var(--error);
+            color: var(--bg-dark);
+            font-weight: bold;
+        }
+        .quiz-option:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        #quiz-feedback {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            height: 30px;
+        }
+        #quiz-results {
+            text-align: center;
+            display: none;
+        }
+        #quiz-score {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            color: var(--accent-primary);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <div id="menu-view" class="app-view visible">
+        <header class="header">
+            <h1 class="header-title">📜 O Texto do Antigo Testamento</h1>
+            <p class="header-subtitle">Um Estudo Interativo Sobre Sua Confiabilidade</p>
+        </header>
+        <div class="container">
+            <div id="menu-grid" class="menu-grid">
+                </div>
+        </div>
+    </div>
+
+    <div id="content-view" class="app-view">
+        <div class="container">
+            <button class="back-button" data-target="menu-view">‹ Voltar ao Menu</button>
+            <h2 id="content-title" class="content-title"></h2>
+            <div id="content-body"></div>
+        </div>
+    </div>
+
+    <div id="flashcard-view" class="app-view">
+        <div class="container">
+            <button class="back-button" data-target="menu-view">‹ Voltar ao Menu</button>
+            <div class="flashcard-container">
+                <div id="flashcard" class="flashcard">
+                    <div id="flashcard-front" class="flashcard-face"></div>
+                    <div id="flashcard-back" class="flashcard-face flashcard-back"></div>
+                </div>
+                <div id="flashcard-counter"></div>
+                <div class="flashcard-nav">
+                    <button id="prev-flashcard" class="nav-button">Anterior</button>
+                    <button id="next-flashcard" class="nav-button">Próximo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div id="quiz-view" class="app-view">
+        <div class="container">
+            <button class="back-button" data-target="menu-view">‹ Voltar ao Menu</button>
+            <div id="quiz-content">
+                <h2 id="quiz-question"></h2>
+                <div id="quiz-options" class="quiz-options"></div>
+                <p id="quiz-feedback"></p>
+            </div>
+            <div id="quiz-results">
+                <h2>Quiz Concluído!</h2>
+                <p>Sua pontuação final é:</p>
+                <p id="quiz-score"></p>
+                <button id="retry-quiz" class="nav-button">Tentar Novamente</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- DADOS ---
+            const contentData = {
+              "1": { emoji: "🤔", title: "1. Por que se preocupar com o “texto” do Antigo Testamento?", content: [ "A base de toda a fé cristã está nas Escrituras. Segundo Vanhoozer, o texto bíblico não é apenas um conjunto de palavras antigas, mas o fundamento sobre o qual se desenvolvem as ideias a respeito de Deus, do ser humano e do próprio mundo. Por isso, é impossível fazer teologia, refletir sobre Deus ou pensar em qualquer doutrina cristã sem antes considerar a confiabilidade do texto que recebemos.", "Porém, há um grande desafio: o Antigo Testamento (AT) foi escrito e transmitido há milhares de anos, por pessoas de diferentes épocas, usando materiais frágeis, em línguas antigas e em condições geográficas e históricas complexas. Diante desse cenário, surge a pergunta: podemos confiar que o texto que temos hoje é realmente o mesmo que foi inspirado por Deus, séculos atrás?", "A resposta exige uma análise cuidadosa do processo de transmissão do texto sagrado ao longo dos séculos e o papel fundamental da crítica textual." ] },
+              "2": { emoji: "🔬", title: "2. O que é crítica textual? Por que ela é necessária?", content: [ "A crítica textual é uma disciplina que existe em toda literatura antiga, não apenas na Bíblia. Ela surge porque todos os textos antigos — seja de Homero, Shakespeare ou dos autores bíblicos — chegaram até nós em cópias feitas à mão, e nenhuma dessas cópias está totalmente livre de erros, omissões ou alterações. No caso da Bíblia Hebraica, mesmo as edições modernas, como a famosa Bíblia Hebraica Stuttgartensia (BHS), ainda contêm pequenas diferenças, sejam erros de impressão, pequenas variantes ou mesmo marcas das inúmeras revisões históricas pelas quais passou o texto.", "Ao contrário do que se pensa, o objetivo da crítica textual do AT não é simplesmente “recuperar o original perdido”, pois muitos dos textos bíblicos passaram por processos longos de composição e revisão. O termo “texto original” aqui não significa um manuscrito único escrito por Moisés ou Isaías, but sim o texto-tipo, ou seja, o texto-base, mais antigo possível, que está por trás da forma atual recebida pela tradição judaica — o chamado Texto Massorético (TM).", "A crítica textual busca identificar, comparar e avaliar as diferenças entre as várias testemunhas manuscritas do texto bíblico — manuscritos hebraicos, traduções antigas para o grego (Septuaginta, LXX), aramaico (Targum), siríaco (Pexita), latim (Vulgata), e outros — para então determinar, com o máximo de precisão, qual seria a forma mais antiga, ou seja, a mais próxima da intenção original, das passagens bíblicas.", "Por que isso é importante? Porque, como exemplificado no livro de Provérbios 14.32b, uma pequena diferença na leitura pode afetar profundamente a exegese e até a teologia derivada de um versículo. Uma tradução baseada no TM pode afirmar que os justos têm refúgio até mesmo diante da morte, sugerindo uma doutrina de imortalidade. Já uma tradução baseada na LXX pode indicar que o refúgio está na integridade do justo, sem referência direta à imortalidade.", "Portanto, a crítica textual não é um ataque à Bíblia, mas um trabalho rigoroso e reverente de restauração, visando a fidelidade ao texto revelado." ] },
+              "3": { emoji: "📜", title: "3. Panorama histórico da formação do texto", subsections: { "a": { title: "a) Dos Dez Mandamentos à Biblioteca de Neemias (c. 1400/1250 a.C. a c. 400 a.C.)", content: [ "Este é o período mais formativo do texto bíblico. Não possuímos praticamente nenhum manuscrito dessa época, exceto alguns amuletos de prata, datados de c. 600 a.C., contendo a bênção sacerdotal de Números 6.24-26. Contudo, a análise interna da própria Bíblia, comparada com outras literaturas do Antigo Oriente Médio, mostra que os textos foram compilados a partir de fragmentos antigos, colecionados, revisados e acrescidos ao longo do tempo.", "Por exemplo, os Dez Mandamentos são apresentados como o primeiro núcleo da literatura canônica de Israel, ao qual foram adicionados outros textos (o Livro do Pacto, os hinos, as leis), formando gradualmente o livro do Êxodo, o livro dos Salmos, e assim por diante.", "Nesse processo, dois princípios conviviam:", { "type": "list", "items": ["Tendência à preservação: O próprio fato de a Bíblia ter sobrevivido, apesar das guerras, perseguições e da fragilidade dos materiais, demonstra a diligência dos escribas em preservar fielmente os textos sagrados. Outros escritos israelitas (como o Livro de Jasar ou o Livro dos Reis) se perderam, mas os textos que seriam reconhecidos como canônicos foram cuidadosamente protegidos e transmitidos.", "Tendência à revisão: Os escribas também revisavam periodicamente o texto, atualizando grafias, gramática e até fazendo acréscimos para facilitar a compreensão. Por exemplo, eles modernizavam construções linguísticas antigas e, em alguns casos, ampliavam ou resumiam textos, o que pode ser visto nos paralelos entre livros como Samuel, Reis, Crônicas e Salmos."] }, "No entanto, também aconteciam erros acidentais durante a cópia, levando à necessidade de correções. Com o tempo, os estudiosos passaram a propor emendas conjecturais quando as variantes disponíveis não faziam sentido do ponto de vista exegético. Descobertas posteriores dos Manuscritos do Mar Morto confirmaram, em muitos casos, a precisão dessas conjecturas." ] }, "b": { title: "b) Do fechamento do cânon ao texto fixado (c. 400 a.C. – 100 d.C.)", content: [ "Após a formação dos principais livros, o cânon e o texto ainda permaneceram abertos por séculos. Só por volta de 100 a.C., o cânon do AT foi finalmente fechado (segundo muitos estudiosos, por obra de Judas Macabeu). Mas a fixação do texto — ou seja, a padronização de uma forma única para cada livro — ainda levaria mais tempo. Antes disso, havia várias recensões (versões) e leituras paralelas circulando entre diferentes comunidades judaicas.", "Os Manuscritos do Mar Morto (MMM), descobertos em Qumran, são preciosíssimos para entender esse período. Datados entre o século III a.C. e II d.C., eles incluem fragmentos de quase todos os livros do AT, revelando tanto uma surpreendente fidelidade ao Texto Massorético quanto a existência de outras versões (mais longas ou mais curtas) de certos livros, como Jeremias.", "Outro destaque desse período é a Septuaginta (LXX), tradução grega do Pentateuco feita em Alexandria por volta de 285 a.C. Inicialmente restrita ao Pentateuco, a LXX foi gradualmente ampliada para incluir outros livros. Por muito tempo, existiram diversas traduções gregas independentes para os livros do AT, só depois reunidas na tradição hoje conhecida como “Septuaginta”.", "A qualidade dessas traduções varia enormemente. Alguns livros são traduções próximas e cuidadosas, outros foram traduzidos com liberdade, com acréscimos e interpretações do tradutor, influências de correntes filosóficas gregas, entre outros fatores. Em Provérbios, por exemplo, a influência do pensamento ético grego e da tradição midráxica judaica é clara, havendo acréscimos e adaptações." ] }, "c": { title: "c) Do texto aberto ao texto massorético (c. 135 d.C. – 1000 d.C.)", content: [ "Após a destruição do segundo templo e o aprofundamento do debate entre judeus e cristãos, houve um esforço crescente de padronização textual. Por volta de 100 d.C., o texto passou a ser copiado de forma mais rigorosa, dando origem ao Proto-Texto Massorético (Proto-TM), que seria a base para todas as versões futuras do judaísmo e, posteriormente, do cristianismo ocidental.", "Os massoretas, famílias de escribas judeus, atuando principalmente entre os séculos VI e X d.C., tiveram papel central nesse processo. Eles introduziram elementos inovadores, como:", { "type": "list", "items": [ "O sistema de pontuação vocálica (os sinais massoréticos que indicam as vogais, ausentes no hebraico antigo);", "As notas massoréticas (anotações marginais sobre ortografia, leituras alternativas, estatísticas de palavras);", "A divisão de versículos, parágrafos, acentos e sinais de entoação para leitura litúrgica;", "Os conhecidos sistemas de Kethiv (texto escrito) e Qere (texto lido), que indicam variantes tradicionais de leitura." ]}, "O texto massorético, assim, não representa uma falsificação tardia, mas a cristalização de uma tradição oral milenar, confirmada por evidências filológicas e arqueológicas." ] }, "d": { title: "d) Versões antigas e recensões paralelas", content: [ "Durante todo o período pós-exílico e tardio, outras versões do AT foram produzidas, como os Targumim aramaicos (traduções e paráfrases em aramaico para uso nas sinagogas), a Pexita siríaca, diversas revisões da LXX, a Vulgata latina (tradução de Jerônimo baseada no texto hebraico), e o Pentateuco Samaritano (versão do Pentateuco adaptada pelos samaritanos para reforçar suas doutrinas e práticas específicas, como o culto no monte Gerizim).", "Essas versões são importantes testemunhas para a crítica textual, pois por vezes conservam leituras muito antigas ou diferentes, ajudando a iluminar possíveis variantes e compreensões do texto em períodos anteriores à padronização massorética." ] } } },
+              "4": { emoji: "🔍", title: "4. Tipos de variantes e erros no texto", subsections: { "a": { title: "Erros acidentais", content: [{ "type": "list", "items": [ "Confusão de consoantes semelhantes: O hebraico antigo, escrito sem vogais, facilitava a confusão entre letras parecidas.", "Haplografia: O escriba pulava acidentalmente uma palavra ou sílaba, geralmente por semelhança no início ou fim.", "Ditografia: O escriba escrevia a mesma palavra duas vezes, por distração.", "Metátese: Troca acidental da ordem de duas letras ou palavras.", "Divisão diferente de palavras: Palavras compostas ou frases eram divididas de maneira diferente por escribas." ]}] }, "b": { title: "Alterações intencionais", content: [{ "type": "list", "items": [ "Modernização linguística: Atualização de grafias, substituição de termos arcaicos por mais modernos.", "Adaptações contextuais: Ajustes para harmonizar passagens paralelas, tornar o texto mais claro ou facilitar a compreensão.", "Eufemismos: Substituição de expressões consideradas vulgares ou teologicamente problemáticas.", "Acréscimos explicativos: Inclusão de glosas ou notas explicativas no corpo do texto.", "Alterações teológicas: São raras, mas incluem adaptações feitas por grupos com interesses doutrinários específicos, como os samaritanos." ]}] } } },
+              "5": { emoji: "🛠️", title: "5. A crítica textual na prática", content: [ "A crítica textual se divide em duas grandes etapas:", { "type": "list", "items": [ "Crítica externa: Avaliação das testemunhas (manuscritos, versões, citações antigas). Cada testemunha tem seu valor relativo, dependendo de sua antiguidade, fidelidade e relação com o texto massorético.", "Crítica interna: Avaliação das variantes à luz da gramática, contexto, probabilidade de erro de escriba e expectativa exegética. A leitura mais difícil, ou aquela que melhor explica a origem das outras variantes, costuma ser preferida." ]}, "O objetivo final do crítico textual é recuperar, o quanto possível, a forma mais antiga e autêntica do texto, sempre levando em conta não apenas evidências filológicas, mas também o contexto histórico, literário e teológico da passagem." ] },
+              "6": { emoji: "🛡️", title: "6. A confiabilidade do Texto do AT", content: [ "Diante de toda essa complexidade — manuscritos, variantes, recensões, revisões e correções — podemos confiar que o texto do Antigo Testamento foi preservado de maneira confiável ao longo dos séculos?", "O estudo exaustivo da história textual permite afirmar com segurança e reverência:", { "type": "list", "items": [ "Há forte tendência histórica de preservação: Desde os primeiros séculos, há evidências de cuidado extremo dos escribas em preservar a integridade do texto sagrado. Isso é perceptível mesmo em meio às revisões e acréscimos, e confirmado por manuscritos antigos como os do Mar Morto.", "A tradição do Texto Massorético é surpreendentemente coesa: Quando comparamos manuscritos de diferentes épocas e lugares, vemos um altíssimo grau de concordância, mesmo sem uma autoridade centralizada controlando todas as cópias.", "A maioria das variantes é insignificante para a doutrina: Cerca de 90% do texto possui leitura absolutamente consensual; das variantes restantes, quase todas não alteram nenhum ponto essencial da fé cristã ou da tradição judaica. Mesmo que todas as variantes conhecidas fossem adotadas, nenhuma doutrina essencial seria abalada.", "As diferenças servem à crítica, não ameaçam a fé: O trabalho da crítica textual, longe de abalar a confiança nas Escrituras, apenas confirma a fidelidade do processo de transmissão textual. O número de variantes é pequeno em proporção ao volume do texto; e a maioria pode ser facilmente corrigida ou explicada.", "O Novo Testamento e os próprios apóstolos confiaram no texto existente em sua época: Apesar das variantes e recensões, Jesus e os apóstolos nunca hesitaram em afirmar a autoridade das Escrituras (João 10.35; Segunda a Timóteo 3.16). Se eles podiam confiar no texto recebido, também podemos fazê-lo.", "A fé reformada sempre confessou a preservação providencial do texto: A Confissão de Fé de Westminster, expressando a tradição reformada, afirma que Deus, por sua providência singular, conservou o texto das Escrituras “puro em todos os séculos”. As descobertas posteriores, inclusive dos Manuscritos do Mar Morto, apenas confirmaram o que já era conhecido.", "O texto preservado cumpre plenamente sua finalidade: Como afirma o apóstolo Paulo, “toda a Escritura é inspirada por Deus e útil para o ensino, para a repreensão, para a correção, para a educação na justiça” (Segunda a Timóteo 3.16-17). O Antigo Testamento que chegou até nós cumpre esse papel na vida da igreja." ]} ] },
+              "7": { emoji: "🙏", title: "7. Reflexão final: a providência de Deus", content: [ "É importante lembrar que, mesmo diante da multiplicidade de variantes e recensões, a crítica textual revela, antes de tudo, a maravilhosa providência de Deus, que conduziu gerações de copistas, revisores e comunidades de fé na preservação do texto inspirado. O resultado desse processo milenar é um texto que se mantém fiel e suficiente para guiar o povo de Deus em todo tempo e lugar.", "Seja você um estudante iniciante, um leigo curioso ou um pastor preocupado com a fidelidade bíblica, tenha plena convicção: o texto do Antigo Testamento é digno de confiança, tanto do ponto de vista histórico quanto teológico e espiritual. A crítica textual é um testemunho da sabedoria divina e da responsabilidade humana na guarda do depósito sagrado das Escrituras." ] }
+            };
+
+            const flashcardData = [
+                { term: "Crítica Textual", definition: "Disciplina que compara cópias de manuscritos antigos para determinar a forma mais provável do texto original." },
+                { term: "Texto Massorético (TM)", definition: "O texto hebraico padrão do Antigo Testamento, produzido por escribas judeus (massoretas) entre os séculos VI e X d.C." },
+                { term: "Septuaginta (LXX)", definition: "A tradução grega do Antigo Testamento, iniciada em Alexandria por volta de 285 a.C. É uma testemunha textual importante." },
+                { term: "Haplografia", definition: "Um erro de escriba onde uma letra, sílaba ou palavra é omitida acidentalmente, muitas vezes por causa de uma sequência similar." },
+                { term: "Ditografia", definition: "O oposto da haplografia; um erro de escriba onde uma letra, sílaba ou palavra é duplicada acidentalmente." },
+                { term: "Manuscritos do Mar Morto", definition: "Coleção de textos antigos descobertos em Qumran, que incluem as mais antigas cópias conhecidas de livros do Antigo Testamento." },
+                { term: "Kethiv-Qere", definition: "Um sistema massorético onde uma palavra é escrita de uma forma no texto (Kethiv) mas tradicionalmente lida de outra (Qere), indicando uma variante de leitura." }
+            ];
+            
+            const quizData = [
+                { question: "Qual o principal objetivo da Crítica Textual do AT?", options: [ { text: "Provar que a Bíblia não tem erros.", correct: false }, { text: "Determinar a forma mais antiga e provável do texto.", correct: true }, { text: "Traduzir a Bíblia para novas línguas.", correct: false }, { text: "Criar novas versões da Bíblia.", correct: false } ]},
+                { question: "O que é a Septuaginta (LXX)?", options: [ { text: "O texto original em hebraico.", correct: false }, { text: "Uma versão em latim.", correct: false }, { text: "A tradução grega do Antigo Testamento.", correct: true }, { text: "Um comentário rabínico.", correct: false } ]},
+                { question: "O Texto Massorético foi produzido principalmente entre quais séculos?", options: [ { text: "V a.C. e I a.C.", correct: false }, { text: "I e V d.C.", correct: false }, { text: "VI e X d.C.", correct: true }, { text: "X e XV d.C.", correct: false } ]},
+                { question: "Pular uma palavra ao copiar um manuscrito é um erro chamado:", options: [ { text: "Ditografia", correct: false }, { text: "Metátese", correct: false }, { text: "Haplografia", correct: true }, { text: "Paráfrase", correct: false } ]},
+                { question: "Qual descoberta arqueológica foi crucial para confirmar a fidelidade do Texto Massorético?", options: [ { text: "A Pedra de Roseta.", correct: false }, { text: "Os Manuscritos do Mar Morto.", correct: true }, { text: "O Código de Hamurabi.", correct: false }, { text: "As pirâmides do Egito.", correct: false } ]}
+            ];
+
+            // --- Seletores do DOM ---
+            const views = document.querySelectorAll('.app-view');
+            const menuGrid = document.getElementById('menu-grid');
+            const backButtons = document.querySelectorAll('.back-button');
+            const progressBar = document.getElementById('progress-bar');
+            const contentView = document.getElementById('content-view');
+            
+            // --- Estado da Aplicação ---
+            let currentFlashcardIndex = 0;
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            // --- Navegação ---
+            function showView(viewId) {
+                views.forEach(view => view.classList.remove('visible'));
+                document.getElementById(viewId).classList.add('visible');
+                window.scrollTo(0, 0);
+            }
+
+            // --- Renderização do Menu ---
+            function populateMenu() {
+                // Artigos
+                Object.keys(contentData).forEach(key => {
+                    const item = contentData[key];
+                    const button = document.createElement('button');
+                    button.className = 'menu-item';
+                    button.innerHTML = `<span class="menu-emoji">${item.emoji}</span> <span>${item.title}</span>`;
+                    button.addEventListener('click', () => renderContent(key));
+                    menuGrid.appendChild(button);
+                });
+
+                // Itens Interativos
+                const interactiveItems = [
+                    { id: 'flashcard-view', emoji: '🧠', title: 'Flashcards de Conceitos', action: initFlashcards, interactive: true },
+                    { id: 'quiz-view', emoji: '✅', title: 'Quiz de Conhecimento', action: initQuiz, interactive: true }
+                ];
+                interactiveItems.forEach(item => {
+                    const button = document.createElement('button');
+                    button.className = `menu-item ${item.interactive ? 'interactive' : ''}`;
+                    button.innerHTML = `<span class="menu-emoji">${item.emoji}</span> <span>${item.title}</span>`;
+                    button.addEventListener('click', item.action);
+                    menuGrid.appendChild(button);
+                });
+            }
+
+            // --- Lógica do Conteúdo ---
+            function renderContent(key) {
+                const item = contentData[key];
+                const titleEl = document.getElementById('content-title');
+                const bodyEl = document.getElementById('content-body');
+                
+                titleEl.textContent = item.title;
+                bodyEl.innerHTML = '';
+
+                if(item.content) {
+                    renderContentItems(item.content, bodyEl);
+                }
+
+                if (item.subsections) {
+                    Object.values(item.subsections).forEach(sub => {
+                        const button = document.createElement('button');
+                        button.className = 'accordion-button';
+                        button.textContent = sub.title;
+                        
+                        const panel = document.createElement('div');
+                        panel.className = 'accordion-panel';
+                        renderContentItems(sub.content, panel);
+
+                        bodyEl.appendChild(button);
+                        bodyEl.appendChild(panel);
+
+                        button.addEventListener('click', () => {
+                            button.classList.toggle('active');
+                            if (panel.style.maxHeight) {
+                                panel.style.maxHeight = null;
+                            } else {
+                                panel.style.maxHeight = panel.scrollHeight + "px";
+                            }
+                        });
+                    });
+                }
+                showView('content-view');
+            }
+
+            function renderContentItems(contentArray, parentElement) {
+                contentArray.forEach(item => {
+                    if (typeof item === 'string') {
+                        const p = document.createElement('p');
+                        p.className = 'paragraph';
+                        p.textContent = item;
+                        parentElement.appendChild(p);
+                    } else if (item.type === 'list') {
+                        const listContainer = document.createElement('div');
+                        listContainer.className = 'list-container';
+                        item.items.forEach(listItemText => {
+                            const listItem = document.createElement('div');
+                            listItem.className = 'list-item';
+                            listItem.innerHTML = `<span class="bullet-point">•</span><span>${listItemText}</span>`;
+                            listContainer.appendChild(listItem);
+                        });
+                        parentElement.appendChild(listContainer);
+                    }
+                });
+            }
+            
+            // --- Lógica dos Flashcards ---
+            function initFlashcards() {
+                currentFlashcardIndex = 0;
+                renderFlashcard();
+                showView('flashcard-view');
+            }
+            function renderFlashcard() {
+                const card = flashcardData[currentFlashcardIndex];
+                document.getElementById('flashcard-front').textContent = card.term;
+                document.getElementById('flashcard-back').textContent = card.definition;
+                document.getElementById('flashcard-counter').textContent = `${currentFlashcardIndex + 1} / ${flashcardData.length}`;
+                document.getElementById('flashcard').classList.remove('is-flipped');
+            }
+
+            // --- Lógica do Quiz ---
+            function initQuiz() {
+                currentQuestionIndex = 0;
+                score = 0;
+                document.getElementById('quiz-content').style.display = 'block';
+                document.getElementById('quiz-results').style.display = 'none';
+                renderQuestion();
+                showView('quiz-view');
+            }
+            function renderQuestion() {
+                const q = quizData[currentQuestionIndex];
+                document.getElementById('quiz-question').textContent = q.question;
+                const optionsEl = document.getElementById('quiz-options');
+                optionsEl.innerHTML = '';
+                document.getElementById('quiz-feedback').textContent = '';
+
+                q.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.className = 'quiz-option';
+                    button.textContent = option.text;
+                    button.addEventListener('click', () => selectAnswer(button, option.correct));
+                    optionsEl.appendChild(button);
+                });
+            }
+            function selectAnswer(button, isCorrect) {
+                const feedbackEl = document.getElementById('quiz-feedback');
+                document.querySelectorAll('.quiz-option').forEach(btn => btn.disabled = true);
+                
+                if (isCorrect) {
+                    button.classList.add('correct');
+                    feedbackEl.textContent = "Correto! ✅";
+                    feedbackEl.style.color = 'var(--success)';
+                    score++;
+                } else {
+                    button.classList.add('incorrect');
+                    feedbackEl.textContent = "Incorreto. ❌";
+                    feedbackEl.style.color = 'var(--error)';
+                }
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    if (currentQuestionIndex < quizData.length) {
+                        renderQuestion();
+                    } else {
+                        showQuizResults();
+                    }
+                }, 1500);
+            }
+            function showQuizResults() {
+                document.getElementById('quiz-content').style.display = 'none';
+                const resultsEl = document.getElementById('quiz-results');
+                resultsEl.style.display = 'block';
+                document.getElementById('quiz-score').textContent = `${score} de ${quizData.length}`;
+            }
+
+            // --- Event Listeners ---
+            backButtons.forEach(button => {
+                button.addEventListener('click', () => showView(button.dataset.target));
+            });
+
+            contentView.addEventListener('scroll', () => {
+                const el = contentView;
+                const scrollableHeight = el.scrollHeight - el.clientHeight;
+                const scrolledPercentage = (el.scrollTop / scrollableHeight) * 100;
+                progressBar.style.width = `${scrolledPercentage}%`;
+            });
+
+            // Flashcards
+            document.getElementById('flashcard').addEventListener('click', (e) => {
+                e.currentTarget.classList.toggle('is-flipped');
+            });
+            document.getElementById('next-flashcard').addEventListener('click', () => {
+                currentFlashcardIndex = (currentFlashcardIndex + 1) % flashcardData.length;
+                renderFlashcard();
+            });
+            document.getElementById('prev-flashcard').addEventListener('click', () => {
+                currentFlashcardIndex = (currentFlashcardIndex - 1 + flashcardData.length) % flashcardData.length;
+                renderFlashcard();
+            });
+            
+            // Quiz
+            document.getElementById('retry-quiz').addEventListener('click', initQuiz);
+            
+            // --- Inicialização ---
+            populateMenu();
+        });
+    </script>
+</body>
+</html>
