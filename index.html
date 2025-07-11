@@ -4,10 +4,220 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teologia Bíblica do Antigo Testamento</title>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* --- Variáveis de Cor e Fonte --- */
+        :root {
+            --cor-fundo-principal: #1A202C; /* Azul-ardósia escuro */
+            --cor-sidebar: #0D1B2A;         /* Azul-noite ainda mais escuro */
+            --cor-texto-sidebar: #E2E8F0;    /* Cinza-claro para texto */
+            --cor-acento: #4FD1C5;          /* Ciano/verde-água para destaque */
+            --cor-sombra: rgba(0, 0, 0, 0.2);
+            --font-titulo: 'Merriweather', serif;
+            --font-interface: 'Lato', sans-serif;
+            --transicao-padrao: all 0.3s ease;
+        }
+
+        /* --- Reset e Configurações Globais --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-interface);
+            background-color: var(--cor-fundo-principal);
+            color: var(--cor-texto-sidebar);
+            display: flex; 
+        }
+
+        /* --- Layout Principal (Sidebar à Direita) --- */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            right: 0; /* ALTERADO */
+            top: 0;
+            background-color: var(--cor-sidebar);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .main-content {
+            margin-right: 260px; /* ALTERADO */
+            margin-left: 0; /* ALTERADO */
+            width: calc(100% - 260px);
+            height: 100vh;
+            position: relative; /* Necessário para o posicionamento do rodapé */
+            padding: 0;
+        }
+
+        #content-frame, #home-content {
+            width: 100%;
+            height: 100%;
+            border: none;
+            animation: fadeIn 0.8s ease; /* Animação de entrada */
+        }
+        
+        #home-content {
+            padding: 40px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        #home-content h1 {
+            font-family: var(--font-titulo);
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 2.5rem;
+        }
+
+        #home-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+            max-width: 800px;
+            font-size: 1.1rem;
+        }
+
+        #home-content ul {
+            list-style: none;
+            padding-left: 5px;
+            max-width: 800px;
+        }
+
+        #home-content li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        #home-content .nav-icon {
+            margin-right: 15px;
+            font-size: 1.2rem;
+            color: var(--cor-acento);
+        }
+
+        /* --- Estilos da Sidebar --- */
+        .sidebar-header {
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h3 {
+            font-family: var(--font-titulo);
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Espaço entre os botões */
+        }
+
+        .nav-button {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: var(--cor-texto-sidebar);
+            font-family: var(--font-interface);
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transicao-padrao);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        .nav-button.active {
+            background-color: var(--cor-acento);
+            color: var(--cor-sidebar);
+            font-weight: 900;
+            box-shadow: 0 4px 15px rgba(79, 209, 197, 0.2);
+        }
+
+        /* --- Estilos do Botão Mobile e Responsividade --- */
+        .menu-toggle {
+            display: none; /* Escondido em telas grandes */
+            position: fixed;
+            top: 15px;
+            right: 15px; /* ALTERADO */
+            z-index: 1001;
+            background-color: var(--cor-sidebar);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 2px 10px var(--cor-sombra);
+        }
+        
+        /* --- NOVO Estilo do Rodapé --- */
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background-color: #0D1B2A; /* Mesma cor de fundo da sidebar */
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(100%); /* Esconde a sidebar fora da tela à direita */
+                box-shadow: -5px 0 15px var(--cor-sombra);
+            }
+
+            body.sidebar-open .sidebar {
+                transform: translateX(0); /* Mostra a sidebar */
+            }
+
+            .main-content {
+                margin-right: 0; /* ALTERADO */
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: block; /* Mostra o botão hambúrguer */
+            }
+        }
+
+        /* --- Animação de Fade-in --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
 
@@ -15,11 +225,14 @@
 
     <aside class="sidebar">
         <div class="sidebar-header">
-            <h3>Teologia Bíblica do Antigo Testamento</h3>
+            <h3>Teologia Bíblica do AT</h3>
             <p>Navegue pelos Módulos</p>
         </div>
         <nav class="sidebar-nav">
-            <button class="nav-button active" data-page="index1.html">
+            <button class="nav-button active" data-page="home">
+                <span class="nav-icon">🏠</span> Início
+            </button>
+            <button class="nav-button" data-page="index1.html">
                 <span class="nav-icon">📖</span> Fundamentos
             </button>
             <button class="nav-button" data-page="index2.html">
@@ -44,10 +257,93 @@
     </aside>
 
     <main class="main-content">
-        <iframe id="content-frame" name="content-frame" src="index1.html" frameborder="0"></iframe>
+        
+        <div id="home-content">
+            <h1>Bem-vindo ao Estudo de Teologia Bíblica do Antigo Testamento</h1>
+            <p>Este ambiente de estudo foi projetado para guiar você através dos ricos e complexos temas da Teologia Bíblica do Antigo Testamento. A navegação é simples e intuitiva, permitindo que você se concentre no aprendizado.</p>
+            
+            <h3>Como Navegar</h3>
+            <p>Utilize o menu lateral à direita para explorar os diferentes módulos de estudo. Cada módulo é focado em um aspecto crucial da revelação de Deus no Antigo Testamento. Ao clicar em um módulo, o conteúdo correspondente será carregado nesta área principal.</p>
+
+            <h3>Módulos Disponíveis</h3>
+            <ul>
+                <li><span class="nav-icon">📖</span> <strong>Fundamentos:</strong> Explore os conceitos essenciais e a metodologia da Teologia Bíblica.</li>
+                <li><span class="nav-icon">📜</span> <strong>História:</strong> Entenda o desenvolvimento histórico do povo de Israel como pano de fundo para a revelação.</li>
+                <li><span class="nav-icon">✍️</span> <strong>Texto do AT:</strong> Um módulo interativo sobre a formação, transmissão e confiabilidade do texto do Antigo Testamento.</li>
+                <li><span class="nav-icon">🌊</span> <strong>Período Noaico:</strong> Analise a aliança de Deus com Noé e suas implicações teológicas.</li>
+                <li><span class="nav-icon">👴</span> <strong>Período Patriarcal:</strong> Estude a vida e as promessas feitas a Abraão, Isaque e Jacó.</li>
+                <li><span class="nav-icon">📜</span> <strong>Período Mosaico:</strong> Mergulhe na Lei, no Tabernáculo e na formação de Israel como nação teocrática.</li>
+                <li><span class="nav-icon">🗣️</span> <strong>O Profetismo:</strong> Compreenda o papel dos profetas como mensageiros da aliança de Deus.</li>
+            </ul>
+
+        </div>
+        
+        <iframe id="content-frame" name="content-frame" src="about:blank" frameborder="0"></iframe>
+
+        <footer class="footer">
+            Desenvolvido por Rodrigo Niskier, Gemini e ChatGPT | 2025 &copy;
+        </footer>
     </main>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // Seletores dos elementos da interface
+            const contentFrame = document.getElementById('content-frame');
+            const homeContent = document.getElementById('home-content');
+            const navButtons = document.querySelectorAll('.nav-button');
+            const menuToggleButton = document.getElementById('menu-toggle');
+
+            // --- Lógica de Navegação Principal ---
+
+            function setActiveButton(clickedButton) {
+                navButtons.forEach(button => button.classList.remove('active'));
+                clickedButton.classList.add('active');
+            }
+
+            // Lógica de clique atualizada para lidar com a página "Início"
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const pageToLoad = button.dataset.page;
+                    
+                    if (pageToLoad === 'home') {
+                        homeContent.style.display = 'block';
+                        contentFrame.style.display = 'none';
+                    } else {
+                        homeContent.style.display = 'none';
+                        contentFrame.style.display = 'block';
+                        // Apenas carrega se a página for diferente da atual para evitar recargas
+                        if (contentFrame.src.split('/').pop() !== pageToLoad) {
+                            contentFrame.src = pageToLoad;
+                        }
+                    }
+
+                    setActiveButton(button);
+                    
+                    if (window.innerWidth <= 992) {
+                        document.body.classList.remove('sidebar-open');
+                    }
+                });
+            });
+
+            // --- Lógica do Menu Responsivo (Mobile) ---
+            menuToggleButton.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                document.body.classList.toggle('sidebar-open');
+            });
+            
+            document.querySelector('.main-content').addEventListener('click', () => {
+                if (document.body.classList.contains('sidebar-open')) {
+                    document.body.classList.remove('sidebar-open');
+                }
+            });
+
+            // --- Estado Inicial da Página ---
+            // Garante que o conteúdo "Início" seja exibido e o iframe fique oculto ao carregar
+            homeContent.style.display = 'block';
+            contentFrame.style.display = 'none';
+        });
+    </script>
 
 </body>
 </html>
