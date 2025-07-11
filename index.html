@@ -1,355 +1,53 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teologia Bíblica do Antigo Testamento</title>
-    <style>
-        /* CSS Integrado */
-        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700&display=swap');
-
-        :root {
-            --cor-fundo: #1a1a1a;
-            --cor-texto: #e0e0e0;
-            --cor-primaria: #a98f5b;
-            --cor-fundo-container: #2c2c2c;
-            --cor-borda: #444;
-            --cor-sucesso: #5cb85c;
-            --cor-erro: #d9534f;
-        }
-
-        body {
-            font-family: 'Merriweather', serif;
-            background-color: var(--cor-fundo);
-            color: var(--cor-texto);
-            line-height: 1.8;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background-color: #111;
-            padding: 1rem 2rem;
-            border-bottom: 2px solid var(--cor-primaria);
-            text-align: center;
-        }
-
-        header h1 {
-            font-family: 'Lato', sans-serif;
-            color: var(--cor-primaria);
-            margin: 0;
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        .container-principal {
-            display: flex;
-            flex: 1;
-        }
-
-        aside#navegacao {
-            width: 250px;
-            background-color: #222;
-            padding: 1.5rem;
-            border-right: 1px solid var(--cor-borda);
-        }
-
-        aside#navegacao h2 {
-            font-family: 'Lato', sans-serif;
-            color: var(--cor-primaria);
-            border-bottom: 1px solid var(--cor-borda);
-            padding-bottom: 0.5rem;
-            margin-top: 0;
-        }
-
-        aside#navegacao ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        aside#navegacao li a {
-            color: var(--cor-texto);
-            text-decoration: none;
-            display: block;
-            padding: 0.75rem;
-            border-radius: 4px;
-            transition: background-color 0.3s ease;
-        }
-
-        aside#navegacao li a:hover, aside#navegacao li a.ativo {
-            background-color: var(--cor-primaria);
-            color: var(--cor-fundo);
-        }
-
-        main#conteudo {
-            flex: 1;
-            padding: 2rem 3rem;
-            overflow-y: auto;
-        }
-
-        #area-renderizacao h1 {
-            font-family: 'Lato', sans-serif;
-            color: var(--cor-primaria);
-            border-bottom: 2px solid var(--cor-primaria);
-            padding-bottom: 0.5rem;
-        }
-
-        .titulo_secao {
-            font-family: 'Lato', sans-serif;
-            font-size: 1.5em;
-            color: var(--cor-primaria);
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            border-left: 3px solid var(--cor-primaria);
-            padding-left: 1rem;
-        }
-
-        .paragrafo {
-            margin-bottom: 1.2rem;
-            font-size: 1.1em;
-            text-align: justify;
-        }
-        
-        .lista_ordenada, .lista_numerada_com_titulo {
-            padding-left: 2rem;
-            font-size: 1.1em;
-        }
-        
-        .lista_ordenada li, .lista_numerada_com_titulo li {
-            margin-bottom: 0.8rem;
-        }
-
-        .lista_numerada_com_titulo strong {
-            color: var(--cor-primaria);
-            font-family: 'Lato', sans-serif;
-        }
-
-        .conceito_chave {
-            background-color: rgba(169, 143, 91, 0.1);
-            border-left: 4px solid var(--cor-primaria);
-            padding: 1.5rem;
-            margin: 2rem 0;
-            font-style: italic;
-            font-size: 1.2em;
-            border-radius: 0 8px 8px 0;
-        }
-        
-        .quiz-container {
-            background-color: var(--cor-fundo-container);
-            border: 1px solid var(--cor-borda);
-            border-radius: 8px;
-            padding: 1.5rem 2rem;
-            margin-top: 3rem;
-        }
-        
-        .quiz-container h3 {
-             font-family: 'Lato', sans-serif;
-             color: var(--cor-primaria);
-             margin-top: 0;
-        }
-
-        .quiz-opcoes button {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            background-color: #3e3e3e;
-            border: 1px solid var(--cor-borda);
-            color: var(--cor-texto);
-            text-align: left;
-            font-family: 'Lato', sans-serif;
-            font-size: 1em;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-        }
-
-        .quiz-opcoes button:hover {
-            border-color: var(--cor-primaria);
-            background-color: #4a4a4a;
-        }
-        
-        .quiz-feedback {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 4px;
-            font-weight: bold;
-            display: none; /* Inicia escondido */
-        }
-        
-        .quiz-feedback.correto {
-            background-color: var(--cor-sucesso);
-            color: white;
-        }
-        
-        .quiz-feedback.incorreto {
-            background-color: var(--cor-erro);
-            color: white;
-        }
-
-
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background-color: #111;
-            border-top: 1px solid var(--cor-borda);
-            font-size: 0.9em;
-            font-family: 'Lato', sans-serif;
-        }
-        footer p {
-            margin: 0;
-            color: #888;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>Teologia Bíblica do Antigo Testamento</h1>
-    </header>
+    <button id="menu-toggle" class="menu-toggle">☰</button>
 
-    <div class="container-principal">
-        <aside id="navegacao">
-            <h2>Sumário</h2>
-            <ul>
-                <li><a href="#" class="ativo" data-capitulo="capitulo1">Cap. 1: Introdução</a></li>
-                </ul>
-        </aside>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h3>Teologia Bíblica do Antigo Testamento</h3>
+            <p>Navegue pelos Módulos</p>
+        </div>
+        <nav class="sidebar-nav">
+            <button class="nav-button active" data-page="index1.html">
+                <span class="nav-icon">📖</span> Fundamentos
+            </button>
+            <button class="nav-button" data-page="index2.html">
+                <span class="nav-icon">📜</span> História
+            </button>
+            <button class="nav-button" data-page="index3.html">
+                <span class="nav-icon">✍️</span> Texto do AT
+            </button>
+            <button class="nav-button" data-page="index4.html">
+                <span class="nav-icon">🌊</span> Período Noaico
+            </button>
+            <button class="nav-button" data-page="index5.html">
+                <span class="nav-icon">👴</span> Período Patriarcal
+            </button>
+            <button class="nav-button" data-page="index6.html">
+                <span class="nav-icon">📜</span> Período Mosaico
+            </button>
+            <button class="nav-button" data-page="index7.html">
+                <span class="nav-icon">🗣️</span> O Profetismo
+            </button>
+        </nav>
+    </aside>
 
-        <main id="conteudo">
-            <div id="area-renderizacao">
-                </div>
-        </main>
-    </div>
-    
-    <footer>
-        <p>Soli Deo Gloria</p>
-    </footer>
+    <main class="main-content">
+        <iframe id="content-frame" name="content-frame" src="index1.html" frameborder="0"></iframe>
+    </main>
 
-    <script>
-        // JavaScript Integrado
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            const areaRenderizacao = document.getElementById('area-renderizacao');
+    <script src="script.js"></script>
 
-            async function carregarConteudo(arquivo) {
-                try {
-                    const resposta = await fetch(arquivo);
-                    if (!resposta.ok) {
-                        throw new Error(`Erro ao buscar o arquivo: ${resposta.statusText}`);
-                    }
-                    const dados = await resposta.json();
-                    renderizarConteudo(dados);
-                } catch (erro) {
-                    console.error("Falha ao carregar conteúdo:", erro);
-                    areaRenderizacao.innerHTML = `<p class="paragrafo" style="color: var(--cor-erro);">Não foi possível carregar o conteúdo do capítulo. Verifique o console para mais detalhes.</p>`;
-                }
-            }
-            
-            function renderizarConteudo(dados) {
-                areaRenderizacao.innerHTML = ''; // Limpa o conteúdo anterior
-                
-                const tituloCapitulo = document.createElement('h1');
-                tituloCapitulo.textContent = `Capítulo ${dados.capitulo}: ${dados.titulo}`;
-                areaRenderizacao.appendChild(tituloCapitulo);
-
-                dados.conteudo.forEach(item => {
-                    let elemento;
-                    switch (item.tipo) {
-                        case 'paragrafo':
-                            elemento = document.createElement('p');
-                            elemento.className = 'paragrafo';
-                            elemento.textContent = item.texto;
-                            break;
-                        
-                        case 'titulo_secao':
-                            elemento = document.createElement('h2');
-                            elemento.className = 'titulo_secao';
-                            elemento.textContent = item.texto;
-                            break;
-                        
-                        case 'lista_ordenada':
-                            elemento = document.createElement('ol');
-                            elemento.className = 'lista_ordenada';
-                            item.itens.forEach(textoItem => {
-                                const li = document.createElement('li');
-                                li.textContent = textoItem;
-                                elemento.appendChild(li);
-                            });
-                            break;
-                        
-                        case 'lista_numerada_com_titulo':
-                             elemento = document.createElement('ol');
-                             elemento.className = 'lista_numerada_com_titulo';
-                             item.itens.forEach(itemDetalhado => {
-                                const li = document.createElement('li');
-                                li.innerHTML = `<strong>${itemDetalhado.titulo}:</strong> ${itemDetalhado.texto}`;
-                                elemento.appendChild(li);
-                             });
-                             break;
-
-                        case 'conceito_chave':
-                            elemento = document.createElement('div');
-                            elemento.className = 'conceito_chave';
-                            elemento.innerHTML = `<p><strong>Conceito-Chave:</strong> ${item.texto}</p>`;
-                            break;
-
-                        case 'quiz':
-                            elemento = criarElementoQuiz(item);
-                            break;
-                    }
-                    if (elemento) {
-                        areaRenderizacao.appendChild(elemento);
-                    }
-                });
-            }
-
-            function criarElementoQuiz(itemQuiz) {
-                const container = document.createElement('div');
-                container.className = 'quiz-container';
-
-                const titulo = document.createElement('h3');
-                titulo.textContent = 'Verifique seu Conhecimento';
-                container.appendChild(titulo);
-
-                const pergunta = document.createElement('p');
-                pergunta.className = 'paragrafo';
-                pergunta.textContent = itemQuiz.pergunta;
-                container.appendChild(pergunta);
-
-                const divOpcoes = document.createElement('div');
-                divOpcoes.className = 'quiz-opcoes';
-                
-                const feedback = document.createElement('div');
-                feedback.className = 'quiz-feedback';
-                
-                itemQuiz.opcoes.forEach(opcaoTexto => {
-                    const botaoOpcao = document.createElement('button');
-                    botaoOpcao.textContent = opcaoTexto;
-                    botaoOpcao.onclick = () => {
-                        feedback.style.display = 'block';
-                        if(opcaoTexto === itemQuiz.resposta_correta) {
-                            feedback.textContent = 'Correto! Louvado seja Deus pelo entendimento concedido.';
-                            feedback.className = 'quiz-feedback correto';
-                        } else {
-                            feedback.textContent = 'Incorreto. Medite novamente sobre o tema e tente outra vez.';
-                            feedback.className = 'quiz-feedback incorreto';
-                        }
-                    };
-                    divOpcoes.appendChild(botaoOpcao);
-                });
-
-                container.appendChild(divOpcoes);
-                container.appendChild(feedback);
-
-                return container;
-            }
-
-            // Carregar o primeiro capítulo por padrão
-            carregarConteudo('capitulo1.json');
-        });
-    </script>
 </body>
 </html>
