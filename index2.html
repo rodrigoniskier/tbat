@@ -9,10 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Deep Ocean & Slate -->
-    <!-- Application Structure Plan: A vertical timeline navigation on the left guides the user chronologically through the history of Biblical Theology. This layout was chosen to mirror the historical progression in the source document, creating an intuitive journey. The main content area on the right dynamically displays detailed information for the selected era. Interactivity is maintained through clickable timeline events, interactive cards for key theologians, a dynamic quiz, and flippable flashcards derived from the report's Q&A section. -->
-    <!-- Visualization & Content Choices: 1. Historical Eras: Goal=Organize/Navigate, Method=Vertical Timeline (HTML/CSS), Interaction=Click to load content. Justification: Best visual metaphor for a historical report. 2. Key Theologians: Goal=Inform, Method=Interactive cards, Interaction=Hover/Click for details. Justification: Focuses attention on key figures. 3. Flashcards/Quiz: Goal=Reinforce/Test, Method=Flippable cards and multiple-choice questions. Justification: Proven interactive learning tools, directly using the report's Q&A content. All methods use HTML/CSS or JS. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Source Sans 3', sans-serif;
@@ -21,6 +17,14 @@
         }
         h1, h2, h3, h4, h5, h6, .font-serif {
             font-family: 'Lora', serif;
+        }
+        .sticky-sidebar {
+            position: -webkit-sticky; 
+            position: sticky;
+            top: 2rem; 
+            align-self: start; 
+            max-height: calc(100vh - 4rem); 
+            overflow-y: auto; 
         }
         .timeline-item {
             position: relative;
@@ -93,6 +97,17 @@
         .quiz-option:hover {
             background-color: #4A5568;
         }
+        .prose-h4 {
+            font-family: 'Lora', serif;
+            color: white;
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+        }
+        .prose p {
+            margin-bottom: 1em;
+            line-height: 1.7;
+        }
     </style>
 </head>
 <body class="bg-slate-900">
@@ -104,14 +119,12 @@
         </header>
 
         <div class="md:grid md:grid-cols-12 md:gap-8">
-            <aside class="md:col-span-3 mb-8 md:mb-0">
+            <aside class="md:col-span-3 mb-8 md:mb-0 sticky-sidebar">
                 <nav id="timeline-nav">
-                    <!-- Timeline items will be injected here -->
-                </nav>
+                    </nav>
             </aside>
-            <main id="content-area" class="md:col-span-9 bg-slate-800 p-6 sm:p-8 rounded-lg min-h-[60vh]">
-                <!-- Content will be injected here -->
-            </main>
+            <main id="content-area" class="md:col-span-9 bg-slate-800 p-6 sm:p-8 rounded-lg">
+                </main>
         </div>
     </div>
 
@@ -141,78 +154,96 @@
                 details: {
                     intro: {
                         title: 'Introdução: Origens da Teologia Bíblica',
-                        content: `<p>A expressão "teologia bíblica" surgiu formalmente no século XVII, mas sua essência — a busca por uma mensagem unificada nas Escrituras — remonta ao período apostólico. Desde o Antigo Testamento, resumos da história da salvação (ex: Dt 26.5-9, Sl 78) funcionavam como teologia bíblica primitiva. Os escritores do Novo Testamento, por sua vez, reinterpretaram o AT à luz de Cristo, estabelecendo-O como o centro hermenêutico (Jo 5.39). O propósito da teologia bíblica é entender a revelação progressiva de Deus dentro da estrutura canônica, honrando a unidade e suficiência da Palavra.</p>`
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">Conceito e Origem</h4><p>A expressão "teologia bíblica" surgiu formalmente no início do século XVII, mas a busca por uma mensagem unificada nas Escrituras é visível desde os primeiros séculos da Igreja. Embora alguns marquem seu início na Reforma ou no discurso de J. P. Gabler em 1787, a preocupação com a doutrina baseada exclusivamente na Bíblia remonta ao período apostólico.</p><h4 class="prose-h4">Exemplos Primitivos no AT</h4><p>Desde o Antigo Testamento, resumos da história da salvação exaltavam os feitos de Deus. Exemplos disso são encontrados em Deuteronômio 26:5-9, que narra a libertação do Egito, Neemias 9:7-8, que recorda a fidelidade de Abraão, e o Salmo 78, que se propõe a contar às gerações futuras as maravilhas do Senhor.</p><h4 class="prose-h4">Reinterpretação no NT</h4><p>Os escritores do Novo Testamento continuaram esse princípio, como se vê no discurso de Estêvão em Atos 7 e na "galeria dos heróis da fé" em Hebreus 11. Eles interpretaram a vida, morte e ressurreição de Cristo como o cumprimento das promessas do AT e, ao mesmo tempo, reinterpretaram o AT com base na revelação final em Jesus. Cristo tornou-se o princípio hermenêutico central, como Ele mesmo afirmou em João 5:39: "são elas mesmas que testificam de mim".</p><h4 class="prose-h4">Propósito e Perspectiva Reformada</h4><p>O propósito da teologia bíblica é entender a revelação progressiva de Deus dentro da estrutura canônica das Escrituras. Na perspectiva reformada, isso implica honrar a unidade e a suficiência da Palavra de Deus como autoritativa, inspirada e inerrante. Não é um exercício acadêmico neutro, mas uma disciplina submissa ao Espírito e voltada para a edificação do povo de Deus.</p></div>`
                     },
                     primitivo: {
                         title: 'Período Primitivo e Medieval',
-                        content: `<h4 class="text-xl font-semibold text-white mb-2 font-serif">Desafios Iniciais</h4>
-                                   <p class="mb-4">A igreja primitiva enfrentou o desafio de conciliar a unidade e a diversidade das Escrituras. Marcião (séc. II) propôs rejeitar o AT, mas foi refutado. Ireneu de Lião defendeu a inspiração dos quatro Evangelhos como um todo coeso, combatendo o gnosticismo.</p>
-                                   <h4 class="text-xl font-semibold text-white mb-2 font-serif">Métodos de Interpretação</h4>
-                                   <p>A "Escola de Alexandria" (ex: Orígenes) favoreceu a alegoria para encontrar um sentido espiritual, enquanto a "Escola de Antioquia" enfatizou a interpretação histórico-literal. Na Idade Média, o método da "quadriga" (literal, alegórico, moral, anagógico) tornou-se dominante, muitas vezes obscurecendo o sentido claro do texto, algo que os Reformadores criticariam duramente.</p>`
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">Reconhecimento das Escrituras</h4><p>Desde o século I, a Igreja começou a reconhecer os Evangelhos e as epístolas como Escritura, usando-os para instrução e combate a heresias em unidade com o Antigo Testamento. O desafio da unidade e diversidade da Bíblia foi central. Marcião, no século II, tentou resolver isso rejeitando o AT, mas a Igreja o refutou, afirmando a validade de toda a Escritura, em linha com o princípio de 2 Timóteo 3:16.</p><h4 class="prose-h4">Ireneu e as Escolas de Interpretação</h4><p>Ireneu de Lião, no final do século II, combateu o gnosticismo afirmando a unidade entre os Testamentos e a inspiração dos quatro Evangelhos, guiado pela "regra da fé". Surgiram duas escolas principais de interpretação: a de Alexandria, com Orígenes, que favorecia a alegoria para encontrar um sentido espiritual, e a de Antioquia, que reagiu com ênfase na interpretação histórico-literal, um princípio valorizado na exegese reformada.</p><h4 class="prose-h4">A Quadriga Medieval</h4><p>Na Idade Média, consolidou-se o método da "quadriga", que propunha quatro sentidos para a Escritura: literal, alegórico, moral e anagógico. Essa abordagem, embora difundida, frequentemente obscurecia o sentido claro do texto, algo que os Reformadores, como Calvino, denunciariam mais tarde por violar a perspicuidade da Escritura.</p></div>`
                     },
                     reforma: {
                         title: 'A Reforma Protestante',
-                        content: `<h4 class="text-xl font-semibold text-white mb-2 font-serif">Sola Scriptura</h4>
-                                   <p class="mb-4">A Reforma foi um retorno às Escrituras como única autoridade infalível. Martinho Lutero rejeitou a alegoria, focando no sentido literal e na justificação pela fé como chave de leitura. João Calvino, o grande expositor, fundamentou sua teologia na exegese cuidadosa, enfatizando o testemunho interno do Espírito Santo para a compreensão da Palavra. Para ambos, Cristo era o centro de toda a revelação.</p>`
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">Sola Scriptura</h4><p>A Reforma do século XVI foi um retorno consciente às Escrituras como única fonte infalível de autoridade, sob o lema "Sola Scriptura". Martinho Lutero rejeitou a alegoria, focando no sentido literal e na justificação pela fé como eixo hermenêutico. Ele chegou a questionar a canonicidade de livros como Hebreus e Tiago por considerá-los menos cristocêntricos, uma atitude posteriormente equilibrada por outros reformadores.</p><h4 class="prose-h4">João Calvino: O Expositor</h4><p>João Calvino é considerado o grande expositor bíblico da Reforma. Em suas Institutas e comentários, ele buscou interpretar a Escritura com fidelidade ao seu sentido natural e inspirado, afirmando que a verdade bíblica é compreendida pelo testemunho interno do Espírito Santo. Sua teologia estava diretamente fundada no texto bíblico.</p><h4 class="prose-h4">Princípios Hermenêuticos</h4><p>Tanto Lutero quanto Calvino afirmaram Cristo como o centro da revelação divina, lendo o AT à luz do seu cumprimento no NT. Para eles, a fé e a iluminação do Espírito são indispensáveis para a correta interpretação da Palavra. O espírito puritano, herdeiro da Reforma, insistiu na exposição reverente da verdade bíblica, dirigida à mente e ao coração.</p></div>`
                     },
                     disciplina: {
                         title: 'Surgimento como Disciplina Distinta',
-                        content: `<p>No século XVII, a ortodoxia protestante desenvolveu o método de "textos-prova" (dicta probantia), coleções de versículos para confirmar dogmas. Em reação à sua aridez, o Pietismo (Spener, Franke) retornou à Bíblia buscando renovação espiritual e devoção, contrastando a "theologia biblica" com a "theologia scholastica". Paralelamente, o método histórico-crítico começou a emergir, propondo estudar a Bíblia como um documento antigo, separado da dogmática.</p>`
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">Ortodoxia Protestante e os "Textos-Prova"</h4><p>No século XVII, a ortodoxia protestante desenvolveu o método de "textos-prova" (dicta probantia), organizando versículos tematicamente para confirmar doutrinas sistemáticas. Embora metodologicamente rígidas, essas coleções (collegia biblica) reavivaram o interesse pela teologia interna da Escritura.</p><h4 class="prose-h4">A Reação do Pietismo</h4><p>Em reação à aridez da ortodoxia, o Pietismo (com figuras como P. J. Spener e A. H. Franke) retornou às Escrituras em busca de renovação espiritual e devoção. Spener contrastou a "theologia biblica" (focada na transformação) com a "theologia scholastica" (focada na comprovação dogmática), fortalecendo o elo entre a fé viva e a Palavra revelada.</p><h4 class="prose-h4">O Método Histórico-Crítico</h4><p>Paralelamente, teólogos como Richard Simon e Baruch Spinoza inauguraram o método histórico-crítico, propondo que a Bíblia fosse estudada como qualquer outro documento antigo, separando a análise histórica da aplicação dogmática. O racionalismo viu nisso uma forma de "libertar" a fé de tradições dogmáticas.</p></div>`
                     },
                     gabler: {
-                        title: 'A Definição de Gabler (1787)',
-                        content: `<p>Em seu discurso inaugural, Johann Philipp Gabler propôs uma distinção metodológica crucial: a teologia bíblica deveria ser uma disciplina puramente histórica e descritiva (o que os autores bíblicos pensaram), enquanto a teologia dogmática seria normativa (o que a igreja deve crer hoje). Essa proposta, embora influente, moveu a teologia bíblica para o campo acadêmico, muitas vezes divorciada da fé da Igreja, uma separação que a tradição reformada rejeita.</p>`
+                        title: 'A Definição de Gabler',
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">O Discurso de 1787</h4><p>Em seu discurso inaugural na Universidade de Altdorf, Johann Philipp Gabler propôs uma distinção metodológica crucial entre teologia bíblica e dogmática. Para Gabler, a teologia bíblica deveria ser uma disciplina puramente histórica e descritiva (o que os autores bíblicos pensaram), enquanto a teologia dogmática seria normativa (o que a igreja deve crer hoje).</p><h4 class="prose-h4">A Proposta de Gabler</h4><p>Ele ainda distinguiu dois níveis: a "teologia bíblica verdadeira", que é o estudo histórico dos textos em seu contexto, e a "teologia bíblica pura", que separa o que é temporário do que é eterno nos ensinos. A teologia dogmática, então, aplicaria esses ensinos universais ao presente.</p><h4 class="prose-h4">Consequências e Crítica Reformada</h4><p>A proposta de Gabler, embora influente, teve como consequência o deslocamento da teologia bíblica para o campo acadêmico, muitas vezes divorciada da fé da Igreja. A tradição reformada, embora valorize a análise histórica, rejeita essa separação, pois a Bíblia não é apenas um documento do passado, mas a Palavra viva de Deus (Hb 4:12), e uma leitura neutra é considerada uma leitura infiel.</p></div>`
                     },
                     queda: {
-                        title: 'A Ascensão do Racionalismo e a "Queda" da Teologia Bíblica',
-                        content: `<p>Influenciados pelo Iluminismo, teólogos como De Wette usaram o método histórico-crítico para eliminar o sobrenatural da Bíblia, reduzindo-a ao que era "racionalmente aceitável". A revelação foi vista como evolução religiosa, e a ênfase na diversidade e nas "ideias condicionadas pelo tempo" fragmentou a unidade da Escritura. A teologia bíblica tornou-se um exercício acadêmico neutro, divorciado da autoridade canônica.</p>`
+                        title: 'Ascensão do Racionalismo e a "Queda"',
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">A Razão Acima da Revelação</h4><p>No final do século XVIII e início do XIX, teólogos racionalistas como De Wette usaram o método histórico-crítico para reduzir a Bíblia ao que era "racionalmente aceitável", eliminando o sobrenatural e os milagres. A revelação divina foi subordinada à razão humana e os textos, vistos como produtos de uma evolução religiosa.</p><h4 class="prose-h4">Fragmentação da Escritura</h4><p>Os racionalistas focaram na diversidade interna da Bíblia, rejeitando sua unidade. O conceito de "Zeitideen" (ideias condicionadas pelo tempo) tornou-se central: apenas o que fosse universal e ético seria preservado, descartando o que fosse cultural. Isso levou à fragmentação da Bíblia, vista como uma coleção de religiões e não como um todo inspirado. Como resultado, a teologia bíblica se separou da fé da Igreja, e a autoridade do cânon foi relativizada. A tradição reformada denuncia essa abordagem por negar a autoridade do texto inspirado.</p></div>`
                     },
                     testamentos: {
-                        title: 'Teologias Separadas do Antigo e Novo Testamento',
-                        content: `<p>A crítica das fontes (ex: hipótese JEDP para o Pentateuco) e o liberalismo teológico levaram a uma crescente separação entre os estudos do AT e do NT. O AT era frequentemente visto como inferior ou obsoleto. Em resposta, estudiosos conservadores (como Oehler) defenderam a unidade da história da salvação. No NT, o debate sobre o "Jesus histórico" (Harnack, Bultmann) também gerou abordagens distintas, consolidando a especialização e a fragmentação.</p>`
+                        title: 'Teologias Separadas dos Testamentos',
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">Fragmentação do Antigo Testamento</h4><p>A crítica das fontes, especialmente a hipótese documentária (JEDP) de Wellhausen, fragmentou o Pentateuco e minou a visão da autoria mosaica, focando em reconstruções evolutivas da religião de Israel. O protestantismo liberal do século XIX frequentemente minimizou o valor do AT, considerando-o obsoleto. Em resposta, estudiosos conservadores como G. F. Oehler defenderam a unidade do AT através da perspectiva da história da salvação (Heilsgeschichte).</p><h4 class="prose-h4">Debates no Novo Testamento</h4><p>No NT, figuras liberais como Harnack tentaram reconstruir um "Jesus histórico" puramente ético, identificando a "essência do cristianismo" na paternidade de Deus, na fraternidade humana e no valor da alma. Em oposição, Adolf Schlatter defendeu a unidade e autoridade espiritual do NT, centrado em Jesus como revelação de Deus. Essa especialização consolidou abordagens separadas para os dois testamentos, com esquemas diversos (cronológico, temático, canônico), evidenciando uma crise de unidade.</p></div>`
                     },
                     religiao: {
                         title: 'Da Teologia para a História das Religiões',
-                        content: `<p>A Escola da História das Religiões (Religionsgeschichte), no final do século XIX, aplicou uma abordagem comparativa, analisando a Bíblia em paralelo com mitologias do Antigo Oriente Próximo. O foco mudou de "doutrina" para "religião vivida". Isso relativizou a singularidade e a autoridade do cânon, tratando o Cristianismo como mais um fenômeno religioso entre outros, e não como revelação sobrenatural única.</p>`
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">A Abordagem Comparativa</h4><p>No final do século XIX, a Escola da História das Religiões (Religionsgeschichte) aplicou uma abordagem comparativa, analisando a Bíblia em paralelo com mitologias do Antigo Oriente Próximo, como o Enuma Elish e textos de Ugarite. O Cristianismo foi equiparado a outras religiões antigas, visto como resultado de um desenvolvimento histórico e não como revelação sobrenatural única. A teologia foi, assim, substituída por uma história natural da religião.</p><h4 class="prose-h4">Foco na "Religião Vivida"</h4><p>A atenção se deslocou de conceitos teológicos para fenômenos religiosos práticos como culto, mitos e experiências. O objetivo não era mais identificar doutrinas, mas descrever como o povo viveu sua fé. Isso relativizou a singularidade do cânon bíblico, que passou a ser tratado como literatura religiosa antiga, negando sua autoridade normativa para a Igreja. A tradição reformada repudia essa abordagem, reafirmando a inspiração e singularidade da Escritura.</p></div>`
                     },
                     reflorescimento: {
                         title: 'O Reflorescimento da Teologia no Século XX',
-                        content: `<p>Após a Primeira Guerra Mundial, o fracasso do liberalismo levou a uma reação. Karl Barth, com seu Comentário aos Romanos, restaurou a teologia como escuta da Palavra de Deus. Isso inaugurou uma "idade de ouro" da teologia do AT, com obras de Walther Eichrodt (foco na aliança) e Gerhard von Rad (foco na história da salvação), que buscaram entender o AT em seus próprios termos teológicos.</p>`
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">A Reação ao Liberalismo</h4><p>O fracasso do liberalismo, evidenciado pela Primeira Guerra Mundial, levou a uma reação teológica. Karl Barth foi a figura central, restaurando a teologia como escuta da Palavra de Deus em sua obra "Comentário à Epístola aos Romanos". Isso inaugurou uma "idade de ouro" da teologia do AT (1930-1960), com obras de Walther Eichrodt (foco na aliança) e Gerhard von Rad (foco na história da salvação), que buscaram entender o AT em seus próprios termos teológicos.</p><h4 class="prose-h4">Desenvolvimentos Católicos e no NT</h4><p>A encíclica "Divino Afflante Spiritu" (1943) encorajou o uso de métodos históricos na exegese católica, gerando um florescimento de estudos. No campo do NT, Rudolf Bultmann propôs a "desmitologização", separando o "Cristo da fé" do "Jesus histórico", enquanto teólogos como Joachim Jeremias reagiram defendendo a confiabilidade histórica dos evangelhos.</p></div>`
                     },
                     teologias: {
                         title: 'De Teologia para "Teologias"',
-                        content: `<p>A partir dos anos 1960, um ceticismo crescente sobre a possibilidade de uma teologia bíblica unificada tomou conta da academia. A ênfase na pluralidade interna levou à ideia de múltiplas "teologias" (paulina, joanina, deuteronomista, etc.), cada uma tratada de forma autônoma. A busca por um centro unificador foi abandonada por muitos, resultando em hiperespecialização e perda da visão canônica integral.</p>`
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">A Fragmentação da Disciplina</h4><p>A partir dos anos 1960, cresceu o ceticismo sobre a possibilidade de uma teologia bíblica unificada. A ênfase na diversidade interna da Escritura levou à ideia de múltiplas "teologias" (paulina, joanina, deuteronomista, etc.), cada uma tratada de forma autônoma. A busca por um "centro unificador" foi abandonada por muitos, que passaram a argumentar que a Bíblia não possui uma única voz teológica.</p><h4 class="prose-h4">Hiperespecialização</h4><p>Essa abordagem levou à hiperespecialização em campos como "estudos sobre Paulo", "teologia joanina", etc., resultando na perda de uma visão panorâmica e canônica da revelação. A tradição reformada insiste que, embora diversa, a Bíblia é obra de um único Espírito Santo, com uma mensagem coesa e progressiva centrada em Cristo (1 Pedro 1:10-12).</p></div>`
                     },
                     novas: {
                         title: 'Novas Abordagens Metodológicas',
-                        content: `<p>Em reação à fragmentação do método histórico-crítico, surgiram novas abordagens. A "Crítica Canônica" (Brevard Childs) propôs ler o texto em sua forma final como Escritura normativa para a Igreja. Abordagens literárias e narratológicas focaram na estrutura do texto como um todo. Ao mesmo tempo, teologias contextuais (libertação, feminista) surgiram, usando o texto para fins sociopolíticos, muitas vezes subordinando sua autoridade a agendas externas.</p>`
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">Além do Método Histórico-Crítico</h4><p>Na segunda metade do século XX, surgiram novas abordagens em resposta à fragmentação do método histórico-crítico. Abordagens literárias e narratológicas focaram na estrutura e estilo do texto final, enquanto a leitura sincrônica examinou o texto como está no cânon.</p><h4 class="prose-h4">A Abordagem Canônica</h4><p>Brevard S. Childs, em particular, propôs a "abordagem canônica", defendendo que o texto deve ser lido em sua forma canônica final como Escritura normativa para a Igreja. Ele buscou a unidade entre os Testamentos, reconhecendo a ação do Espírito na formação do cânon.</p><h4 class="prose-h4">Teologias Contextuais</h4><p>Surgiram também teologias contextuais, como a Teologia da Libertação, a Teologia Negra e a Teologia Feminista. Embora sensíveis a realidades sociais, essas abordagens frequentemente subordinam a autoridade da Escritura a agendas ideológicas externas, o que é rejeitado pela tradição reformada, que afirma a primazia da Palavra de Deus.</p></div>`
                     },
                     renascimento: {
                         title: 'O Renascimento Recente da Teologia Bíblica Integral',
-                        content: `<p>No final do século XX, um movimento para superar a divisão entre os testamentos ganhou força. Teólogos como H. Gese e P. Stuhlmacher usaram a "história das tradições" para rastrear temas através de todo o cânon. Obras de Brevard Childs, Gerhard Hasel e, fundamentalmente, Geerhardus Vos (o pai da teologia bíblica reformada), buscaram reafirmar a unidade da história da redenção, mostrando como o AT prepara e o NT cumpre a obra salvífica de Cristo.</p>`
+                        content: `<div class="prose max-w-none prose-p:text-slate-300"><h4 class="prose-h4">Reconstruindo Pontes</h4><p>No final do século XX, um movimento para superar a divisão entre os testamentos ganhou força, com teólogos como H. Gese e P. Stuhlmacher usando a "história das tradições" (Traditionsgeschichte) para rastrear temas através de todo o cânon. Séries acadêmicas como "Overtures to Biblical Theology" e "New Studies in Biblical Theology" também se dedicaram a recuperar a disciplina como integradora.</p><h4 class="prose-h4">Busca por uma Teologia Integral</h4><p>Teólogos como Brevard Childs e Gerhard Hasel propuseram uma teologia bíblica que respeita o caráter histórico dos textos, reconhece a inspiração divina e integra os testamentos na unidade canônica. Hasel defendeu critérios rigorosos para a disciplina: deve ser fundada nas Escrituras, confessional, canônica e cristocêntrica. Obras modernas de autores como Geerhardus Vos (o pai da teologia bíblica reformada), Samuel Terrien e Childs buscaram mostrar como o AT prepara e o NT cumpre a obra da salvação em Cristo.</p></div>`
                     },
                     autores: {
                         title: 'Autores-Chave na História da Teologia Bíblica',
                         items: [
-                            { name: 'J. P. Gabler', detail: 'Definiu a teologia bíblica como disciplina histórica, separada da dogmática.' },
-                            { name: 'Geerhardus Vos', detail: 'Pai da teologia bíblica reformada; foco na história da redenção progressiva.' },
-                            { name: 'Brevard S. Childs', detail: 'Desenvolveu a "abordagem canônica", lendo o texto em sua forma final.' },
-                            { name: 'Gerhard von Rad', detail: 'Renovou o estudo do AT com foco na "história da salvação" (Heilsgeschichte).' },
-                            { name: 'Karl Barth', detail: 'Liderou a reação ao liberalismo, restaurando a teologia como resposta à Palavra de Deus.' }
+                            { name: 'Johann Philipp Gabler (1753-1826)', detail: `<strong>Contribuição:</strong> Definiu formalmente a teologia bíblica como uma disciplina distinta da teologia dogmática em seu discurso de 1787. <br><strong>Importância:</strong> Estabeleceu o paradigma acadêmico da teologia bíblica como descrição histórica da fé dos autores bíblicos.` },
+                            { name: 'Geerhardus Vos (1862-1949)', detail: `<strong>Contribuição:</strong> Considerado o pai da teologia bíblica reformada, sistematizou o conceito de revelação progressiva e história da redenção. <br><strong>Obra-chave:</strong> <em>Biblical Theology: Old and New Testaments</em> (1934). <br><strong>Importância:</strong> Uniu erudição acadêmica com fidelidade confessional.` },
+                            { name: 'Brevard S. Childs (1923-2007)', detail: `<strong>Contribuição:</strong> Desenvolveu a "abordagem canônica", defendendo que a teologia bíblica deve ler o texto em sua forma final como Escritura normativa. <br><strong>Importância:</strong> Rejeitou a fragmentação crítica e reafirmou a autoridade teológica do cânon para a comunidade da fé.` },
+                            { name: 'Gerhard von Rad (1901-1971)', detail: `<strong>Contribuição:</strong> Renovou o estudo do Antigo Testamento ao enfatizar a "história da salvação" (Heilsgeschichte) e a teologia narrativa. <br><strong>Importância:</strong> Valorizou o AT como teologicamente rico por si só, rejeitando leituras puramente éticas ou mitológicas.` },
+                            { name: 'Karl Barth (1886-1968)', detail: `<strong>Contribuição:</strong> Rompeu com o liberalismo e restaurou a teologia como resposta à revelação, não como produto da religião humana. <br><strong>Importância:</strong> Reorientou a teologia do século XX para a escuta da Palavra de Deus, influenciando o renascimento da teologia bíblica.` }
                         ]
                     },
+                    // DADOS DE FLASHCARDS E QUIZ EXPANDIDOS PARA 15 ITENS
                     flashcards: [
                         { q: 'Qual a diferença proposta por Gabler entre teologia bíblica e dogmática?', a: 'Bíblica é histórica/descritiva (o que foi crido); Dogmática é normativa (o que deve ser crido).' },
-                        { q: 'Qual o princípio hermenêutico central da Reforma?', a: 'A centralidade de Cristo como cumprimento do AT, lido de forma literal-gramatical.' },
+                        { q: 'Qual o princípio hermenêutico central da Reforma Protestante?', a: 'A centralidade de Cristo como cumprimento do AT, lido de forma literal-gramatical.' },
                         { q: 'Qual o efeito do racionalismo na teologia bíblica?', a: 'Negou o sobrenatural, fragmentou a unidade da Escritura e a separou da fé da Igreja.' },
                         { q: 'O que é a "abordagem canônica" de Brevard Childs?', a: 'Ler a Bíblia em sua forma final e canônica como Escritura normativa para a comunidade de fé.' },
-                        { q: 'Quem é considerado o pai da teologia bíblica reformada?', a: 'Geerhardus Vos, com sua ênfase na história da redenção progressiva.' }
+                        { q: 'Quem é considerado o pai da teologia bíblica reformada?', a: 'Geerhardus Vos, com sua ênfase na história da redenção progressiva.' },
+                        { q: 'O que era a "Quadriga" na interpretação medieval?', a: 'O método de quatro sentidos da Escritura: literal, alegórico, moral e anagógico.' },
+                        { q: 'Qual foi o objetivo principal do Pietismo em relação à Bíblia?', a: 'Resgatar a Escritura da aridez da ortodoxia para a renovação espiritual e devoção.' },
+                        { q: 'O que é a hipótese "JEDP"?', a: 'Uma teoria da alta crítica que fragmenta o Pentateuco em quatro supostas fontes documentais.' },
+                        { q: 'O que defendia a "Escola da História das Religiões"?', a: 'Analisar a Bíblia em comparação com outras mitologias antigas, relativizando sua singularidade.' },
+                        { q: 'Qual a contribuição de Karl Barth com seu "Comentário aos Romanos"?', a: 'Liderou uma reação ao liberalismo, restaurando a teologia como resposta à revelação de Deus.' },
+                        { q: 'O que Rudolf Bultmann propôs com o termo "desmitologização"?', a: 'Reinterpretar os elementos sobrenaturais do NT como linguagem simbólica para uma mensagem existencial.' },
+                        { q: 'Qual a principal característica das Teologias da Libertação?', a: 'Fazer uma leitura da Bíblia a partir da perspectiva dos oprimidos, com ênfase na justiça social.' },
+                        { q: 'Qual o centro hermenêutico da Escritura para os escritores do NT?', a: 'Jesus Cristo, como cumprimento de todas as promessas do Antigo Testamento.' },
+                        { q: 'O que era o método de "textos-prova" (dicta probantia)?', a: 'Um método da Ortodoxia Protestante que reunia versículos por tema para confirmar dogmas.' },
+                        { q: 'O que busca a abordagem da "história das tradições" (Traditionsgeschichte)?', a: 'Rastrear como temas teológicos se desenvolvem de forma contínua do Antigo para o Novo Testamento.' }
                     ],
                     quiz: [
                         { q: 'Quem propôs formalmente a distinção entre teologia bíblica e dogmática em 1787?', options: ['Martinho Lutero', 'J. P. Gabler', 'Karl Barth', 'Geerhardus Vos'], answer: 1 },
-                        { q: 'O método de interpretação que busca um sentido espiritual oculto, popular na Escola de Alexandria, é chamado de:', options: ['Literalismo', 'Crítica Canônica', 'Alegoria', 'História da Salvação'], answer: 2 },
+                        { q: 'O método que busca um sentido espiritual oculto, popular na Escola de Alexandria, é chamado de:', options: ['Literalismo', 'Crítica Canônica', 'Alegoria', 'História da Salvação'], answer: 2 },
                         { q: 'A abordagem que analisa a Bíblia em comparação com mitologias de povos vizinhos pertence à:', options: ['Reforma Protestante', 'Escola da História das Religiões', 'Crítica Canônica', 'Ortodoxia Protestante'], answer: 1 },
-                        { q: 'Qual teólogo é mais associado ao conceito de "história da salvação" (Heilsgeschichte) no estudo do AT?', options: ['Brevard Childs', 'Rudolf Bultmann', 'Gerhard von Rad', 'João Calvino'], answer: 2 }
+                        { q: 'Qual teólogo é mais associado ao conceito de "história da salvação" (Heilsgeschichte) no estudo do AT?', options: ['Brevard Childs', 'Rudolf Bultmann', 'Gerhard von Rad', 'João Calvino'], answer: 2 },
+                        { q: 'Qual abordagem, desenvolvida por Brevard Childs, foca na forma final do texto como normativa para a Igreja?', options: ['Crítica da Libertação', 'Abordagem Alegórica', 'Crítica das Fontes', 'Abordagem Canônica'], answer: 3 },
+                        { q: 'Qual figura da igreja primitiva defendeu a unidade dos quatro Evangelhos contra o Gnosticismo?', options: ['Ireneu de Lião', 'Marcião', 'Orígenes', 'Agostinho'], answer: 0 },
+                        { q: 'A tradição puritana insiste que a exegese deve sempre ser combinada com:', options: ['Investigação filosófica', 'Ativismo político', 'Oração, temor e aplicação pastoral', 'Mitologia comparada'], answer: 2 },
+                        { q: 'A hipótese "JEDP" é uma teoria crítica aplicada principalmente a qual seção da Bíblia?', options: ['Os Profetas', 'Os Evangelhos', 'O Pentateuco', 'As Epístolas'], answer: 2 },
+                        { q: 'Que evento histórico expôs a falência do liberalismo e gerou uma reação teológica liderada por Karl Barth?', options: ['A Revolução Francesa', 'O Segundo Grande Despertar', 'A Primeira Guerra Mundial', 'A Reforma'], answer: 2 },
+                        { q: 'A encíclica "Divino Afflante Spiritu" (1943) incentivou o uso de métodos históricos modernos em qual tradição teológica?', options: ['Luterana', 'Puritana', 'Católica Romana', 'Anabatista'], answer: 2 },
+                        { q: 'Teologias da Libertação, Negra e Feminista são agrupadas sob qual categoria de abordagem?', options: ['Abordagens Canônicas', 'Abordagens Literárias', 'Abordagens Contextuais', 'Abordagens Racionalistas'], answer: 2 },
+                        { q: 'Geerhardus Vos, em sua obra "Teologia Bíblica", enfatiza qual tema central?', options: ['A aliança (berith)', 'A história da redenção', 'A desmitologização', 'A crítica das fontes'], answer: 1 },
+                        { q: 'Qual era o principal critério de Martinho Lutero para avaliar os livros da Bíblia?', options: ['Sua antiguidade histórica', 'Sua autoria apostólica', 'Sua clareza em pregar a Cristo', 'Sua complexidade literária'], answer: 2 },
+                        { q: 'A fragmentação da teologia bíblica em múltiplas "teologias" (paulina, joanina, etc.) é um sinal de qual tendência?', options: ['Um retorno à ortodoxia', 'Uma perda do eixo cristológico', 'Uma vitória do método canônico', 'Um avanço da exegese literal'], answer: 1 },
+                        { q: 'A "Regra da Fé" foi uma doutrina formulada como guia para uma interpretação fiel por qual Pai da Igreja?', options: ['Orígenes', 'Marcião', 'J. P. Gabler', 'Ireneu de Lião'], answer: 3 }
                     ]
                 }
             };
@@ -239,11 +270,14 @@
 
             function setActiveTimeline(id) {
                 document.querySelectorAll('.timeline-item').forEach(item => item.classList.remove('active'));
-                document.getElementById(`timeline-${id}`).classList.add('active');
+                const activeItem = document.getElementById(`timeline-${id}`);
+                if (activeItem) {
+                    activeItem.classList.add('active');
+                }
             }
 
             function renderContent(id) {
-                contentArea.innerHTML = '';
+                contentArea.innerHTML = ''; 
                 const section = document.createElement('div');
                 section.className = 'content-section';
 
@@ -253,9 +287,9 @@
                         <h2 class="text-3xl font-bold text-white mb-6 font-serif">${data.title}</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             ${data.items.map(item => `
-                                <div class="bg-slate-700 p-4 rounded-lg border border-slate-600">
-                                    <h3 class="text-xl font-semibold text-teal-400 font-serif">${item.name}</h3>
-                                    <p class="text-slate-300 mt-1">${item.detail}</p>
+                                <div class="bg-slate-700 p-4 rounded-lg border border-slate-600 flex flex-col">
+                                    <h3 class="text-xl font-semibold text-teal-400 font-serif mb-2">${item.name}</h3>
+                                    <div class="text-slate-300 mt-1 text-sm space-y-2">${item.detail}</div>
                                 </div>
                             `).join('')}
                         </div>
@@ -269,11 +303,12 @@
                     if (data) {
                         section.innerHTML = `
                             <h2 class="text-3xl font-bold text-white mb-4 font-serif">${data.title}</h2>
-                            <div class="prose prose-invert max-w-none prose-p:text-slate-300 prose-h4:text-white">${data.content}</div>
+                            <div class="prose prose-invert max-w-none">${data.content}</div>
                         `;
                     }
                 }
                 contentArea.appendChild(section);
+                contentArea.scrollTop = 0; 
             }
 
             function renderFlashcards(container) {
@@ -307,8 +342,8 @@
                 function updateCard() {
                     flashcard.classList.remove('is-flipped');
                     setTimeout(() => {
-                        cardFront.textContent = cards[currentCard].q;
-                        cardBack.textContent = cards[currentCard].a;
+                        cardFront.innerHTML = cards[currentCard].q;
+                        cardBack.innerHTML = cards[currentCard].a;
                         counter.textContent = `${currentCard + 1} / ${cards.length}`;
                     }, 200);
                 }
@@ -347,7 +382,7 @@
                     const q = questions[currentQuestion];
                     quizContainer.innerHTML = `
                         <h3 class="text-xl font-semibold text-center text-white mb-6">${q.q}</h3>
-                        <div class="grid grid-cols-1 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             ${q.options.map((opt, index) => `
                                 <button class="quiz-option w-full text-left p-4 rounded text-white" data-index="${index}">${opt}</button>
                             `).join('')}
@@ -365,28 +400,24 @@
 
                     options.forEach(btn => {
                         btn.disabled = true;
-                        btn.classList.remove('hover:bg-slate-600');
+                        btn.classList.remove('hover:bg-slate-500');
                     });
 
                     if (selectedIndex === correctIndex) {
-                        e.target.style.backgroundColor = '#2F855A'; // green-600
-                        e.target.style.borderColor = '#276749'; // green-800
+                        e.target.style.backgroundColor = '#38A169'; // green-600
+                        e.target.style.borderColor = '#2F855A'; // green-700
                         score++;
                     } else {
-                        e.target.style.backgroundColor = '#C53030'; // red-600
-                        e.target.style.borderColor = '#9B2C2C'; // red-800
-                        options[correctIndex].style.backgroundColor = '#2F855A';
-                        options[correctIndex].style.borderColor = '#276749';
+                        e.target.style.backgroundColor = '#E53E3E'; // red-600
+                        e.target.style.borderColor = '#C53030'; // red-700
+                        options[correctIndex].style.backgroundColor = '#38A169';
+                        options[correctIndex].style.borderColor = '#2F855A';
                     }
                     
-                    const nextBtn = document.createElement('button');
-                    nextBtn.textContent = 'Próxima Pergunta';
-                    nextBtn.className = 'w-full mt-6 px-4 py-2 bg-teal-500 text-black font-semibold rounded hover:bg-teal-400 transition-colors';
-                    nextBtn.onclick = () => {
+                    setTimeout(() => {
                         currentQuestion++;
                         showQuestion();
-                    };
-                    quizContainer.appendChild(nextBtn);
+                    }, 2000);
                 }
 
                 function showScore() {
