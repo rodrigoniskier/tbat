@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teologia Bíblica: Período Noaico</title>
+    <!-- Carrega as bibliotecas React e ReactDOM -->
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <!-- Carrega o Babel para transpilar JSX no navegador -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos globais para uma aparência limpa e acadêmica */
+        body {
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f4f1eb;
+            color: #333;
+        }
+        #root {
+            transition: filter 0.3s ease-in-out;
+        }
+        #root.modal-open {
+            filter: blur(5px);
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- Dados do Conteúdo (Extraído do PDF) ---
+        const contentData = [
+            {
+                id: 'caim',
+                emoji: '📉',
+                title: 'O Desenvolvimento do Pecado na Linhagem de Caim',
+                summary: 'A rápida progressão do pecado, da advertência à negação, e o abuso dos dons da graça comum para fins malignos, culminando na arrogância de Lameque.',
+                content: [
+                    "A morte de Abel por Caim ilustra um desenvolvimento rápido do pecado. Caim cometeu seu pecado com premeditação, tendo sido advertido. Após o ato, ele nega seu pecado e repudia a obrigação da Lei do amor. Seu foco está nas consequências, não no pecado em si, mostrando um rápido progresso na corrupção do coração humano.",
+                    "O pecado se mostra poderoso para adulterar os dons da graça comum de Deus. A construção de uma cidade por Enoque, filho de Caim, e as invenções de pecuária, música e metalurgia na geração de Lameque, em vez de aproximar de Deus, geraram mais separação.",
+                    "A 'canção-espada' de Lameque (Gn 4.23-24) é uma expressão de arrogância, fazendo do poder o seu deus. Ele despreza a proteção divina e confia na própria vingança. Lameque também institui a poligamia, alterando a ordem criacional."
+                ],
+                keyTerms: ['Lameque']
+            },
+            {
+                id: 'set',
+                emoji: '🌱',
+                title: 'A Preservação da Graça na Linhagem de Sete',
+                summary: 'Em contraste com os cainitas, a linhagem de Sete enfatiza a continuidade da redenção, destacando figuras como Enos e Enoque, que "andou com Deus".',
+                content: [
+                    "Na genealogia dos setitas, o foco não é o progresso secular, mas a continuidade da redenção. O texto enfatiza que eles se mantiveram relativamente livres da degeneração cainita.",
+                    "Há contrastes marcantes: Caim e Abel; Enoque (filho de Caim) e Enos (filho de Sete). O ápice do contraste está na sétima geração: o cainita Lameque e o setita Enoque.",
+                    "Em oposição à arrogância de Lameque, Enoque 'andou com Deus', uma expressão que indica uma relação sobrenatural e íntima, resultando em seu translado e livramento da morte. Isso proclama que a comunhão restaurada com Deus vence a morte.",
+                    "Lameque, pai de Noé, expressa um profundo senso do peso da maldição e uma expectativa de alívio e conforto, contrastando com o sentimento pagão de autossuficiência dos cainitas."
+                ],
+                keyTerms: ['Enoque']
+            },
+            {
+                id: 'mistura',
+                emoji: '🤝',
+                title: 'A Mistura das Linhagens e a Corrupção Generalizada',
+                summary: 'O casamento entre os "filhos de Deus" (setitas) e as "filhas dos homens" (cainitas) leva à assimilação da iniquidade e à quase extinção da fidelidade.',
+                content: [
+                    "A mistura das duas linhagens por meio de casamentos levou à assimilação da iniquidade dos cainitas pelos setitas. Deus permitiu isso até que a lição sobre o poder destrutivo do pecado fosse plenamente ensinada.",
+                    "A interpretação mais coerente com o propósito do período é que os 'filhos de Deus' são os setitas e as 'filhas dos homens' são as cainitas. A teoria de que seriam anjos obscureceria a lição sobre o desenvolvimento do pecado humano deixado por si mesmo.",
+                    "A corrupção chegou a tal ponto que apenas Noé e sua família permaneceram fiéis, colocando a obra de Deus em perigo e preparando o cenário para o julgamento do dilúvio."
+                ],
+                keyTerms: []
+            },
+            {
+                id: 'diluvio',
+                emoji: '�',
+                title: 'O Dilúvio: Juízo e Promessa de uma Nova Ordem',
+                summary: 'Deus julga a corrupção total da humanidade, mas preserva um remanescente. Após o dilúvio, Ele estabelece um pacto (berith) com a criação, prometendo regularidade e instituindo novas ordenanças.',
+                content: [
+                    "Deus resume a situação em Gênesis 6, descrevendo a maldade como intensa, interna, absoluta e contínua. O 'arrependimento' de Deus é uma linguagem antropomórfica que expressa o fracasso da humanidade em cumprir seu propósito.",
+                    "Após o dilúvio, Deus estabelece uma nova ordem. Ele promete não mais amaldiçoar a terra por causa do homem, pois o mal é inerente ao seu coração 'desde a sua mocidade' (Gn 8.21), e um julgamento catastrófico não pode curá-lo. Outros meios (a redenção) seriam necessários.",
+                    "Novas ordenanças são dadas: a bênção para ser frutífero é renovada; a sujeição dos animais ao homem é reforçada pelo temor; a alimentação de carne é permitida, com a proibição de comer o sangue, por reverência à vida; e a pena de morte é instituída para o assassinato, para proteger a vida humana, feita à imagem de Deus.",
+                    "A promessa é selada com um pacto, ou 'berith', com toda a criação, cujo sinal é o arco-íris. O arco, formado nas nuvens de chuva, simboliza que da própria fonte do juízo vem a graça da promessa."
+                ],
+                keyTerms: ['berith']
+            },
+            {
+                id: 'profecias',
+                emoji: '📜',
+                title: 'As Profecias de Noé e o Destino das Nações',
+                summary: 'As palavras proféticas de Noé sobre seus filhos (Sem, Cam e Jafé) estabelecem as bases para o desenvolvimento subsequente da história da redenção.',
+                content: [
+                    "A base para a distinção entre maldição e bênção é ética: a sensualidade de Cam versus a modéstia de Sem e Jafé. Esses traços típicos influenciaram as grandes disposições raciais.",
+                    "A maldição recai sobre Canaã, filho de Cam, punindo o pai no filho que mais reproduzia seu caráter sensual. Isso prefigura a depravação que marcaria os cananeus.",
+                    "A bênção sobre Sem é expressa na fórmula-pacto: 'Bendito seja Yahweh, o Deus de Sem'. Deus se dá a essa linhagem como possessão religiosa, marcando o início da genealogia da redenção.",
+                    "A bênção de Jafé ('Engrandeça Deus a Jafé, e habite ele nas tendas de Sem') é uma profecia de conquista política que, por fim, resultaria em bênção religiosa. Ao ocupar os territórios semitas, os jafetitas (gregos, romanos) encontrariam o Deus de Sem, ajudando a espalhar a verdadeira religião."
+                ],
+                keyTerms: ['Yahweh']
+            },
+            {
+                id: 'babel',
+                emoji: '🗣️',
+                title: 'Babel e a Eleição dos Semitas',
+                summary: 'A tentativa de criar um império unificado em Babel é frustrada por Deus, que confunde as línguas para frear o poder do pecado concentrado e preservar a diversidade nacional, preparando o caminho para a eleição de um povo específico.',
+                content: [
+                    "A construção da torre de Babel foi inspirada pelo desejo de fundar um império gigantesco, glorificando o homem em sua independência de Deus. Deus interfere para quebrar a unidade da raça e, assim, frear o progresso do pecado, que se tornaria avassalador se permanecesse concentrado.",
+                    "O nacionalismo, dentro de limites, recebe a sanção divina neste período, como um meio de conter o mal e permitir que cada povo cumpra um propósito positivo sob a providência de Deus.",
+                    "Esse evento prepara o cenário para a eleição, que, por natureza, pressupõe a existência de muitos dentre os quais a escolha é feita. A eleição recai sobre os semitas.",
+                    "Os semitas possuíam uma aptidão religiosa para serem os portadores da revelação, não por um 'instinto monoteísta', mas por características como uma ênfase na submissão, no caráter pessoal da relação com a divindade e na transcendência de Deus (santidade), expressa nos nomes divinos como 'El' e 'Elohim'."
+                ],
+                keyTerms: ['Elohim', 'El']
+            }
+        ];
+
+        const glossary = {
+            'Lameque': { title: 'Lameque (Cainita)', definition: 'Descendente de Caim na sétima geração, representa o ápice da arrogância e autossuficiência humana. Sua "canção-espada" (Gn 4:23-24) celebra a vingança pessoal em vez da confiança em Deus. Ele também introduziu a poligamia.' },
+            'Enoque': { title: 'Enoque (Setita)', definition: 'Descendente de Sete, também na sétima geração, é o contraponto de Lameque. A expressão "andou com Deus" (Gn 5:24) descreve uma comunhão íntima e sobrenatural, que resultou em seu arrebatamento, sendo poupado da morte.' },
+            'berith': { title: 'Berith (ברית)', definition: 'Palavra hebraica para "pacto" ou "aliança". No contexto bíblico, é um acordo solene e vinculante, iniciado por Deus, que estabelece uma relação e suas obrigações. O pacto com Noé (noaico) é universal, feito com toda a criação.' },
+            'Yahweh': { title: 'Yahweh (יהוה)', definition: 'O nome pactual e pessoal de Deus em Israel, revelado a Moisés (Êx 3). É frequentemente traduzido como "SENHOR" em letras maiúsculas. Representa Deus como o Redentor fiel à sua aliança.' },
+            'Elohim': { title: 'Elohim (אֱלֹהִים)', definition: 'Um dos nomes mais comuns para Deus no Antigo Testamento. É uma forma plural que expressa majestade, plenitude e poder. Refere-se a Deus como o Criador transcendente e soberano de tudo o que existe.' },
+            'El': { title: 'El (אֵל)', definition: 'Um nome antigo para Deus, comum entre os povos semitas, que significa "poder", "força" ou "aquele que é forte". É frequentemente usado em poesia e em nomes compostos (como Isra-el).' }
+        };
+
+        // --- Componentes ---
+
+        const GlossaryModal = ({ term, onClose }) => {
+            if (!term) return null;
+
+            const entry = glossary[term.toLowerCase()];
+
+            return (
+                <div style={styles.modalOverlay} onClick={onClose}>
+                    <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+                        <h3 style={styles.modalTitle}>{entry.title}</h3>
+                        <p style={styles.modalDefinition}>{entry.definition}</p>
+                        <button style={styles.modalCloseButton} onClick={onClose}>Fechar</button>
+                    </div>
+                </div>
+            );
+        };
+
+        const ContentRenderer = ({ content, onTermClick }) => {
+            const renderText = (text) => {
+                const terms = Object.keys(glossary);
+                const regex = new RegExp(`\\b(${terms.join('|')})\\b`, 'gi');
+                const parts = text.split(regex);
+
+                return parts.map((part, i) => {
+                    if (terms.includes(part.toLowerCase())) {
+                        return <strong key={i} style={styles.keyTerm} onClick={() => onTermClick(part)}>{part}</strong>;
+                    }
+                    return part;
+                });
+            };
+
+            return content.map((item, index) => (
+                <p key={index} style={styles.paragraph}>{renderText(item)}</p>
+            ));
+        };
+        
+        const TimelineCard = ({ data, isActive, onToggle, onTermClick }) => {
+            const contentRef = useRef(null);
+            
+            return (
+                <div style={styles.cardContainer}>
+                    <div style={styles.dot}></div>
+                    <div style={styles.card} onClick={onToggle}>
+                        <div style={styles.cardHeader}>
+                            <span style={styles.emoji}>{data.emoji}</span>
+                            <h2 style={styles.cardTitle}>{data.title}</h2>
+                            <span style={{...styles.arrow, transform: isActive ? 'rotate(90deg)' : 'rotate(0deg)'}}>▶</span>
+                        </div>
+                        <div 
+                            ref={contentRef}
+                            style={{
+                                ...styles.collapsibleContent, 
+                                maxHeight: isActive ? `${contentRef.current.scrollHeight}px` : '0px',
+                            }}
+                        >
+                            <p style={styles.summary}><em>{data.summary}</em></p>
+                            <ContentRenderer content={data.content} onTermClick={onTermClick} />
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [activeCard, setActiveCard] = useState(null);
+            const [modalTerm, setModalTerm] = useState(null);
+
+            const handleToggle = (id) => {
+                setActiveCard(activeCard === id ? null : id);
+            };
+
+            const handleTermClick = (term) => {
+                setModalTerm(term);
+                document.getElementById('root').classList.add('modal-open');
+            };
+
+            const handleCloseModal = () => {
+                setModalTerm(null);
+                document.getElementById('root').classList.remove('modal-open');
+            };
+
+            return (
+                <div style={styles.app}>
+                    <header style={styles.header}>
+                        <h1 style={styles.mainTitle}>A Revelação Noaica e os Patriarcas</h1>
+                        <p style={styles.subtitle}>Uma jornada interativa pela teologia bíblica pré-abraâmica</p>
+                    </header>
+                    <main style={styles.timeline}>
+                        {contentData.map(item => (
+                            <TimelineCard 
+                                key={item.id} 
+                                data={item}
+                                isActive={activeCard === item.id}
+                                onToggle={() => handleToggle(item.id)}
+                                onTermClick={handleTermClick}
+                            />
+                        ))}
+                    </main>
+                    <GlossaryModal term={modalTerm} onClose={handleCloseModal} />
+                </div>
+            );
+        };
+
+        // --- Estilos ---
+        const styles = {
+            app: {
+                backgroundColor: '#f4f1eb',
+            },
+            header: {
+                textAlign: 'center',
+                padding: '40px 20px',
+                backgroundColor: '#2c3e50',
+                color: '#ecf0f1',
+            },
+            mainTitle: {
+                fontFamily: "'Merriweather', serif",
+                fontSize: '2.5rem',
+                margin: '0 0 10px 0',
+            },
+            subtitle: {
+                fontFamily: "'Open Sans', sans-serif",
+                fontSize: '1.1rem',
+                color: '#bdc3c7',
+                margin: 0,
+            },
+            timeline: {
+                position: 'relative',
+                maxWidth: '800px',
+                margin: '50px auto',
+                padding: '0 20px',
+            },
+            cardContainer: {
+                position: 'relative',
+                marginBottom: '30px',
+                paddingLeft: '50px',
+            },
+            dot: {
+                position: 'absolute',
+                left: '9px',
+                top: '18px',
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                backgroundColor: '#8e44ad',
+                border: '2px solid #f4f1eb',
+                zIndex: 2,
+            },
+            card: {
+                backgroundColor: '#ffffff',
+                borderRadius: '8px',
+                padding: '20px',
+                boxShadow: '0 4px 15px rgba(0,0,0,0.08)',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            },
+            cardHeader: {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            },
+            emoji: {
+                fontSize: '1.5rem',
+                marginRight: '15px',
+            },
+            cardTitle: {
+                fontFamily: "'Merriweather', serif",
+                fontSize: '1.3rem',
+                margin: 0,
+                flex: 1,
+                color: '#2c3e50',
+            },
+            arrow: {
+                fontSize: '1rem',
+                color: '#8e44ad',
+                transition: 'transform 0.3s ease',
+            },
+            collapsibleContent: {
+                overflow: 'hidden',
+                transition: 'max-height 0.5s ease-in-out',
+            },
+            summary: {
+                borderLeft: '3px solid #8e44ad',
+                paddingLeft: '15px',
+                marginTop: '20px',
+                color: '#555',
+                fontSize: '0.95rem',
+            },
+            paragraph: {
+                fontSize: '1rem',
+                lineHeight: 1.7,
+                color: '#34495e',
+                textAlign: 'justify',
+            },
+            keyTerm: {
+                color: '#8e44ad',
+                fontWeight: 'bold',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+            },
+            modalOverlay: {
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                zIndex: 1000,
+            },
+            modalContent: {
+                backgroundColor: '#fff',
+                padding: '30px',
+                borderRadius: '8px',
+                maxWidth: '500px',
+                width: '90%',
+                boxShadow: '0 5px 20px rgba(0,0,0,0.2)',
+            },
+            modalTitle: {
+                fontFamily: "'Merriweather', serif",
+                color: '#2c3e50',
+                marginTop: 0,
+            },
+            modalDefinition: {
+                fontSize: '1rem',
+                lineHeight: 1.6,
+                color: '#34495e',
+            },
+            modalCloseButton: {
+                display: 'block',
+                marginTop: '20px',
+                marginLeft: 'auto',
+                padding: '10px 20px',
+                border: 'none',
+                borderRadius: '5px',
+                backgroundColor: '#8e44ad',
+                color: '#fff',
+                fontSize: '1rem',
+                cursor: 'pointer',
+            }
+        };
+
+        // Adiciona a linha da timeline com pseudo-elemento
+        const timelineStyle = document.createElement('style');
+        timelineStyle.innerHTML = `
+            .timeline::before {
+                content: '';
+                position: absolute;
+                left: 34px; /* Centralizado no dot */
+                top: 0;
+                bottom: 0;
+                width: 2px;
+                background-color: #bdc3c7;
+                z-index: 1;
+            }
+            @media (max-width: 600px) {
+                .timeline::before {
+                    left: 14px;
+                }
+                .cardContainer {
+                    padding-left: 30px;
+                }
+            }
+        `;
+        document.head.appendChild(timelineStyle);
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
+�

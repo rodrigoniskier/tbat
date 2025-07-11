@@ -1,0 +1,358 @@
+import React, { useState, useEffect } from 'react';
+
+// --- Dados do Conteúdo ---
+// O conteúdo fornecido pelo usuário é estruturado aqui para fácil gerenciamento.
+const contentData = {
+  "1": {
+    "title": "1. Por que se preocupar com o “texto” do Antigo Testamento?",
+    "content": [
+      "A base de toda a fé cristã está nas Escrituras. Segundo Vanhoozer, o texto bíblico não é apenas um conjunto de palavras antigas, mas o fundamento sobre o qual se desenvolvem as ideias a respeito de Deus, do ser humano e do próprio mundo. Por isso, é impossível fazer teologia, refletir sobre Deus ou pensar em qualquer doutrina cristã sem antes considerar a confiabilidade do texto que recebemos.",
+      "Porém, há um grande desafio: o Antigo Testamento (AT) foi escrito e transmitido há milhares de anos, por pessoas de diferentes épocas, usando materiais frágeis, em línguas antigas e em condições geográficas e históricas complexas. Diante desse cenário, surge a pergunta: podemos confiar que o texto que temos hoje é realmente o mesmo que foi inspirado por Deus, séculos atrás?",
+      "A resposta exige uma análise cuidadosa do processo de transmissão do texto sagrado ao longo dos séculos e o papel fundamental da crítica textual."
+    ]
+  },
+  "2": {
+    "title": "2. O que é crítica textual? Por que ela é necessária?",
+    "content": [
+      "A crítica textual é uma disciplina que existe em toda literatura antiga, não apenas na Bíblia. Ela surge porque todos os textos antigos — seja de Homero, Shakespeare ou dos autores bíblicos — chegaram até nós em cópias feitas à mão, e nenhuma dessas cópias está totalmente livre de erros, omissões ou alterações. No caso da Bíblia Hebraica, mesmo as edições modernas, como a famosa Bíblia Hebraica Stuttgartensia (BHS), ainda contêm pequenas diferenças, sejam erros de impressão, pequenas variantes ou mesmo marcas das inúmeras revisões históricas pelas quais passou o texto.",
+      "Ao contrário do que se pensa, o objetivo da crítica textual do AT não é simplesmente “recuperar o original perdido”, pois muitos dos textos bíblicos passaram por processos longos de composição e revisão. O termo “texto original” aqui não significa um manuscrito único escrito por Moisés ou Isaías, mas sim o texto-tipo, ou seja, o texto-base, mais antigo possível, que está por trás da forma atual recebida pela tradição judaica — o chamado Texto Massorético (TM).",
+      "A crítica textual busca identificar, comparar e avaliar as diferenças entre as várias testemunhas manuscritas do texto bíblico — manuscritos hebraicos, traduções antigas para o grego (Septuaginta, LXX), aramaico (Targum), siríaco (Pexita), latim (Vulgata), e outros — para então determinar, com o máximo de precisão, qual seria a forma mais antiga, ou seja, a mais próxima da intenção original, das passagens bíblicas.",
+      "Por que isso é importante? Porque, como exemplificado no livro de Provérbios 14.32b, uma pequena diferença na leitura pode afetar profundamente a exegese e até a teologia derivada de um versículo. Uma tradução baseada no TM pode afirmar que os justos têm refúgio até mesmo diante da morte, sugerindo uma doutrina de imortalidade. Já uma tradução baseada na LXX pode indicar que o refúgio está na integridade do justo, sem referência direta à imortalidade.",
+      "Portanto, a crítica textual não é um ataque à Bíblia, mas um trabalho rigoroso e reverente de restauração, visando a fidelidade ao texto revelado."
+    ]
+  },
+  "3": {
+    "title": "3. Como se formou o texto do Antigo Testamento? Um panorama histórico",
+    "subsections": {
+      "a": {
+        "title": "a) Dos Dez Mandamentos à Biblioteca de Neemias (c. 1400/1250 a.C. a c. 400 a.C.)",
+        "content": [
+          "Este é o período mais formativo do texto bíblico. Não possuímos praticamente nenhum manuscrito dessa época, exceto alguns amuletos de prata, datados de c. 600 a.C., contendo a bênção sacerdotal de Números 6.24-26. Contudo, a análise interna da própria Bíblia, comparada com outras literaturas do Antigo Oriente Médio, mostra que os textos foram compilados a partir de fragmentos antigos, colecionados, revisados e acrescidos ao longo do tempo.",
+          "Por exemplo, os Dez Mandamentos são apresentados como o primeiro núcleo da literatura canônica de Israel, ao qual foram adicionados outros textos (o Livro do Pacto, os hinos, as leis), formando gradualmente o livro do Êxodo, o livro dos Salmos, e assim por diante.",
+          "Nesse processo, dois princípios conviviam:",
+          { "type": "list", "items": ["Tendência à preservação: O próprio fato de a Bíblia ter sobrevivido, apesar das guerras, perseguições e da fragilidade dos materiais, demonstra a diligência dos escribas em preservar fielmente os textos sagrados. Outros escritos israelitas (como o Livro de Jasar ou o Livro dos Reis) se perderam, mas os textos que seriam reconhecidos como canônicos foram cuidadosamente protegidos e transmitidos.", "Tendência à revisão: Os escribas também revisavam periodicamente o texto, atualizando grafias, gramática e até fazendo acréscimos para facilitar a compreensão. Por exemplo, eles modernizavam construções linguísticas antigas e, em alguns casos, ampliavam ou resumiam textos, o que pode ser visto nos paralelos entre livros como Samuel, Reis, Crônicas e Salmos."] },
+          "No entanto, também aconteciam erros acidentais durante a cópia, levando à necessidade de correções. Com o tempo, os estudiosos passaram a propor emendas conjecturais quando as variantes disponíveis não faziam sentido do ponto de vista exegético. Descobertas posteriores dos Manuscritos do Mar Morto confirmaram, em muitos casos, a precisão dessas conjecturas."
+        ]
+      },
+      "b": {
+        "title": "b) Do fechamento do cânon ao texto fixado (c. 400 a.C. – 100 d.C.)",
+        "content": [
+            "Após a formação dos principais livros, o cânon e o texto ainda permaneceram abertos por séculos. Só por volta de 100 a.C., o cânon do AT foi finalmente fechado (segundo muitos estudiosos, por obra de Judas Macabeu). Mas a fixação do texto — ou seja, a padronização de uma forma única para cada livro — ainda levaria mais tempo. Antes disso, havia várias recensões (versões) e leituras paralelas circulando entre diferentes comunidades judaicas.",
+            "Os Manuscritos do Mar Morto (MMM), descobertos em Qumran, são preciosíssimos para entender esse período. Datados entre o século III a.C. e II d.C., eles incluem fragmentos de quase todos os livros do AT, revelando tanto uma surpreendente fidelidade ao Texto Massorético quanto a existência de outras versões (mais longas ou mais curtas) de certos livros, como Jeremias.",
+            "Outro destaque desse período é a Septuaginta (LXX), tradução grega do Pentateuco feita em Alexandria por volta de 285 a.C. Inicialmente restrita ao Pentateuco, a LXX foi gradualmente ampliada para incluir outros livros. Por muito tempo, existiram diversas traduções gregas independentes para os livros do AT, só depois reunidas na tradição hoje conhecida como “Septuaginta”.",
+            "A qualidade dessas traduções varia enormemente. Alguns livros são traduções próximas e cuidadosas, outros foram traduzidos com liberdade, com acréscimos e interpretações do tradutor, influências de correntes filosóficas gregas, entre outros fatores. Em Provérbios, por exemplo, a influência do pensamento ético grego e da tradição midráxica judaica é clara, havendo acréscimos e adaptações."
+        ]
+      },
+      "c": {
+        "title": "c) Do texto aberto ao texto massorético (c. 135 d.C. – 1000 d.C.)",
+        "content": [
+            "Após a destruição do segundo templo e o aprofundamento do debate entre judeus e cristãos, houve um esforço crescente de padronização textual. Por volta de 100 d.C., o texto passou a ser copiado de forma mais rigorosa, dando origem ao Proto-Texto Massorético (Proto-TM), que seria a base para todas as versões futuras do judaísmo e, posteriormente, do cristianismo ocidental.",
+            "Os massoretas, famílias de escribas judeus, atuando principalmente entre os séculos VI e X d.C., tiveram papel central nesse processo. Eles introduziram elementos inovadores, como:",
+            { "type": "list", "items": [
+                "O sistema de pontuação vocálica (os sinais massoréticos que indicam as vogais, ausentes no hebraico antigo);",
+                "As notas massoréticas (anotações marginais sobre ortografia, leituras alternativas, estatísticas de palavras);",
+                "A divisão de versículos, parágrafos, acentos e sinais de entoação para leitura litúrgica;",
+                "Os conhecidos sistemas de Kethiv (texto escrito) e Qere (texto lido), que indicam variantes tradicionais de leitura."
+            ]},
+            "O texto massorético, assim, não representa uma falsificação tardia, mas a cristalização de uma tradição oral milenar, confirmada por evidências filológicas e arqueológicas."
+        ]
+      },
+       "d": {
+        "title": "d) Versões antigas e recensões paralelas",
+        "content": [
+            "Durante todo o período pós-exílico e tardio, outras versões do AT foram produzidas, como os Targumim aramaicos (traduções e paráfrases em aramaico para uso nas sinagogas), a Pexita siríaca, diversas revisões da LXX, a Vulgata latina (tradução de Jerônimo baseada no texto hebraico), e o Pentateuco Samaritano (versão do Pentateuco adaptada pelos samaritanos para reforçar suas doutrinas e práticas específicas, como o culto no monte Gerizim).",
+            "Essas versões são importantes testemunhas para a crítica textual, pois por vezes conservam leituras muito antigas ou diferentes, ajudando a iluminar possíveis variantes e compreensões do texto em períodos anteriores à padronização massorética."
+        ]
+      }
+    }
+  },
+   "4": {
+    "title": "4. Quais os tipos de variantes e erros encontrados no texto bíblico?",
+    "content": [
+        "O trabalho do crítico textual envolve identificar, comparar e avaliar variantes textuais. Tais variantes surgem por diversas razões, que podem ser divididas em erros acidentais e alterações intencionais:"
+    ],
+    "subsections": {
+        "a": {
+            "title": "Erros acidentais",
+            "content": [
+                { "type": "list", "items": [
+                    "Confusão de consoantes semelhantes: O hebraico antigo, escrito sem vogais, facilitava a confusão entre letras parecidas.",
+                    "Haplografia: O escriba pulava acidentalmente uma palavra ou sílaba, geralmente por semelhança no início ou fim.",
+                    "Ditografia: O escriba escrevia a mesma palavra duas vezes, por distração.",
+                    "Metátese: Troca acidental da ordem de duas letras ou palavras.",
+                    "Divisão diferente de palavras: Palavras compostas ou frases eram divididas de maneira diferente por escribas."
+                ]}
+            ]
+        },
+        "b": {
+            "title": "Alterações intencionais",
+            "content": [
+                { "type": "list", "items": [
+                    "Modernização linguística: Atualização de grafias, substituição de termos arcaicos por mais modernos.",
+                    "Adaptações contextuais: Ajustes para harmonizar passagens paralelas, tornar o texto mais claro ou facilitar a compreensão.",
+                    "Eufemismos: Substituição de expressões consideradas vulgares ou teologicamente problemáticas.",
+                    "Acréscimos explicativos: Inclusão de glosas ou notas explicativas no corpo do texto.",
+                    "Alterações teológicas: São raras, mas incluem adaptações feitas por grupos com interesses doutrinários específicos, como os samaritanos."
+                ]}
+            ]
+        }
+    }
+  },
+  "5": {
+    "title": "5. Como funciona a crítica textual do Antigo Testamento na prática?",
+    "content": [
+        "A crítica textual se divide em duas grandes etapas:",
+        { "type": "list", "items": [
+            "Crítica externa: Avaliação das testemunhas (manuscritos, versões, citações antigas). Cada testemunha tem seu valor relativo, dependendo de sua antiguidade, fidelidade e relação com o texto massorético.",
+            "Crítica interna: Avaliação das variantes à luz da gramática, contexto, probabilidade de erro de escriba e expectativa exegética. A leitura mais difícil, ou aquela que melhor explica a origem das outras variantes, costuma ser preferida."
+        ]},
+        "O objetivo final do crítico textual é recuperar, o quanto possível, a forma mais antiga e autêntica do texto, sempre levando em conta não apenas evidências filológicas, mas também o contexto histórico, literário e teológico da passagem."
+    ]
+  },
+  "6": {
+    "title": "6. A confiabilidade do Texto do Antigo Testamento: fundamentos para a fé",
+    "content": [
+        "Diante de toda essa complexidade — manuscritos, variantes, recensões, revisões e correções — podemos confiar que o texto do Antigo Testamento foi preservado de maneira confiável ao longo dos séculos?",
+        "O estudo exaustivo da história textual permite afirmar com segurança e reverência:",
+        { "type": "list", "items": [
+            "Há forte tendência histórica de preservação: Desde os primeiros séculos, há evidências de cuidado extremo dos escribas em preservar a integridade do texto sagrado. Isso é perceptível mesmo em meio às revisões e acréscimos, e confirmado por manuscritos antigos como os do Mar Morto.",
+            "A tradição do Texto Massorético é surpreendentemente coesa: Quando comparamos manuscritos de diferentes épocas e lugares, vemos um altíssimo grau de concordância, mesmo sem uma autoridade centralizada controlando todas as cópias.",
+            "A maioria das variantes é insignificante para a doutrina: Cerca de 90% do texto possui leitura absolutamente consensual; das variantes restantes, quase todas não alteram nenhum ponto essencial da fé cristã ou da tradição judaica. Mesmo que todas as variantes conhecidas fossem adotadas, nenhuma doutrina essencial seria abalada.",
+            "As diferenças servem à crítica, não ameaçam a fé: O trabalho da crítica textual, longe de abalar a confiança nas Escrituras, apenas confirma a fidelidade do processo de transmissão textual. O número de variantes é pequeno em proporção ao volume do texto; e a maioria pode ser facilmente corrigida ou explicada.",
+            "O Novo Testamento e os próprios apóstolos confiaram no texto existente em sua época: Apesar das variantes e recensões, Jesus e os apóstolos nunca hesitaram em afirmar a autoridade das Escrituras (João 10.35; Segunda a Timóteo 3.16). Se eles podiam confiar no texto recebido, também podemos fazê-lo.",
+            "A fé reformada sempre confessou a preservação providencial do texto: A Confissão de Fé de Westminster, expressando a tradição reformada, afirma que Deus, por sua providência singular, conservou o texto das Escrituras “puro em todos os séculos”. As descobertas posteriores, inclusive dos Manuscritos do Mar Morto, apenas confirmaram o que já era conhecido.",
+            "O texto preservado cumpre plenamente sua finalidade: Como afirma o apóstolo Paulo, “toda a Escritura é inspirada por Deus e útil para o ensino, para a repreensão, para a correção, para a educação na justiça” (Segunda a Timóteo 3.16-17). O Antigo Testamento que chegou até nós cumpre esse papel na vida da igreja."
+        ]}
+    ]
+  },
+  "7": {
+    "title": "7. Reflexão final: a providência de Deus na transmissão do texto",
+    "content": [
+        "É importante lembrar que, mesmo diante da multiplicidade de variantes e recensões, a crítica textual revela, antes de tudo, a maravilhosa providência de Deus, que conduziu gerações de copistas, revisores e comunidades de fé na preservação do texto inspirado. O resultado desse processo milenar é um texto que se mantém fiel e suficiente para guiar o povo de Deus em todo tempo e lugar.",
+        "Seja você um estudante iniciante, um leigo curioso ou um pastor preocupado com a fidelidade bíblica, tenha plena convicção: o texto do Antigo Testamento é digno de confiança, tanto do ponto de vista histórico quanto teológico e espiritual. A crítica textual é um testemunho da sabedoria divina e da responsabilidade humana na guarda do depósito sagrado das Escrituras."
+    ]
+  }
+};
+
+// --- Estilos para a versão web ---
+const styles = {
+  safeArea: {
+    backgroundColor: '#1A202C',
+    color: '#E2E8F0',
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    minHeight: '100vh',
+  },
+  container: {
+    maxWidth: '800px',
+    margin: '0 auto',
+  },
+  header: {
+    backgroundColor: '#2D3748',
+    padding: '40px 24px 24px 24px',
+    borderBottomLeftRadius: '20px',
+    borderBottomRightRadius: '20px',
+    textAlign: 'center',
+  },
+  headerTitle: {
+    fontSize: '26px',
+    fontWeight: 'bold',
+    margin: 0,
+  },
+  headerSubtitle: {
+    fontSize: '16px',
+    color: '#A0AEC0',
+    marginTop: '8px',
+  },
+  menuContainer: {
+    padding: '20px',
+  },
+  menuItem: {
+    backgroundColor: '#2D3748',
+    padding: '18px 20px',
+    borderRadius: '12px',
+    marginBottom: '12px',
+    borderLeft: '4px solid #4FD1C5',
+    width: '100%',
+    textAlign: 'left',
+    cursor: 'pointer',
+    borderTop: 'none',
+    borderRight: 'none',
+    borderBottom: 'none',
+    color: '#E2E8F0',
+    transition: 'background-color 0.3s ease',
+  },
+  menuItemText: {
+    fontSize: '17px',
+    fontWeight: 600,
+  },
+  contentContainer: {
+    padding: '20px',
+    backgroundColor: '#1A202C',
+    boxSizing: 'border-box',
+    maxWidth: '800px',
+    margin: '0 auto',
+  },
+  backButton: {
+    marginBottom: '20px',
+    background: 'none',
+    border: 'none',
+    padding: 0,
+    cursor: 'pointer',
+    color: '#4FD1C5',
+    fontSize: '18px',
+    fontWeight: 'bold',
+  },
+  contentTitle: {
+    fontSize: '24px',
+    fontWeight: 'bold',
+    marginBottom: '20px',
+    borderBottom: '1px solid #4A5568',
+    paddingBottom: '10px',
+    marginTop: '10px',
+  },
+  paragraph: {
+    fontSize: '16px',
+    color: '#CBD5E0',
+    lineHeight: 1.7,
+    marginBottom: '16px',
+    textAlign: 'justify',
+  },
+  subsectionContainer: {
+    marginTop: '24px',
+    paddingLeft: '15px',
+    borderLeft: '2px solid #4A5568',
+  },
+  subsectionTitle: {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    color: '#A0AEC0',
+    marginBottom: '16px',
+  },
+  listContainer: {
+    margin: '10px 0',
+    paddingLeft: '10px',
+  },
+  listItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: '10px',
+    textAlign: 'justify',
+  },
+  bulletPoint: {
+    color: '#4FD1C5',
+    marginRight: '10px',
+    lineHeight: 1.7,
+  },
+  listItemText: {
+    flex: 1,
+    fontSize: '16px',
+    color: '#CBD5E0',
+    lineHeight: 1.7,
+  },
+};
+
+
+// --- Componentes Web ---
+
+// Componente para renderizar o conteúdo de uma seção
+const ContentRenderer = ({ content }) => {
+  return content.map((item, index) => {
+    if (typeof item === 'string') {
+      return <p key={index} style={styles.paragraph}>{item}</p>;
+    }
+    if (item.type === 'list') {
+      return (
+        <div key={index} style={styles.listContainer}>
+          {item.items.map((listItem, listIndex) => (
+            <div key={listIndex} style={styles.listItem}>
+              <span style={styles.bulletPoint}>•</span>
+              <span style={styles.listItemText}>{listItem}</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  });
+};
+
+// Componente para a tela que exibe o detalhe de uma seção
+const ContentScreen = ({ section, onBack }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    // Adiciona um pequeno atraso para garantir que a transição CSS funcione na montagem
+    const timer = setTimeout(() => setIsVisible(true), 10);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const animationStyle = {
+    opacity: isVisible ? 1 : 0,
+    transition: 'opacity 300ms ease-in-out',
+  };
+
+  return (
+    <div style={{ ...styles.contentContainer, ...animationStyle }}>
+      <button style={styles.backButton} onClick={onBack}>
+        ‹ Voltar
+      </button>
+      <h2 style={styles.contentTitle}>{section.title}</h2>
+      {section.content && <ContentRenderer content={section.content} />}
+      {section.subsections && Object.values(section.subsections).map((sub, index) => (
+        <div key={index} style={styles.subsectionContainer}>
+          <h3 style={styles.subsectionTitle}>{sub.title}</h3>
+          <ContentRenderer content={sub.content} />
+        </div>
+      ))}
+    </div>
+  );
+};
+
+// Componente principal do aplicativo
+const App = () => {
+  const [selectedSection, setSelectedSection] = useState(null);
+
+  const handleSelectSection = (sectionKey) => {
+    setSelectedSection(contentData[sectionKey]);
+  };
+
+  const handleBack = () => {
+    setSelectedSection(null);
+  };
+
+  // Se uma seção for selecionada, mostra a tela de conteúdo
+  if (selectedSection) {
+    return (
+      <div style={styles.safeArea}>
+        <ContentScreen section={selectedSection} onBack={handleBack} />
+      </div>
+    );
+  }
+
+  // Tela principal com a lista de seções
+  return (
+    <div style={styles.safeArea}>
+      <div style={styles.container}>
+        <header style={styles.header}>
+          <h1 style={styles.headerTitle}>O Texto do Antigo Testamento</h1>
+          <p style={styles.headerSubtitle}>Sua Confiabilidade e Transmissão</p>
+        </header>
+        <main style={styles.menuContainer}>
+          {Object.keys(contentData).map((key) => (
+            <button
+              key={key}
+              style={styles.menuItem}
+              onClick={() => handleSelectSection(key)}
+              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4A5568'}
+              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2D3748'}
+            >
+              <span style={styles.menuItemText}>{contentData[key].title}</span>
+            </button>
+          ))}
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default App;

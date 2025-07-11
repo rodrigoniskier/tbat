@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudo: O Profetismo no Antigo Testamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Reset e Configurações Globais --- */
+        :root {
+            --sidebar-start: #1b263b;
+            --sidebar-end: #0d1b2a;
+            --sidebar-text: #e0e1dd;
+            --accent: #6fffe9;
+            --background: #f0f4f8;
+            --content-bg: #ffffff;
+            --text-primary: #1d2d35;
+            --correct: #28a745;
+            --incorrect: #dc3545;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Merriweather', serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--background);
+            color: var(--text-primary);
+            display: flex;
+            line-height: 1.7;
+        }
+
+        /* --- Layout Principal --- */
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-image: linear-gradient(to bottom, var(--sidebar-start), var(--sidebar-end));
+            color: var(--sidebar-text);
+            padding: 2rem 1rem;
+            overflow-y: auto;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            padding: 2.5rem;
+        }
+        
+        .content-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--content-bg);
+            padding: 2rem 3rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* --- Barra de Navegação (Sidebar) --- */
+        .sidebar-header {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item > a, .accordion-header {
+            display: block;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            margin-bottom: 0.3rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            font-weight: 600;
+            font-family: var(--font-heading);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .nav-item > a:hover, .accordion-header:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-item > a.active, .accordion-header.active {
+            background-color: var(--accent);
+            color: var(--sidebar-end);
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(13, 27, 42, 0.5);
+        }
+        
+        .submenu {
+            list-style: none;
+            padding-left: 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .submenu a {
+             font-family: var(--font-body);
+             font-weight: 400;
+             font-size: 0.85rem;
+        }
+        
+        .submenu a.active {
+             color: var(--accent);
+             font-weight: bold;
+        }
+        
+        .accordion-header::after {
+            content: ' ▸';
+            float: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .accordion-header.open::after {
+            transform: rotate(90deg);
+        }
+
+        /* --- Conteúdo Principal --- */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            margin-bottom: 1rem;
+            color: var(--sidebar-start);
+        }
+
+        h1 { font-size: 2.5rem; margin-bottom: 2rem; line-height: 1.2; }
+        h2 { font-size: 1.8rem; margin-top: 2.5rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.5rem;}
+        h3 { font-size: 1.3rem; margin-top: 2rem; }
+        p, li { margin-bottom: 1rem; }
+        strong { color: var(--sidebar-end); font-weight: 700; }
+
+        /* --- Módulo de Flashcards --- */
+        .flashcard-container {
+            perspective: 1000px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            text-align: center;
+            font-family: var(--font-heading);
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, #e0e1dd, #f0f4f8);
+            border: 1px solid var(--sidebar-start);
+            color: var(--sidebar-start);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, var(--sidebar-start), var(--sidebar-end));
+            color: #fff;
+            transform: rotateY(180deg);
+            font-size: 1.1rem;
+            font-family: var(--font-body);
+        }
+
+        .flashcard-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        
+        .flashcard-counter {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .nav-btn {
+            background-color: var(--sidebar-start);
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+        .nav-btn:hover {
+            background-color: var(--accent);
+            color: var(--sidebar-start);
+        }
+        .nav-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* --- Módulo de Quizz --- */
+        .quiz-container .question-block {
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--background);
+            padding-left: 1.5rem;
+        }
+        .quiz-container .question-text {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        .quiz-container .options-list {
+            list-style: none;
+            padding: 0;
+        }
+        .quiz-container .option-item {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quiz-container .option-item:hover {
+            background-color: #e9ecef;
+            border-color: #adb5bd;
+        }
+        .quiz-container .option-item.correct {
+            background-color: var(--correct);
+            border-color: var(--correct);
+            color: white;
+            font-weight: bold;
+        }
+        .quiz-container .option-item.incorrect {
+            background-color: var(--incorrect);
+            border-color: var(--incorrect);
+            color: white;
+        }
+        .quiz-container .options-list.disabled .option-item:not(.correct):not(.incorrect) {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .quiz-container .options-list.disabled .option-item:not(.correct) {
+             pointer-events: none;
+        }
+        
+        .quiz-results {
+            margin-top: 3rem;
+            padding: 2rem;
+            background-color: var(--background);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .quiz-score {
+            font-size: 1.5rem;
+            font-family: var(--font-heading);
+            margin-bottom: 1rem;
+        }
+
+
+        /* --- Responsividade --- */
+        .sidebar-toggle {
+            display: none;
+        }
+
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                transform: translateX(-100%);
+                height: 100vh;
+                box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 1.5rem;
+            }
+            .content-container {
+                padding: 1.5rem;
+            }
+            h1 { font-size: 2rem; }
+
+            .sidebar-toggle {
+                display: block;
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                z-index: 1001;
+                background: var(--sidebar-start);
+                color: white;
+                border: none;
+                padding: 0.5rem 0.8rem;
+                border-radius: 5px;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="sidebar-toggle" id="sidebar-toggle-btn">☰</button>
+
+    <aside class="sidebar" id="sidebar">
+        <h2 class="sidebar-header">O Profetismo no Antigo Testamento</h2>
+        <nav id="main-nav">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#section-1" class="nav-link active">📖 1. Lugar do Profetismo</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#section-2" class="nav-link">👑 2. Relação com o Reino</a>
+                </li>
+                 <li class="nav-item">
+                    <a href="#section-3" class="nav-link">🗣️ 3. A Palavra como Instrumento</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#section-4" class="nav-link">📈 4. Continuidade e Progresso</a>
+                </li>
+                <li class="nav-item accordion">
+                    <div class="accordion-header">📜 5. Conceito de Profeta</div>
+                    <ul class="submenu">
+                         <li><a href="#section-5-1" class="nav-link">Termo "nabhi’"</a></li>
+                         <li><a href="#section-5-2" class="nav-link">Termos "ro’eh" e "chozeh"</a></li>
+                         <li><a href="#section-5-3" class="nav-link">Termo Grego "prophetes"</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#section-6" class="nav-link">⏳ 6. História e Crises</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#section-7" class="nav-link">🤔 7. Teorias Críticas</a>
+                </li>
+                 <li class="nav-item">
+                    <a href="#section-8" class="nav-link">🎯 8. Conclusão</a>
+                </li>
+                 <li class="nav-item" style="margin-top: 2rem; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 1rem;">
+                    <a href="#flashcards" class="nav-link">🗂️ Flashcards</a>
+                </li>
+                 <li class="nav-item">
+                    <a href="#quiz" class="nav-link">✏️ Quizz Interativo</a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <div class="content-container">
+            <section id="section-1" class="content-section active">
+                <h1>O Profetismo na Revelação do Antigo Testamento</h1>
+                <h2>1. O Lugar do Profetismo na Revelação do Antigo Testamento</h2>
+                <p>O profetismo surge como um novo e notável movimento progressivo na história da revelação de Deus no Antigo Testamento, sucedendo o período de Moisés. Para entender sua importância, é necessário compreender como o processo de revelação ocorre: a revelação acompanha os eventos marcantes da história da redenção, mas nem todo evento importante produz nova revelação duradoura. Só quando um acontecimento deixa para trás algo de valor permanente para a história do povo de Deus é que se observa um afluxo significativo de nova revelação.</p>
+                <h3>O Reino Teocrático: O Grande Evento que Marca o Profetismo</h3>
+                <p>O texto identifica que, após o êxodo e a organização do povo sob Moisés, o próximo grande evento catalisador de revelação é a organização do <strong>reino teocrático</strong> sob um governante humano. O movimento começa nos dias de Samuel, ganha corpo no reinado de Saul, mas só se consolida de fato com a ascensão de Davi. Dali em diante, a ideia do reino — e sua centralidade — passa a dominar as esperanças de Israel, sendo o “reino humano” apenas uma representação terrena do Reino de Yahweh.</p>
+                <p>A instituição do reino não foi acidental nem meramente tolerada. Pelo contrário, Deus utilizou até mesmo a solicitação errada do povo por um rei para, pedagogicamente, ensinar o verdadeiro sentido do governo teocrático. Primeiro, negando o rei; depois, permitindo um rei segundo o padrão humano (Saul) para mostrar suas limitações, e, finalmente, estabelecendo o “rei segundo o coração de Yahweh” (Davi), prefigurando o reinado de Cristo. Assim, o reino tinha propósito redentivo e messiânico, não sendo mero experimento político.</p>
+            </section>
+            
+            <section id="section-2" class="content-section">
+                <h2>2. O Profetismo como Movimento Relacionado ao Reino</h2>
+                <h3>Profetas: Guardiães da Teocracia</h3>
+                <p>O surgimento e desenvolvimento do profetismo estão diretamente ligados à formação do reino em Israel. Os profetas tornam-se os <strong>guardiães do ideal teocrático</strong>, atuando no centro da vida nacional — isto é, junto ao reino — para garantir que este permanecesse fiel ao seu propósito: ser expressão do Reino de Deus, e não de um mero poder terreno.</p>
+                <h3>Relação entre Profetas e Reis</h3>
+                <p>Frequentemente, os profetas são enviados aos reis (mais até do que ao povo) para corrigir, advertir, e, quando necessário, confrontar o desvio da liderança nacional. Embora o ofício profético se entrelace com os interesses nacionais de Israel, o propósito religioso sempre domina sobre o patriótico. Os profetas jamais foram meros agentes diplomáticos ou políticos (como sugerem algumas teorias críticas), mas defensores ferrenhos do princípio teocrático — Yahweh é o Rei, e Israel deve confiar apenas nEle.</p>
+                <p>Mesmo quando se observa ação dos profetas em assuntos de Estado (como Natã com Davi, Elias com Acabe, Eliseu com Jeú), o objetivo nunca foi a melhoria política, mas a restauração da fidelidade religiosa e a erradicação da idolatria. Isso fica claro ao comparar a conduta dos profetas de Israel com, por exemplo, Balaão (que, por interesse, foi “alugado” por um rei estrangeiro; algo impossível para um profeta fiel de Israel).</p>
+            </section>
+
+            <section id="section-3" class="content-section">
+                <h2>3. A Palavra como Instrumento do Profetismo</h2>
+                <p>Ao restringirem-se ao uso exclusivo da <strong>palavra</strong> como meio de atuação, os profetas do Antigo Testamento foram fundamentais para a espiritualização da relação entre Yahweh e Israel. Eles não criavam os fatos, mas mantinham e proclamavam princípios divinos, interpretando os fatos históricos à luz da revelação de Deus e projetando o futuro conforme as promessas divinas.</p>
+                <p>Por meio da profecia, a religião bíblica torna-se, em alto grau, religião da palavra, da fé e da Escritura. Os profetas são precursores, ao menos formalmente, do protestantismo, pois colocam a autoridade final na palavra revelada. O próprio relacionamento entre Deus e Israel passa a ser entendido como uma aproximação por meio da fala — Deus se dá a conhecer por Sua palavra.</p>
+                <h3>Dimensão Pessoal e Ofício Profético</h3>
+                <p>O ofício de profeta não era concedido primariamente por sinais extraordinários de piedade pessoal. Pelo contrário, os profetas tornavam-se mais piedosos como resultado do exercício de seu ministério, pois era o próprio privilégio da intimidade com Deus que moldava seu caráter. Isso evita a visão romântica de que profetas eram, em essência, heróis religiosos excepcionais já de antemão.</p>
+            </section>
+            
+            <section id="section-4" class="content-section">
+                <h2>4. Profecia: Continuidade e Progresso na Revelação</h2>
+                <p>A profecia no Antigo Testamento é, simultaneamente, um fator de continuidade e de progresso na história da revelação. Por um lado, a pregação dos profetas liga-se ao passado, chamando o povo ao arrependimento e a retornar às normas divinas já reveladas nos períodos patriarcal e mosaico. Por outro lado, a profecia antecipa o futuro, com elementos preditivos essenciais, que apontam para o desenvolvimento da história da redenção.</p>
+                <h3>O Elemento Preditivo na Profecia</h3>
+                <p>Apesar de o termo “profeta” não significar essencialmente “vidente do futuro”, a predição faz parte indissociável de sua missão. Os profetas não eram apenas “mestres” desinteressados do presente, mas verdadeiros anunciadores do futuro, baseando suas mensagens no plano doutrinário revelado. Ignorar o elemento escatológico (do futuro) nas profecias é distorcer seu significado.</p>
+                <h3>Dois Grandes Períodos do Profetismo</h3>
+                <p><strong>Primeiro Período:</strong> Do reavivamento profético no tempo de Samuel até os primeiros profetas escritores (meados do século VIII a.C., como Amós e Oséias). Aqui, o chamado ao arrependimento ainda está aberto — os profetas esperam, pela resposta do povo, reorganizar e reconstruir Israel.</p>
+                <p><strong>Segundo Período:</strong> Daí em diante até o fim do profetismo no Antigo Testamento. Agora, o chamado ao arrependimento continua, mas adquire tom mais superficial. O profeta percebe que o problema não é simples reforma, mas regeneração. A destruição iminente da teocracia mosaica abrirá espaço para uma ordem nova e superior — elemento escatológico pleno.</p>
+                <h3>Profecia Escrita</h3>
+                <p>A partir do século VIII a.C., ocorre a transição da profecia oral para a profecia escrita: Amós, Oséias, Isaías, Miquéias. Os profetas passam a registrar suas mensagens, não apenas para a geração contemporânea, mas para as futuras, firmando o princípio de continuidade e de plano divino na história. Por isso, parte dos escritos históricos (Samuel, Reis) é chamada de “profetas anteriores”, pois interpretam a história como desdobramento do plano de Deus.</p>
+            </section>
+
+            <section id="section-5-1" class="content-section">
+                 <h2>5. O Conceito de Profeta: Nomes, Etimologia e Função</h2>
+                 <h3>O termo hebraico "nabhi’"</h3>
+                 <p>O termo <em>nabhi’</em> (profeta) tem etimologia debatida:</p>
+                 <ul>
+                     <li><strong>“Jorrar, brotar”:</strong> Alguns sugerem que <em>nabhi’</em> deriva de uma raiz que significa “brotar” ou “jorrar”, ligando à ideia de palavras fluindo do profeta sob impulso divino.</li>
+                     <li><strong>“Anunciar, proclamar”:</strong> Outra ligação é com a raiz árabe <em>naba’a</em>, “anunciar”, e o assírio <em>nabu</em>, “chamar”, “proclamar”.</li>
+                     <li><strong>Conexão com o deus Nebo:</strong> Há quem relacione <em>nabhi’</em> com Nebo, o “mensageiro” dos deuses babilônicos, mas essa hipótese é incerta.</li>
+                 </ul>
+                 <p>Apesar dessas discussões, o próprio Antigo Testamento esclarece o significado funcional do termo: <em>nabhi’</em> é o <strong>porta-voz regular nomeado por uma divindade superior</strong>, cuja palavra traz autoridade divina (cf. Êxodo 4.16; 7.1; Jeremias 1.5-9). Ou seja, o profeta é aquele que fala por Deus, comunicando palavras de poder e autoridade, não de si mesmo, mas da parte de Yahweh.</p>
+                 <h4>Dimensão Ativa</h4>
+                 <p>O termo <em>nabhi’</em> enfatiza a função ativa do profeta: ele fala, proclama, transmite a mensagem recebida. Não se trata apenas de receber uma experiência passiva ou extática. O foco está na comunicação, não no êxtase ou subjetivismo.</p>
+            </section>
+            
+            <section id="section-5-2" class="content-section">
+                <h2>5. O Conceito de Profeta: Nomes, Etimologia e Função</h2>
+                <h3>Termos "ro’eh" e "chozeh"</h3>
+                <p>Outros dois termos são usados para profetas: <em>ro’eh</em> e <em>chozeh</em>, ambos traduzidos por “vidente”. Originalmente, remetiam à experiência visionária (ver, enxergar), mas, com o tempo, passaram a designar qualquer processo de revelação, inclusive por audição.</p>
+                <p><strong>Diferença fundamental:</strong>
+                    <ul>
+                        <li><strong>nabhi’:</strong> é aquele que fala (transmissor ativo).</li>
+                        <li><strong>ro’eh e chozeh:</strong> designam a experiência de ver (receptor passivo).</li>
+                    </ul>
+                </p>
+            </section>
+            
+            <section id="section-5-3" class="content-section">
+                <h2>5. O Conceito de Profeta: Nomes, Etimologia e Função</h2>
+                 <h3>O termo grego "prophetes"</h3>
+                 <p>O grego <em>prophetes</em> (de onde vem “profeta”) originalmente significa “aquele que fala diante de, em nome de”. No paganismo, <em>prophetes</em> era intérprete dos oráculos, não porta-voz direto da divindade.</p>
+                 <p>No Antigo Testamento (na Septuaginta) e no Novo Testamento, a palavra é “batizada”, assumindo o sentido hebraico de porta-voz divino — por isso, com o tempo, “profeta” passa a ser associado à predição, embora sua função principal seja proclamar a palavra de Deus.</p>
+            </section>
+            
+            <section id="section-6" class="content-section">
+                <h2>6. História do Profetismo e Teorias Críticas</h2>
+                <h3>Profetismo no AT: Significado Amplo</h3>
+                <p>O termo profeta nem sempre é usado de modo técnico; às vezes designa qualquer instrumento de revelação. Moisés, por exemplo, é chamado de profeta, mas é único em seu relacionamento com Deus (Números 12). Abraão também é chamado de profeta (Gênesis 20.7), no sentido de intercessor e amigo de Deus.</p>
+                <p>Desde Samuel, o profetismo se amplia em número e influência, sendo associado tanto a grupos coletivos (“bandos”, “filhos dos profetas”) quanto a figuras individuais. Os grupos funcionavam como centros de vida religiosa e espiritual, muitas vezes em oposição ou contraponto à liderança monárquica (especialmente em tempos de apostasia).</p>
+                <h3>Crise e Deterioração Profética</h3>
+                <p>Com o tempo, surgem falsos profetas, corrupção, mercenarismo (profetizar por comida ou dinheiro), crítica dos próprios profetas verdadeiros (Miquéias 3.11; Jeremias 6.13). O contraste entre profetas verdadeiros e falsos se acentua, tornando-se tema recorrente nos textos proféticos e históricos.</p>
+                <h3>Fenômenos Coletivos, Música e Êxtase</h3>
+                <p>Nos círculos de profetas coletivos, há relatos de manifestações físicas, entusiasmo religioso, música e até fenômenos extraordinários associados à presença do Espírito. Contudo, tais manifestações não se equiparam às orgias e práticas extáticas dos cultos pagãos cananeus. A diferença está na finalidade, direção e moralidade da experiência: era expressão do Espírito de Deus, não descontrole pagão.</p>
+            </section>
+
+            <section id="section-7" class="content-section">
+                <h2>7. Crítica Moderna: Teorias sobre Origem e Função do Profetismo</h2>
+                <h3>Teoria da Origem Cananeia do Profetismo</h3>
+                <p>Críticos sugerem que o profetismo teria sido importado dos cananeus. O texto rebate cada argumento:</p>
+                <ul>
+                    <li><strong>Etimologia:</strong> Funções antigas frequentemente não têm etimologia clara em hebraico (ex: “kohen”, sacerdote).</li>
+                    <li><strong>Êxtase:</strong> Os elementos entusiásticos em Israel são exagerados pela crítica e não se equiparam às práticas pagãs.</li>
+                    <li><strong>Origem:</strong> É improvável que um movimento patriótico liderado por Samuel fosse importação cananeia.</li>
+                    <li><strong>Desenvolvimento:</strong> O aprimoramento do profetismo pode ser explicado melhor por crescimento interno do que por origem estrangeira.</li>
+                </ul>
+                <h3>Teoria Crítica sobre o Monoteísmo Ético dos Profetas</h3>
+                <p>Segundo a crítica moderna, só nos profetas do século VIII a.C. (Amós, Oséias em diante) Israel teria desenvolvido um “monoteísmo ético”. Antes disso, Yahweh seria apenas um deus nacional, eticamente indiferente. Essa transformação seria reação à crise nacional: quando Israel percebe que pode ser destruído e seu deus, como outros deuses nacionais, desaparecer, os profetas teriam elevado a natureza de Yahweh a um patamar ético universal, garantindo Sua sobrevivência como Deus verdadeiro, mesmo diante da queda de Israel.</p>
+                <p>O texto refuta essa hipótese:</p>
+                <ul>
+                    <li>Não há base para supor que o monoteísmo foi invenção tardia dos profetas.</li>
+                    <li>A ética profética é apresentada como desdobramento de revelação anterior, não como invenção de uma elite religiosa em crise.</li>
+                </ul>
+            </section>
+            
+            <section id="section-8" class="content-section">
+                <h2>8. Conclusão: O Profetismo Como Culminância e Prefiguração</h2>
+                <p>O profetismo, segundo o texto bíblico e teológico, é um movimento único, estabelecido por Deus para:</p>
+                <ul>
+                    <li>Manter e renovar o ideal teocrático de Israel;</li>
+                    <li>Ser fator de continuidade com o passado patriarcal e mosaico;</li>
+                    <li>Preparar o povo e o mundo para o advento de uma nova ordem, superior e escatológica, plenamente realizada em Cristo.</li>
+                </ul>
+                <p>O profeta é <strong>porta-voz de Deus</strong>, veículo da palavra e do plano divino, agente de julgamento e graça, crítico da corrupção e defensor da pureza e da esperança. Sua função, história e essência não podem ser reduzidas à mera experiência extática, a fenômenos sociais, ou a processos de evolução religiosa natural, mas devem ser compreendidas dentro do contexto da revelação sobrenatural, histórica, objetiva e progressiva de Deus.</p>
+            </section>
+            
+            <section id="flashcards" class="content-section">
+                <h2>🗂️ Módulo de Flashcards</h2>
+                <p>Clique no cartão para virar e ver a resposta. Use os botões para navegar.</p>
+                <div class="flashcard-container">
+                    <div class="flashcard" id="flashcard">
+                        <div class="flashcard-face flashcard-front" id="flashcard-front"></div>
+                        <div class="flashcard-face flashcard-back" id="flashcard-back"></div>
+                    </div>
+                </div>
+                <div class="flashcard-nav">
+                    <button class="nav-btn" id="prev-card-btn">Anterior</button>
+                    <span class="flashcard-counter" id="flashcard-counter"></span>
+                    <button class="nav-btn" id="next-card-btn">Próximo</button>
+                </div>
+            </section>
+            
+            <section id="quiz" class="content-section">
+                <h2>✏️ Quizz Interativo</h2>
+                <p>Teste seus conhecimentos sobre o tema. O feedback é imediato.</p>
+                <div id="quiz-container" class="quiz-container"></div>
+                <div id="quiz-results" class="quiz-results" style="display: none;">
+                     <h3 class="quiz-score" id="quiz-score"></h3>
+                     <button class="nav-btn" id="retry-quiz-btn">Refazer o Quizz</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- DADOS ---
+
+            const flashcardsData = [
+                { front: "Nabhi’ (נָבִיא)", back: "Principal termo hebraico para 'profeta'. Enfatiza a função ATIVA de ser um porta-voz de Deus." },
+                { front: "Ro’eh (רֹאֶה) / Chozeh (חֹזֶה)", back: "Termos hebraicos para 'vidente'. Enfatizam o aspecto PASSIVO da revelação, o ato de receber uma visão." },
+                { front: "Teocracia", back: "Governo onde Deus é o rei supremo. O profetismo surgiu para guardar este ideal contra a corrupção dos reis humanos." },
+                { front: "Instrumento do Profeta", back: "A Palavra. Profetas atuavam pela pregação, não por força. A religião se torna uma 'religião da palavra'." },
+                { front: "Propósito do Reino", back: "Não era apenas político, mas redentivo e messiânico, prefigurando o reinado de Cristo." },
+                { front: "Guardiães da Teocracia", back: "Papel central dos profetas. Eles confrontavam reis e o povo para manter a fidelidade a Yahweh como único Rei." },
+                { front: "Elemento Preditivo", back: "Embora não seja o único aspecto, a predição do futuro (escatologia) é parte essencial e inseparável da profecia." },
+                { front: "Profecia Escrita", back: "Transição do oral para o escrito, consolidada no século VIII a.C. (Amós, Isaías) para preservar a mensagem para futuras gerações." },
+                { front: "Profetas Anteriores", back: "Nome dado aos livros históricos (Samuel, Reis) por interpretarem a história de Israel sob a ótica do plano divino revelado pelos profetas." },
+                { front: "Prophetes (Grego)", back: "Originalmente 'intérprete de oráculos'. O termo foi 'batizado' na Bíblia para significar o mesmo que 'nabhi' (porta-voz de Deus)." },
+                { front: "Falsos Profetas", back: "Uma crise no profetismo, onde indivíduos profetizavam por dinheiro ou para agradar o povo, em contraste com os profetas verdadeiros." },
+                { front: "Monoteísmo Ético (Teoria Crítica)", back: "Visão de que o monoteísmo moral foi uma invenção tardia dos profetas para salvar a religião da crise nacional. O texto bíblico refuta isso." },
+                { front: "Origem Cananeia (Teoria Crítica)", back: "Hipótese de que o profetismo israelita foi importado de cultos pagãos cananeus. O texto a considera improvável e sem base." },
+                { front: "Primeiro Período Profético", back: "De Samuel ao séc. VIII a.C. Foco na esperança de reconstrução e arrependimento nacional." },
+                { front: "Segundo Período Profético", back: "Do séc. VIII a.C. em diante. Foco na regeneração e na vinda de uma nova ordem, pois a nação se mostrava incorrigível." },
+                { front: "Moisés como Profeta", back: "É chamado de profeta, mas considerado único e superior em seu relacionamento direto e face a face com Deus." },
+                { front: "Abraão como Profeta", back: "Chamado de profeta em Gênesis 20:7, no sentido de ser um intercessor e amigo de Deus, que recebe revelação." },
+                { front: "'Filhos dos Profetas'", back: "Grupos ou escolas de profetas que viviam em comunidade, funcionando como centros de vida espiritual, especialmente em tempos de apostasia." },
+                { front: "Piedade do Profeta", back: "Não era um pré-requisito, mas uma consequência. O caráter do profeta era moldado pela intimidade com Deus que seu ofício proporcionava." },
+                { front: "Objetivo da Ação Profética", back: "Nunca era a melhoria política ou o patriotismo, mas a restauração da fidelidade religiosa e a erradicação da idolatria." }
+            ];
+
+            const quizData = [
+                {
+                    question: "Qual evento histórico principal catalisou o surgimento do profetismo como um movimento organizado em Israel?",
+                    options: ["A peregrinação no deserto", "A conquista de Canaã", "A organização do reino teocrático sob um rei", "A construção do Primeiro Templo"],
+                    answer: 2
+                },
+                {
+                    question: "Qual o significado funcional mais preciso do termo hebraico 'nabhi'?",
+                    options: ["Um místico que entra em êxtase", "Um vidente que prevê o futuro", "Um porta-voz que fala com a autoridade de Deus", "Um conselheiro político do rei"],
+                    answer: 2
+                },
+                {
+                    question: "A partir de qual período a profecia passou a ser sistematicamente registrada por escrito?",
+                    options: ["No tempo de Moisés", "No reinado de Davi", "A partir do século VIII a.C.", "Durante o exílio babilônico"],
+                    answer: 2
+                },
+                {
+                    question: "Qual era o principal 'instrumento' de atuação dos profetas do Antigo Testamento?",
+                    options: ["A realização de milagres", "A liderança militar", "A palavra falada e escrita", "Rituais e sacrifícios"],
+                    answer: 2
+                },
+                {
+                    question: "Como o ofício profético se relacionava com a piedade pessoal do profeta?",
+                    options: ["Apenas os homens mais santos eram escolhidos.", "A piedade não tinha qualquer relação com o ofício.", "Os profetas se tornavam mais piedosos como resultado do exercício de seu ministério.", "A piedade era um pré-requisito que diminuía com o tempo."],
+                    answer: 2
+                },
+                {
+                    question: "Qual a principal função dos profetas em relação aos reis de Israel?",
+                    options: ["Servir como diplomatas.", "Garantir a prosperidade econômica.", "Ser os guardiães do ideal teocrático, corrigindo os desvios do rei.", "Organizar o exército para as batalhas."],
+                    answer: 2
+                },
+                {
+                    question: "Qual a diferença fundamental entre 'nabhi' (profeta) e 'ro’eh' (vidente)?",
+                    options: ["Nenhuma, são sinônimos perfeitos.", "'Nabhi' é mais antigo que 'ro’eh'.", "'Nabhi' enfatiza o falar (ativo), enquanto 'ro’eh' enfatiza o ver (passivo).", "'Ro’eh' era um ofício superior ao de 'nabhi'."],
+                    answer: 2
+                },
+                {
+                    question: "Por que os livros de Samuel e Reis são chamados de 'Profetas Anteriores'?",
+                    options: ["Porque foram escritos antes dos outros livros proféticos.", "Porque seus autores eram profetas anônimos.", "Porque narram a história da perspectiva do plano de Deus revelado pelos profetas.", "Porque contêm muitas predições sobre o futuro."],
+                    answer: 2
+                },
+                {
+                    question: "Qual a principal diferença entre o êxtase dos profetas de Israel e as práticas pagãs?",
+                    options: ["O êxtase israelita era mais barulhento.", "A finalidade, direção e moralidade da experiência, sendo uma ação do Espírito de Deus.", "Não havia diferença, o profetismo foi copiado dos cananeus.", "Os profetas de Israel usavam instrumentos musicais diferentes."],
+                    answer: 1
+                },
+                {
+                    question: "Segundo a teoria crítica do 'monoteísmo ético', quando e por que surgiu essa ideia em Israel?",
+                    options: ["Desde Moisés, como revelação divina.", "No século VIII a.C., como uma invenção dos profetas para lidar com a crise nacional.", "No período dos Macabeus, por influência grega.", "Foi sempre a crença de Israel, desde Abraão."],
+                    answer: 1
+                },
+                {
+                    question: "O que distingue a profecia do 'segundo período' (pós séc. VIII a.C.) da do primeiro?",
+                    options: ["Ela deixa de ser escrita.", "O foco muda de uma esperança de reforma para a necessidade de regeneração e uma nova ordem.", "Os profetas passam a apoiar incondicionalmente os reis.", "A predição do futuro desaparece completamente."],
+                    answer: 1
+                },
+                {
+                    question: "Qual o propósito final e conclusivo de todo o movimento profético do Antigo Testamento?",
+                    options: ["Estabelecer Israel como uma potência política.", "Reformar a monarquia para que fosse perfeita.", "Manter as tradições e rituais do Templo.", "Preparar o povo para a vinda de Cristo e uma nova ordem escatológica."],
+                    answer: 3
+                },
+                {
+                    question: "Quem é chamado de profeta em Gênesis por sua função como intercessor e amigo de Deus?",
+                    options: ["Jacó", "Isaque", "Noé", "Abraão"],
+                    answer: 3
+                },
+                {
+                    question: "Qual era a principal motivação dos falsos profetas?",
+                    options: ["O zelo por uma teologia mais pura.", "O desejo de ver Israel se arrepender.", "Interesse pessoal, como ganho financeiro ou popularidade.", "A crença de que Deus nunca puniria Israel."],
+                    answer: 2
+                },
+                {
+                    question: "A instituição do reino humano em Israel foi, segundo o texto:",
+                    options: ["Um erro absoluto que Deus apenas permitiu.", "O plano original de Deus desde o início.", "Um desvio do povo que Deus usou pedagogicamente para ensinar sobre o verdadeiro Reino.", "Uma instituição puramente política sem significado redentivo."],
+                    answer: 2
+                }
+            ];
+
+
+            // --- LÓGICA DE NAVEGAÇÃO ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            const mainNav = document.getElementById('main-nav');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggleBtn = document.getElementById('sidebar-toggle-btn');
+
+            mainNav.addEventListener('click', (e) => {
+                const link = e.target.closest('a.nav-link');
+                if (!link) return;
+                
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                
+                // Esconde todas as seções, mostra a alvo
+                contentSections.forEach(section => section.classList.remove('active'));
+                document.getElementById(targetId).classList.add('active');
+
+                // Atualiza estado ativo nos links
+                updateActiveLink(link);
+                
+                // Fecha a sidebar no mobile após o clique
+                if (window.innerWidth <= 992) {
+                    sidebar.classList.remove('open');
+                }
+            });
+            
+            function updateActiveLink(activeLink) {
+                 navLinks.forEach(l => l.classList.remove('active'));
+                 activeLink.classList.add('active');
+                 
+                 // Lógica para acordeão
+                 document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+                 const parentAccordion = activeLink.closest('.nav-item.accordion');
+                 if(parentAccordion) {
+                     parentAccordion.querySelector('.accordion-header').classList.add('active');
+                 }
+            }
+
+            // Lógica do Acordeão
+            document.querySelectorAll('.accordion-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    const submenu = header.nextElementSibling;
+                    header.classList.toggle('open');
+                    if (submenu.style.maxHeight) {
+                        submenu.style.maxHeight = null;
+                    } else {
+                        submenu.style.maxHeight = submenu.scrollHeight + "px";
+                    }
+                });
+            });
+            
+            // Lógica do menu hambúrguer (mobile)
+            sidebarToggleBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+
+
+            // --- LÓGICA DOS FLASHCARDS ---
+            const flashcard = document.getElementById('flashcard');
+            const flashcardFront = document.getElementById('flashcard-front');
+            const flashcardBack = document.getElementById('flashcard-back');
+            const prevCardBtn = document.getElementById('prev-card-btn');
+            const nextCardBtn = document.getElementById('next-card-btn');
+            const flashcardCounter = document.getElementById('flashcard-counter');
+            let currentCardIndex = 0;
+
+            function loadFlashcard(index) {
+                if (flashcard.classList.contains('flipped')) {
+                    flashcard.classList.remove('flipped');
+                }
+                setTimeout(() => { // Espera a animação de virar terminar, se houver
+                    const cardData = flashcardsData[index];
+                    flashcardFront.textContent = cardData.front;
+                    flashcardBack.innerHTML = cardData.back;
+                    flashcardCounter.textContent = `Cartão ${index + 1} / ${flashcardsData.length}`;
+                    prevCardBtn.disabled = index === 0;
+                    nextCardBtn.disabled = index === flashcardsData.length - 1;
+                }, 300);
+            }
+
+            flashcard.addEventListener('click', () => {
+                flashcard.classList.toggle('flipped');
+            });
+            prevCardBtn.addEventListener('click', () => {
+                if (currentCardIndex > 0) {
+                    currentCardIndex--;
+                    loadFlashcard(currentCardIndex);
+                }
+            });
+            nextCardBtn.addEventListener('click', () => {
+                if (currentCardIndex < flashcardsData.length - 1) {
+                    currentCardIndex++;
+                    loadFlashcard(currentCardIndex);
+                }
+            });
+
+            // --- LÓGICA DO QUIZZ ---
+            const quizContainer = document.getElementById('quiz-container');
+            const quizResults = document.getElementById('quiz-results');
+            const quizScoreEl = document.getElementById('quiz-score');
+            const retryQuizBtn = document.getElementById('retry-quiz-btn');
+            let score = 0;
+            let questionsAnswered = 0;
+
+            function buildQuiz() {
+                score = 0;
+                questionsAnswered = 0;
+                quizContainer.innerHTML = '';
+                quizResults.style.display = 'none';
+
+                quizData.forEach((q, index) => {
+                    const questionBlock = document.createElement('div');
+                    questionBlock.className = 'question-block';
+                    
+                    const questionText = document.createElement('p');
+                    questionText.className = 'question-text';
+                    questionText.textContent = `${index + 1}. ${q.question}`;
+                    questionBlock.appendChild(questionText);
+                    
+                    const optionsList = document.createElement('ul');
+                    optionsList.className = 'options-list';
+                    optionsList.dataset.questionIndex = index;
+                    
+                    q.options.forEach((option, optionIndex) => {
+                        const optionItem = document.createElement('li');
+                        optionItem.className = 'option-item';
+                        optionItem.textContent = option;
+                        optionItem.dataset.optionIndex = optionIndex;
+                        optionsList.appendChild(optionItem);
+                    });
+                    
+                    questionBlock.appendChild(optionsList);
+                    quizContainer.appendChild(questionBlock);
+                });
+            }
+
+            quizContainer.addEventListener('click', (e) => {
+                if (!e.target.matches('.option-item')) return;
+
+                const optionsList = e.target.parentElement;
+                if (optionsList.classList.contains('disabled')) return;
+                
+                optionsList.classList.add('disabled');
+                
+                const questionIndex = parseInt(optionsList.dataset.questionIndex);
+                const selectedOptionIndex = parseInt(e.target.dataset.optionIndex);
+                const correctOptionIndex = quizData[questionIndex].answer;
+                
+                const options = optionsList.querySelectorAll('.option-item');
+                
+                if (selectedOptionIndex === correctOptionIndex) {
+                    e.target.classList.add('correct');
+                    score++;
+                } else {
+                    e.target.classList.add('incorrect');
+                    options[correctOptionIndex].classList.add('correct');
+                }
+                
+                questionsAnswered++;
+                if (questionsAnswered === quizData.length) {
+                    showResults();
+                }
+            });
+
+            function showResults() {
+                quizScoreEl.textContent = `Você acertou ${score} de ${quizData.length} perguntas.`;
+                quizResults.style.display = 'block';
+            }
+            
+            retryQuizBtn.addEventListener('click', buildQuiz);
+            
+            // --- INICIALIZAÇÃO ---
+            buildQuiz();
+            loadFlashcard(currentCardIndex);
+            
+            // Expande o primeiro acordeão que encontrar, se houver
+            const firstAccordion = document.querySelector('.accordion-header');
+            if(firstAccordion) firstAccordion.click();
+        });
+    </script>
+
+</body>
+</html>

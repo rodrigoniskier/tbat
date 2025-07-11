@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Revelação no Período de Moisés - Interativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Reset & Base Styles (Mantidos) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        :root {
+            --primary-color: #3a506b;
+            --secondary-color: #6fffe9; /* Ciano brilhante */
+            --bg-color: #f0f4f8;
+            --text-color: #333333;
+            --sidebar-bg: linear-gradient(180deg, #1b263b 0%, #0d1b2a 100%);
+            --sidebar-text: #e0e1dd;
+            --highlight-glow: 0 0 15px rgba(111, 255, 233, 0.5);
+            --content-bg: #ffffff;
+            --shadow: rgba(27, 38, 59, 0.1);
+        }
+
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 17px;
+            display: flex;
+        }
+
+        /* --- Layout Principal (Mantido) --- */
+        #sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 25px;
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        #main-content {
+            margin-left: 280px;
+            padding: 40px;
+            width: calc(100% - 280px);
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+
+        #menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1001;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* --- Estilos da Sidebar (Mantidos) --- */
+        #sidebar-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        #sidebar-header h2 {
+            font-family: 'Lato', sans-serif;
+            font-weight: 900;
+            color: var(--secondary-color);
+            margin-bottom: 5px;
+            text-shadow: var(--highlight-glow);
+        }
+
+        #sidebar-header p {
+            font-size: 0.9em;
+            color: var(--sidebar-text);
+            opacity: 0.8;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item > button {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--sidebar-text);
+            text-align: left;
+            padding: 12px 10px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1em;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-item > button:hover, .nav-item > button.active {
+            background-color: rgba(111, 255, 233, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .sub-nav-list {
+            list-style: none;
+            padding-left: 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+        }
+
+        .sub-nav-list.show {
+            max-height: 500px;
+        }
+        
+        .sub-nav-item button {
+            width: 100%;
+            background: none;
+            border: none;
+            color: var(--sidebar-text);
+            opacity: 0.8;
+            text-align: left;
+            padding: 8px 10px;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.9em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: opacity 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sub-nav-item button:hover, .sub-nav-item button.active {
+            opacity: 1;
+            color: var(--secondary-color);
+        }
+        
+        /* --- Estilos do Conteúdo Principal (Mantidos) --- */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .content-section.visible {
+            display: block;
+        }
+        
+        .content-inner {
+            background: var(--content-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px var(--shadow);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Lato', sans-serif;
+            color: var(--primary-color);
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-align: center;
+            background: linear-gradient(45deg, var(--primary-color), #6a85b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        h2 { font-size: 1.6rem; border-bottom: 3px solid var(--secondary-color); padding-bottom: 8px; }
+        h3 { font-size: 1.3rem; color: #444; }
+        
+        p { margin-bottom: 15px; }
+        ul, ol { margin-left: 25px; margin-bottom: 15px; }
+        
+        .biblical-quote {
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+            background: linear-gradient(90deg, #e3f2fd, transparent);
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .key-concept {
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: underline dotted var(--secondary-color);
+            text-decoration-thickness: 2px;
+        }
+        
+        .callout-box {
+            background-color: #e6f0ff;
+            border: 2px dashed var(--primary-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        /* --- Estilos Flashcards (Mantidos) --- */
+        .flashcard-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+        }
+        .flashcard {
+            width: 100%; height: 100%; position: relative;
+            transition: transform 0.8s; transform-style: preserve-3d; cursor: pointer;
+        }
+        .flashcard.flipped { transform: rotateY(180deg); }
+        .card-face {
+            position: absolute; width: 100%; height: 100%;
+            backface-visibility: hidden; display: flex; align-items: center; justify-content: center;
+            padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            font-family: 'Lato', sans-serif; text-align: center;
+        }
+        .card-front { background: var(--primary-color); color: white; font-size: 1.5em; font-weight: bold; }
+        .card-back {
+            background: var(--content-bg); color: var(--text-color);
+            border: 2px solid var(--primary-color); transform: rotateY(180deg); font-size: 1.1em;
+        }
+        .flashcard-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+        .flashcard-nav button {
+            padding: 10px 20px; font-size: 1em; cursor: pointer;
+            background-color: var(--primary-color); color: white; border: none;
+            border-radius: 5px; transition: background-color 0.3s;
+        }
+        .flashcard-nav button:hover { background-color: #1b263b; }
+        
+        /* --- Estilos Quizz (Mantidos) --- */
+        .question-container { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+        .question-text { font-weight: bold; margin-bottom: 15px; font-size: 1.2em; }
+        .option-btn {
+            display: block; width: 100%; padding: 12px; margin-bottom: 10px; text-align: left;
+            background-color: #f0f4f8; border: 1px solid #ccc; border-radius: 5px; cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s; font-family: 'Merriweather', serif; font-size: 1em;
+        }
+        .option-btn:hover { background-color: #e3f2fd; }
+        .option-btn.correct { background-color: #d4edda; border-color: #c3e6cb; color: #155724; }
+        .option-btn.incorrect { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+        .option-btn:disabled { cursor: default; }
+        #quiz-feedback { margin-top: 20px; font-weight: bold; padding: 15px; border-radius: 8px; display: none; }
+        .quiz-restart-btn {
+            display: block; margin: 20px auto 0; padding: 10px 20px; font-size: 1em; cursor: pointer;
+            background-color: var(--primary-color); color: white; border: none; border-radius: 5px;
+        }
+
+        /* --- Animações e Responsividade (Mantidos) --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 992px) {
+            body.sidebar-open #sidebar { transform: translateX(0); }
+            #sidebar { transform: translateX(-100%); z-index: 2000; }
+            #main-content {
+                margin-left: 0; width: 100%; padding: 20px;
+                padding-top: 80px;
+            }
+            #menu-toggle { display: block; }
+            h1 { font-size: 1.8rem; }
+            body { font-size: 16px; }
+            .flashcard-container { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="menu-toggle">☰</button>
+
+    <aside id="sidebar">
+        <div id="sidebar-header">
+            <h2>📜 Índice</h2>
+            <p>A Revelação Mosaica</p>
+        </div>
+        <nav>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <button class="nav-btn"><span>🏛️</span> 1. O Lugar de Moisés</button>
+                    <ul class="sub-nav-list">
+                        <li class="sub-nav-item"><button class="content-btn" data-target="s1a">🤔 Debate Crítico</button></li>
+                        <li class="sub-nav-item"><button class="content-btn" data-target="s1b">🌟 Figura Singular</button></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-btn"><span>✨</span> 2. A Forma da Revelação</button>
+                    <ul class="sub-nav-list">
+                        <li class="sub-nav-item"><button class="content-btn" data-target="s2a">🗣️ Revelação Direta</button></li>
+                        <li class="sub-nav-item"><button class="content-btn" data-target="s2b">🕊️ Formas Permanentes</button></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><button class="content-btn" data-target="s3"><span>🌊</span> 3. Conteúdo: A Redenção</button></li>
+                <li class="nav-item"><button class="content-btn" data-target="s4"><span>📜</span> 4. Pacto, Teocracia e Lei</button></li>
+                <li class="nav-item"><button class="content-btn" data-target="s5"><span>✝️</span> 5. Implicações Teológicas</button></li>
+                <li class="nav-item"><button class="content-btn" data-target="s6"><span>📖</span> 6. Síntese Final</button></li>
+                <li class="nav-item"><button class="content-btn" data-target="s_flashcards"><span>🃏</span> Flashcards (Revisão)</button></li>
+                <li class="nav-item"><button class="content-btn" data-target="s_quizz"><span>❓</span> Quizz (Teste)</button></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="main-content">
+        <div class="content-inner">
+            <section id="welcome" class="content-section visible">
+                <h1>A Revelação no Período de Moisés</h1>
+                <p style="text-align:center; font-size: 1.1em; margin-top: 20px;">Bem-vindo ao estudo interativo sobre a importância de Moisés na história da revelação. Use o menu lateral para navegar pelos tópicos, revisar com flashcards ou testar seu conhecimento no Quizz.</p>
+            </section>
+            
+            <section id="s1a" class="content-section">
+                <h2>a) Debate Crítico sobre Moisés</h2>
+                <p>A importância de Moisés na religião do Antigo Testamento é tema de grandes debates entre estudiosos. A chamada “escola de Wellhausen” (um grupo de críticos alemães do século XIX e XX) tende a reduzir o papel religioso de Moisés, atribuindo ao profetismo do século VIII a.C. (como Isaías, Amós e Oséias) a origem do monoteísmo ético que se tornou característico de Israel. Para esses críticos, Moisés seria, no máximo, um chefe tribal que uniu as tribos hebraicas sob a adoração de Yahweh, mas sem transformar qualitativamente a religião recebida.</p>
+                <div class="callout-box">
+                    <p>Muitos desses estudiosos chegam a duvidar da própria existência histórica de Moisés, sugerindo que “Moisés” pode ter sido um nome de clã ou símbolo coletivo, não uma pessoa real. Alguns chegam ao ponto de afirmar que o “êxodo do Egito” seria, na verdade, uma memória de uma migração de um clã vindo do norte da Arábia chamado Mizraim, não uma libertação do Egito histórico como narra a Bíblia.</p>
+                </div>
+                <p>Outros críticos, menos radicais, aceitam que Moisés marca uma linha divisória entre o período lendário e a história real de Israel, mas interpretam sua importância religiosa apenas de modo político e sociológico: ele teria organizado as tribos e lançado as bases para que, séculos depois, o monoteísmo ético pudesse se desenvolver.</p>
+                <p>Essas explicações, porém, não conseguem justificar por que, na tradição mais antiga de Israel (até nos profetas Amós e Oséias), Moisés já é reconhecido como figura central, líder e instrumento de Deus na redenção do povo, e por que a consciência religiosa de Israel sempre o colocou acima de qualquer outro líder anterior à monarquia.</p>
+            </section>
+
+            <section id="s1b" class="content-section">
+                <h2>b) Moisés como Figura Singular</h2>
+                <p>De acordo com a tradição bíblica e mesmo nas fontes mais antigas do Pentateuco, Moisés sempre é apresentado como o grande líder religioso. Os profetas reconhecem seu papel como mediador entre Deus e o povo. Por exemplo:</p>
+                <div class="biblical-quote">
+                    <p>Oséias diz: “Mas o Senhor, por meio de um profeta, fez subir a Israel do Egito, e por um profeta foi ele guardado” (Oséias 12.13).</p>
+                </div>
+                <p>Amós (embora não cite Moisés por nome) se refere ao êxodo como obra direta de Deus por meio de um mediador.</p>
+                <p>Além disso, a Bíblia apresenta Moisés como instrumento do cumprimento das promessas feitas aos patriarcas:</p>
+                <ul>
+                    <li>Sob sua liderança, Israel torna-se uma nação;</li>
+                    <li>É conduzido à fronteira da terra prometida;</li>
+                    <li>Por meio do confronto com o Egito, o paganismo é contrastado com a verdadeira religião.</li>
+                </ul>
+                <p>No desenvolvimento posterior do Antigo Testamento, Moisés não apenas inicia a sucessão profética, mas é posto acima dela. Ele é tipo, modelo e antecipação de Cristo (ver Deuteronômio 18.15; Números 12.7-8). Seus atos redentores (milagres, mediação, intercessão) são paralelos aos de Cristo no Novo Testamento (cf. Primeira aos Coríntios 10.1-3; Hebreus 3-4).</p>
+            </section>
+            
+            <section id="s2a" class="content-section">
+                <h2>a) Revelação Direta e Singularidade de Moisés</h2>
+                <p>Entre todos os profetas, Moisés foi o único que teve acesso contínuo e direto à presença de Deus. A Bíblia afirma que Deus falava com Moisés “face a face”, o que é uma expressão idiomática hebraica para comunicação íntima, direta, distinta das revelações mais limitadas recebidas pelos outros profetas (ver Números 12). A glória refletida no rosto de Moisés após quarenta dias com Deus no Sinai (Êxodo 34.29) simboliza essa intimidade especial.</p>
+                <p>Ainda assim, mesmo Moisés encontra limites: ele não pode ver a “face” de Deus, apenas as “costas” (Êxodo 33.17-23). O próprio texto diferencia entre “ver a forma de Deus” (<span class="key-concept">temunah</span>) e ver Sua face plena, enfatizando o mistério e a transcendência divina.</p>
+            </section>
+            
+            <section id="s2b" class="content-section">
+                <h2>b) Formas Permanentes de Revelação</h2>
+                <p>No tempo de Moisés, a revelação divina deixa de ser episódica e individual (como no período patriarcal) e se torna contínua, coletiva, objetiva e visível para toda a comunidade. Isso ocorre de quatro maneiras principais:</p>
+                <h3>A Coluna de Nuvem e de Fogo</h3>
+                <p>A coluna de nuvem (durante o dia) e de fogo (durante a noite) simboliza a presença constante e orientadora de Deus no meio do povo (Êxodo 13.21-22; 14.19-24; 16.10; 19.9; 24.16-18; 33.9-10; 34.5). Essa manifestação é entendida como o precursor da <span class="key-concept">Shekinah</span> — a glória de Deus habitando permanentemente no tabernáculo e depois no templo.</p>
+                <h3>O Anjo de Yahweh</h3>
+                <p>O Anjo do Senhor aparece como aquele que lidera, protege e representa Deus entre o povo (Êxodo 3.2; 14.19; 23.20-21; 32.34; 33.2). Ele é ao mesmo tempo distinto de Yahweh e identificado com Ele (“meu nome está nele”), apontando para uma realidade misteriosa e rica, que mais tarde será interpretada na teologia cristã como prenúncio da Trindade.</p>
+                <h3>O Nome e a Face de Yahweh</h3>
+                <p>O “nome” de Deus passa a ter valor objetivo: Deus “coloca seu nome” no santuário (Deuteronômio 12.5,11,21; 14.23-24; 16.2,6,11; 26.2), indicando presença real, não apenas propriedade ou invocação. A “face” (presença) de Yahweh é sinônimo de Sua atuação direta e pessoal (Êxodo 33.14-17; Isaías 63.9).</p>
+            </section>
+
+            <section id="s3" class="content-section">
+                <h2>[1] A Base Factual: A Redenção do Egito</h2>
+                <p>O êxodo é o evento redentor por excelência do Antigo Testamento, assim como a cruz é para o Novo Testamento. É um fato histórico, não apenas um mito ou lenda, e fundamenta toda a fé, culto e ética de Israel. O Decálogo (os Dez Mandamentos) começa relembrando a libertação do Egito como razão fundamental para a obediência a Deus (Êxodo 20.2). Isaías e outros profetas também recordam o êxodo como fonte da fé e da esperança do povo.</p>
+                <h3>Aspectos Essenciais do Êxodo:</h3>
+                <ul>
+                    <li><strong>Libertação objetiva:</strong> Não é apenas uma salvação interior, mas libertação real de um poder maligno externo (o Egito).</li>
+                    <li><strong>Onipotência divina:</strong> O êxodo é uma demonstração suprema do poder de Deus (milagres, pragas, travessia do mar), celebrada em poemas e salmos.</li>
+                    <li><strong>Graça soberana:</strong> Deus age não por méritos de Israel, mas por livre amor e fidelidade às promessas feitas aos patriarcas (Êxodo 8.23; 11.7; Deuteronômio 7.7; 9.4-6).</li>
+                    <li><strong>Expiação e a Páscoa:</strong> A libertação envolve sangue, sacrifício e expiação (Êxodo 12). O sangue do cordeiro protege da destruição — antecipação do sacrifício de Cristo.</li>
+                </ul>
+            </section>
+            
+            <section id="s4" class="content-section">
+                <h2>O “Berith” (Pacto), a Teocracia e a Lei</h2>
+                <h3>[2] O “Berith” (Pacto) entre Yahweh e Israel</h3>
+                <p>O pacto estabelecido no Sinai (Êxodo 19 e 24) é a base da identidade de Israel como povo de Deus. É uma aliança de iniciativa divina, mas que exige resposta voluntária do povo. Críticos argumentam que a ideia de pacto surge tardiamente, mas o próprio relato mostra que, desde o início, a aceitação do povo era requerida, mesmo que os termos fossem definidos exclusivamente por Deus.</p>
+                <p>O termo <span class="key-concept">“berith”</span> não significa, por si só, bilateralidade ou contrato igualitário; trata-se de uma aliança soberana, mas que requer consentimento, repetida e renovada ao longo da história de Israel.</p>
+                <h3>A Teocracia, o Decálogo e a Lei Ritual</h3>
+                <p>A organização de Israel sob Moisés é teocrática: Deus é o Rei, Moisés é o mediador e legislador.</p>
+                <p><strong>O Decálogo (Dez Mandamentos):</strong> Fundamenta toda a vida religiosa e moral de Israel, não como lei abstrata, mas como resposta à redenção.</p>
+                <p><strong>Lei ritual:</strong> Possui caráter simbólico e típico, estruturada em três linhas:</p>
+                <ol>
+                    <li><strong>Habitação divina (tabernáculo):</strong> Deus habita no meio do povo.</li>
+                    <li><strong>Sacrifício:</strong> Centralidade do sangue e da expiação.</li>
+                    <li><strong>Purificação:</strong> Ritos para manter o povo santo e separado.</li>
+                </ol>
+            </section>
+            
+            <section id="s5" class="content-section">
+                <h2>Implicações Teológicas: Moisés como Tipo de Cristo</h2>
+                <p>Moisés é chamado o redentor do Antigo Testamento. Ele antecipa, de maneira tipológica, a obra de Cristo:</p>
+                <ul>
+                    <li><strong>Profeta:</strong> Deus promete um profeta como Moisés (Deuteronômio 18.15), cumprido em Cristo.</li>
+                    <li><strong>Sacerdote:</strong> Moisés atua como mediador e intercessor antes do sacerdócio aarônico, oferecendo-se vicariamente (Êxodo 32.30-33).</li>
+                    <li><strong>Rei/Legislador:</strong> Moisés tipifica o governo de Cristo, não como rei formal, mas como legislador divinamente autorizado.</li>
+                </ul>
+                <p>A relação do povo com Moisés (fé, confiança, obediência) prefigura a relação dos cristãos com Cristo (Primeira aos Coríntios 10.1-3; Hebreus 3-4).</p>
+            </section>
+            
+            <section id="s6" class="content-section">
+                <h2>Síntese Final para Leigos</h2>
+                <p>O período mosaico marca a transição da revelação episódica e familiar (patriarcal) para a revelação nacional, objetiva, normativa e permanente. Deus agora fala com todo o povo, estabelece leis, ritos e um modo de vida que molda não apenas o culto, mas todas as dimensões da existência de Israel.</p>
+                <p>Moisés, diferentemente de líderes antigos, é mediador de uma nova etapa da história da salvação. Sob sua liderança, Deus se revela como libertador, legislador e habitante no meio do povo. Toda a fé, culto, ética e esperança do Antigo Testamento são moldados a partir da obra e revelação recebidas por meio de Moisés.</p>
+            </section>
+
+            <section id="s_flashcards" class="content-section">
+                <h2>🃏 Flashcards de Revisão</h2>
+                <p>Clique no cartão para ver a definição. Use os botões para navegar.</p>
+                <div class="flashcard-container">
+                    <div class="flashcard" id="flashcard-element">
+                        <div class="card-face card-front" id="card-front"></div>
+                        <div class="card-face card-back" id="card-back"></div>
+                    </div>
+                </div>
+                <div class="flashcard-nav">
+                    <button id="prev-card">Anterior</button>
+                    <span id="card-counter">0 / 0</span>
+                    <button id="next-card">Próximo</button>
+                </div>
+            </section>
+            <section id="s_quizz" class="content-section">
+                <h2>❓ Quizz: A Revelação Mosaica</h2>
+                <div id="quiz-container"></div>
+                <div id="quiz-feedback"></div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- SELETORES GERAIS ---
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const contentBtns = document.querySelectorAll('.content-btn');
+        const allContentSections = document.querySelectorAll('.content-section');
+        const menuToggle = document.getElementById('menu-toggle');
+        const mainContent = document.getElementById('main-content');
+        
+        // --- FUNÇÕES PRINCIPAIS ---
+        function showContent(targetId) {
+            allContentSections.forEach(section => section.classList.remove('visible'));
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) targetSection.classList.add('visible');
+        }
+
+        function updateActiveButton(activeBtn) {
+            document.querySelectorAll('.content-btn, .nav-btn').forEach(btn => btn.classList.remove('active'));
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                const parentNav = activeBtn.closest('.nav-item');
+                if (parentNav) {
+                    const parentBtn = parentNav.querySelector('.nav-btn');
+                    if (parentBtn) parentBtn.classList.add('active');
+                }
+            }
+        }
+
+        // --- LÓGICA DE EVENTOS ---
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const subNav = btn.nextElementSibling;
+                if (!subNav) return;
+                const isCurrentlyOpen = subNav.classList.contains('show');
+                document.querySelectorAll('.sub-nav-list').forEach(list => list.classList.remove('show'));
+                if (!isCurrentlyOpen) subNav.classList.add('show');
+            });
+        });
+
+        contentBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const targetId = btn.getAttribute('data-target');
+                showContent(targetId);
+                updateActiveButton(btn);
+                if (window.innerWidth <= 992) document.body.classList.remove('sidebar-open');
+            });
+        });
+
+        menuToggle.addEventListener('click', () => document.body.classList.toggle('sidebar-open'));
+        mainContent.addEventListener('click', () => {
+            if (window.innerWidth <= 992 && document.body.classList.contains('sidebar-open')) {
+                document.body.classList.remove('sidebar-open');
+            }
+        });
+
+        // --- ESTADO INICIAL ---
+        showContent('welcome');
+        const firstNavBtn = document.querySelector('.nav-btn');
+        if (firstNavBtn && firstNavBtn.nextElementSibling) firstNavBtn.nextElementSibling.classList.add('show');
+
+        // --- DADOS EXPANDIDOS PARA FLASHCARDS ---
+        const flashcardsData = [
+            { front: "Escola de Wellhausen", back: "Grupo crítico (séc XIX/XX) que minimiza o papel religioso de Moisés, atribuindo o monoteísmo ético aos profetas do séc VIII a.C." },
+            { front: "Visão Crítica sobre o Êxodo", back: "Alguns estudiosos sugerem que foi uma memória de migração de um clã (Mizraim) da Arábia, não uma libertação do Egito histórico." },
+            { front: "Monoteísmo Ético", back: "A crença em um único Deus que exige comportamento moral e justiça, característica da religião de Israel pós-profetas, segundo a crítica." },
+            { front: "Argumento Tradicional (Oséias 12.13)", back: "A tradição antiga de Israel, como no profeta Oséias, já reconhece um 'profeta' (Moisés) como líder da redenção do Egito." },
+            { front: "Moisés na Sucessão Profética", back: "Ele não apenas inicia a sucessão, mas é colocado ACIMA dela, como modelo e tipo de Cristo." },
+            { front: "Comunicação 'Face a Face'", back: "Expressão idiomática (Números 12) para a comunicação íntima e direta de Deus com Moisés, única entre os profetas." },
+            { front: "Temunah (תְּמוּנָה)", back: "Termo hebraico para 'forma' ou 'aparência'. Moisés pôde ver a 'forma' de Deus (Êxodo 33), mas não Sua face plena, indicando um limite." },
+            { front: "Glória no Rosto de Moisés", back: "Símbolo da intimidade especial com Deus após 40 dias no Sinai (Êxodo 34.29)." },
+            { front: "Revelação Patriarcal vs. Mosaica", back: "A revelação passa de episódica e individual (Patriarcas) para contínua, coletiva e objetiva (Moisés)." },
+            { front: "Coluna de Nuvem e Fogo", back: "Símbolo da presença constante e orientadora de Deus com Israel no deserto (Êxodo 13.21-22)." },
+            { front: "Shekinah (שְׁכִינָה)", back: "A glória da habitação de Deus. Precursora na Coluna de Nuvem e Fogo, manifesta-se depois no Tabernáculo/Templo." },
+            { front: "O Anjo de Yahweh", back: "Representante divino que lidera e protege Israel, sendo ao mesmo tempo distinto e identificado com Deus ('meu nome está nele')." },
+            { front: "Implicação Teológica do Anjo", back: "Aponta para uma riqueza na Divindade, interpretada na teologia cristã como um prenúncio da Trindade." },
+            { front: "'Colocar o Nome' de Deus", back: "Indica a presença REAL de Deus no santuário, não apenas posse ou invocação (Deuteronômio 12)." },
+            { front: "'Face' de Yahweh", back: "Sinônimo da atuação direta e pessoal de Deus em favor do seu povo (Êxodo 33.14-17)." },
+            { front: "Base Factual da Fé de Israel", back: "O Êxodo (a redenção do Egito). É o evento redentor central do Antigo Testamento, análogo à Cruz no Novo." },
+            { front: "Início do Decálogo", back: "Começa relembrando a libertação do Egito (Êxodo 20.2), mostrando que a obediência é uma resposta à redenção." },
+            { front: "Aspecto do Êxodo: Libertação Objetiva", back: "Salvação real de um poder maligno externo (Egito), não apenas uma experiência interior." },
+            { front: "Aspecto do Êxodo: Onipotência Divina", back: "Demonstração suprema do poder de Deus através de milagres, pragas e a travessia do mar." },
+            { front: "Aspecto do Êxodo: Graça Soberana", back: "Deus age por livre amor e fidelidade às promessas, não por méritos de Israel (Deuteronômio 7.7)." },
+            { front: "Aspecto do Êxodo: Expiação", back: "A libertação envolve sangue, sacrifício e substituição (a Páscoa), antecipando o sacrifício de Cristo." },
+            { front: "Berith (בְּרִית)", back: "Pacto ou Aliança. No Sinai, refere-se à aliança soberana iniciada por Deus, mas que requeria o consentimento voluntário de Israel." },
+            { front: "Teocracia", back: "Forma de governo de Israel sob Moisés, onde Deus é o Rei supremo, e Moisés, o mediador e legislador." },
+            { front: "Objetivo da Lei Ritual", back: "Possuía um caráter simbólico e típico (apontava para Cristo), estruturada em habitação, sacrifício e purificação." },
+            { front: "Linha da Lei Ritual: Habitação", back: "Representada pelo Tabernáculo, simbolizando que Deus habita no meio do seu povo." },
+            { front: "Linha da Lei Ritual: Sacrifício", back: "Enfatiza a centralidade do sangue e da expiação para a reconciliação com Deus." },
+            { front: "Linha da Lei Ritual: Purificação", back: "Rituais para manter o povo em estado de santidade, separado para Deus." },
+            { front: "Moisés como Tipo de Profeta", back: "Deus promete um profeta 'como Moisés' (Deuteronômio 18.15), uma promessa cumprida em Jesus Cristo." },
+            { front: "Moisés como Tipo de Sacerdote", back: "Atua como mediador e intercessor, oferecendo-se vicariamente pelo povo (Êxodo 32.30-33)." },
+            { front: "Moisés como Tipo de Rei", back: "Embora não seja um rei formal, ele tipifica o governo de Cristo como o legislador divinamente autorizado." }
+        ];
+
+        // --- DADOS EXPANDIDOS PARA O QUIZZ ---
+        const quizData = [
+            { question: "Segundo a 'escola de Wellhausen', a origem do monoteísmo ético em Israel deve-se principalmente a:", options: ["A. Abraão e os Patriarcas", "B. A influência da cultura egípcia", "C. Os profetas do século VIII a.C.", "D. A legislação de Moisés"], answer: 2 },
+            { question: "A expressão bíblica de que Deus falava com Moisés 'face a face' significa:", options: ["A. Que Moisés via a essência física de Deus.", "B. Uma comunicação íntima, direta e singular, superior à dos outros profetas.", "C. Uma forma de meditação profunda.", "D. Que ambos se encontravam em um local físico específico."], answer: 1 },
+            { question: "O que o 'Anjo de Yahweh' representa no período mosaico?", options: ["A. Um simples mensageiro sem poder divino.", "B. Uma manifestação que é ao mesmo tempo distinta e identificada com Deus.", "C. O próprio Moisés em estado de exaltação.", "D. Um anjo guardião comum de uma nação."], answer: 1 },
+            { question: "O conceito de Deus 'colocar o seu nome' em um lugar (Deuteronômio 12) indica:", options: ["A. Apenas que o lugar pertence a Ele.", "B. Que o nome de Deus deve ser invocado ali.", "C. A Sua presença real e ativa no santuário.", "D. Uma proibição de usar o nome de Deus em vão."], answer: 2 },
+            { question: "Qual é o evento histórico que serve como a base factual para toda a fé, culto e ética de Israel no Antigo Testamento?", options: ["A. A criação do mundo.", "B. O chamado de Abraão.", "C. A entrega do Decálogo.", "D. A redenção do Egito (o Êxodo)."], answer: 3 },
+            { question: "A aliança (Berith) estabelecida no Sinai pode ser melhor descrita como:", options: ["A. Um contrato de igualdade entre duas partes.", "B. Uma aliança soberana iniciada por Deus que exige uma resposta voluntária.", "C. Uma imposição divina sem necessidade de consentimento.", "D. Um acordo político entre tribos."], answer: 1 },
+            { question: "A Lei Ritual, com o tabernáculo, sacrifícios e ritos de purificação, tinha principalmente um caráter:", options: ["A. Meramente higiênico e social.", "B. Simbólico e típico, apontando para uma realidade futura.", "C. Político, para diferenciar Israel das nações.", "D. Abstrato, sem aplicação prática."], answer: 1 },
+            { question: "Em qual dos ofícios Moisés NÃO é apresentado como um 'tipo' (antecipação) de Cristo?", options: ["A. Profeta", "B. Sacerdote", "C. Rei/Legislador", "D. Anjo"], answer: 3 },
+            { question: "Qual aspecto do Êxodo demonstra a 'Graça Soberana' de Deus?", options: ["A. O poder demonstrado nas pragas.", "B. Deus agir por amor e fidelidade, não por méritos de Israel.", "C. A libertação física da escravidão.", "D. A celebração da Páscoa."], answer: 1 },
+            { question: "O que significa dizer que a revelação no período Mosaico se tornou 'objetiva'?", options: ["A. Que era difícil de entender.", "B. Que se tornou visível e coletiva para toda a comunidade (ex: Coluna de Fogo).", "C. Que era apenas para Moisés.", "D. Que era baseada em objetos de ouro."], answer: 1 },
+            { question: "O termo hebraico 'Temunah' (forma) é usado para mostrar que:", options: ["A. Moisés viu a essência plena de Deus.", "B. A revelação a Moisés era a mesma que a dos outros profetas.", "C. Mesmo a revelação mais direta a Moisés tinha limites.", "D. A arte religiosa era permitida em Israel."], answer: 2 },
+            { question: "A Páscoa, com o sacrifício do cordeiro e a aplicação do sangue, é uma antecipação de qual aspecto redentor?", options: ["A. A onipotência de Deus.", "B. A criação de uma nação.", "C. A expiação e o sacrifício substitutivo de Cristo.", "D. A entrega da Lei."], answer: 2 },
+            { question: "A organização de Israel no deserto como uma 'Teocracia' significa que:", options: ["A. Moisés era o rei absoluto.", "B. Os sacerdotes governavam a nação.", "C. Deus era considerado o Rei direto do povo.", "D. O povo votava em todas as decisões."], answer: 2 },
+            { question: "A principal diferença da revelação no período Mosaico em comparação com o Patriarcal é que ela passou de:", options: ["A. Coletiva para individual.", "B. Simples para complexa.", "C. Episódica e familiar para nacional e permanente.", "D. Oral para exclusivamente escrita."], answer: 2 },
+            { question: "A citação de Oséias 12.13 ('por meio de um profeta, fez subir a Israel do Egito') serve como argumento contra qual visão crítica?", options: ["A. De que o Êxodo nunca aconteceu.", "B. De que Moisés era apenas um líder político sem importância religiosa.", "C. De que a Lei Ritual era desnecessária.", "D. De que o Anjo de Yahweh era o próprio Deus."], answer: 1 }
+        ];
+
+        // --- LÓGICA DO QUIZZ E FLASHCARDS ---
+        let currentCardIndex = 0;
+        const cardElement = document.getElementById('flashcard-element');
+        const cardFront = document.getElementById('card-front');
+        const cardBack = document.getElementById('card-back');
+        const cardCounter = document.getElementById('card-counter');
+
+        function updateCard() {
+            if(!cardElement) return;
+            cardElement.classList.remove('flipped');
+            setTimeout(() => { 
+                const card = flashcardsData[currentCardIndex];
+                cardFront.textContent = card.front;
+                cardBack.textContent = card.back;
+                cardCounter.textContent = `${currentCardIndex + 1} / ${flashcardsData.length}`;
+            }, 100);
+        }
+
+        if(cardElement) {
+            cardElement.addEventListener('click', () => cardElement.classList.toggle('flipped'));
+            document.getElementById('next-card').addEventListener('click', () => {
+                currentCardIndex = (currentCardIndex + 1) % flashcardsData.length;
+                updateCard();
+            });
+            document.getElementById('prev-card').addEventListener('click', () => {
+                currentCardIndex = (currentCardIndex - 1 + flashcardsData.length) % flashcardsData.length;
+                updateCard();
+            });
+            updateCard();
+        }
+
+        const quizContainer = document.getElementById('quiz-container');
+        const quizFeedback = document.getElementById('quiz-feedback');
+        let score = 0;
+        let answeredQuestions = 0;
+
+        function loadQuiz() {
+            if(!quizContainer) return;
+            quizContainer.innerHTML = '';
+            quizFeedback.innerHTML = '';
+            quizFeedback.style.display = 'none';
+            score = 0;
+            answeredQuestions = 0;
+
+            quizData.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question-container');
+                questionDiv.innerHTML = `<p class="question-text">${index + 1}. ${q.question}</p>`;
+                q.options.forEach((option, i) => {
+                    const button = document.createElement('button');
+                    button.classList.add('option-btn');
+                    button.textContent = option;
+                    button.dataset.questionIndex = index;
+                    button.dataset.optionIndex = i;
+                    button.addEventListener('click', checkAnswer);
+                    questionDiv.appendChild(button);
+                });
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswer(event) {
+            const button = event.target;
+            const qIndex = button.dataset.questionIndex;
+            const oIndex = parseInt(button.dataset.optionIndex);
+            const correctAnswer = quizData[qIndex].answer;
+            const parentQuestion = button.parentElement;
+            const buttons = parentQuestion.querySelectorAll('.option-btn');
+            
+            if(button.disabled) return;
+
+            buttons.forEach(btn => btn.disabled = true);
+            if (oIndex === correctAnswer) {
+                button.classList.add('correct');
+                score++;
+            } else {
+                button.classList.add('incorrect');
+                buttons[correctAnswer].classList.add('correct');
+            }
+            answeredQuestions++;
+            if (answeredQuestions === quizData.length) showResults();
+        }
+
+        function showResults() {
+            quizFeedback.style.display = 'block';
+            quizFeedback.innerHTML = `<h3>Quizz Finalizado!</h3><p>Você acertou ${score} de ${quizData.length} perguntas.</p><button class="quiz-restart-btn">Refazer Quizz</button>`;
+            
+            document.querySelector('.quiz-restart-btn').addEventListener('click', loadQuiz);
+
+            if (score === quizData.length) {
+                quizFeedback.style.backgroundColor = '#d4edda';
+                quizFeedback.style.color = '#155724';
+            } else {
+                quizFeedback.style.backgroundColor = '#e6f0ff';
+                quizFeedback.style.color = 'var(--text-color)';
+            }
+        }
+
+        const quizBtn = document.querySelector('.content-btn[data-target="s_quizz"]');
+        if (quizBtn) {
+            quizBtn.addEventListener('click', loadQuiz);
+        }
+    });
+    </script>
+</body>
+</html>

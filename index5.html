@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revelação no Período Patriarcal - Interativo</title>
+    
+    <!-- Importação de Fontes do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Reset e Configurações Globais --- */
+        :root {
+            --cor-fundo: #f4f1eb;
+            --cor-texto-principal: #3a3a3a;
+            --cor-titulo: #2c3e50;
+            --cor-container-fundo: #ffffff;
+            --cor-borda: #e0e0e0;
+            --cor-acento-primario: #8a5a44;
+            --cor-acento-secundario: #a27b69;
+            --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transicao-suave: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto-principal);
+            line-height: 1.8;
+            font-size: 16px;
+            padding: 20px;
+        }
+
+        /* --- Estrutura Principal e Cabeçalho --- */
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--container-fundo);
+            border-radius: 16px;
+            box-shadow: var(--sombra-suave);
+        }
+
+        .header-principal {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--cor-acento-primario);
+        }
+
+        .header-principal h1 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 2.5rem;
+            color: var(--cor-titulo);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header-principal p {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* --- Componente Acordeão Principal --- */
+        .acordeao-item {
+            margin-bottom: 15px;
+            border: 1px solid var(--cor-borda);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transicao-suave);
+        }
+        
+        .acordeao-item:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border-color: var(--cor-acento-secundario);
+        }
+
+        .acordeao-cabecalho {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            background-color: var(--container-fundo);
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .acordeao-cabecalho:hover {
+            background-color: #fafafa;
+        }
+
+        .acordeao-cabecalho h2 {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.4rem;
+            color: var(--cor-titulo);
+            font-weight: 600;
+        }
+
+        .acordeao-icone {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--cor-acento-primario);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .acordeao-conteudo {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), padding 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            background-color: #fdfdfd;
+            padding: 0 25px;
+        }
+
+        .acordeao-conteudo-interno {
+            padding: 25px 0;
+            border-top: 1px solid var(--cor-borda);
+        }
+
+        .acordeao-item.ativo .acordeao-cabecalho { background-color: #f8f5f2; }
+        .acordeao-item.ativo .acordeao-icone { transform: rotate(45deg); }
+
+        /* --- Componente de Sub-tópico (Botão + Conteúdo) --- */
+        .sub-topico {
+            margin-bottom: 10px;
+        }
+        
+        .sub-topico-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            background-color: #f9f9f9;
+            border: 1px solid var(--cor-borda);
+            border-radius: 8px;
+            padding: 15px;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.1rem;
+            color: var(--cor-texto-principal);
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sub-topico-btn:hover {
+            background-color: #f1f1f1;
+        }
+
+        .sub-topico-btn .emoji {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .sub-topico-btn .icone-revelar {
+            margin-left: auto;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--cor-acento-secundario);
+            transition: transform 0.3s ease;
+        }
+
+        .sub-topico-conteudo {
+            max-height: 0;
+            overflow-y: auto; /* Permite rolagem vertical */
+            transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
+            padding: 0 10px 0 20px;
+            font-size: 0.95rem;
+        }
+        
+        .sub-topico-conteudo-interno {
+            padding: 20px 10px 20px 0; /* Adiciona padding à direita para não cobrir o texto com a scrollbar */
+            border-top: 1px dashed var(--cor-borda);
+            margin-top: 10px;
+        }
+        
+        .sub-topico.ativo .sub-topico-btn {
+            background-color: #f0ebe5;
+            border-color: var(--cor-acento-secundario);
+        }
+        
+        .sub-topico.ativo .icone-revelar {
+            transform: rotate(180deg);
+        }
+
+        /* --- Estilos de Conteúdo Interno --- */
+        .sub-topico-conteudo p, .sub-topico-conteudo ul {
+            margin-bottom: 15px;
+        }
+        .sub-topico-conteudo ul {
+            list-style-position: inside;
+            padding-left: 10px;
+        }
+        .sub-topico-conteudo li {
+            margin-bottom: 10px;
+        }
+        strong { color: var(--cor-titulo); font-weight: bold; }
+        em { color: var(--cor-acento-primario); font-style: italic; }
+
+        /* --- Rodapé --- */
+        .footer-principal {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* --- Responsividade --- */
+        @media (max-width: 768px) {
+            body { padding: 10px; font-size: 15px; }
+            .container { padding: 15px; }
+            .header-principal h1 { font-size: 2rem; }
+            .acordeao-cabecalho h2 { font-size: 1.2rem; }
+            .sub-topico-btn { font-size: 1rem; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header-principal">
+            <h1>Revelação no Período Patriarcal</h1>
+            <p>Uma exploração didática, detalhada e reverente.</p>
+        </header>
+
+        <main id="acordeao-container">
+            <!-- Item 1: Patriarcas: História, Crítica e Significado -->
+            <div class="acordeao-item">
+                <div class="acordeao-cabecalho">
+                    <h2>1. Patriarcas: História e Crítica</h2>
+                    <span class="acordeao-icone">+</span>
+                </div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">🤔</span> A Questão da Historicidade <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>A discussão sobre se Abraão, Isaque e Jacó foram personagens históricos ou figuras idealizadas (ou mitológicas) é uma das mais antigas e polêmicas da crítica bíblica. Desde o surgimento da alta crítica no século XIX, as narrativas de Gênesis foram submetidas a um intenso escrutínio, questionando sua autoria, datação e, principalmente, sua correspondência com a realidade histórica. A questão central não é meramente acadêmica; ela toca o cerne da natureza da revelação bíblica. Se os patriarcas não são figuras históricas, toda a estrutura da história da redenção, que se desenvolve a partir das promessas feitas a eles, corre o risco de ser vista como uma construção teológica tardia, em vez de um registro de atos salvíficos de Deus no tempo e no espaço.</p></div></div>
+                        </div>
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">🧐</span> Teorias Críticas Principais <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><ul>
+                                <li><strong>Autoidealização de Israel:</strong> Proposta por estudiosos como Julius Wellhausen, esta teoria, ligada à Hipótese Documentária, argumenta que as narrativas patriarcais são projeções retroativas da história posterior de Israel. As experiências da monarquia, do exílio e do pós-exílio teriam sido "lidas de volta" na história dos ancestrais. Assim, a fé monoteísta de Abraão seria um reflexo do monoteísmo profético, e os conflitos de Jacó com Esaú (Edom) refletiriam as tensões políticas entre Israel e Edom.</li>
+                                <li><strong>Personificações Tribais:</strong> Essa visão, popular no início do século XX, sugere que os nomes "Jacó", "Isaque" e outros não se referem a indivíduos, mas a epônimos de tribos. As migrações, casamentos e conflitos descritos seriam alegorias das interações entre esses grupos. Por exemplo, os doze filhos de Jacó seriam as doze tribos de Israel, e suas histórias pessoais explicariam as características e o destino de cada tribo.</li>
+                                <li><strong>Origem Cananeia:</strong> Críticos mais radicais, como Stade, propuseram que os patriarcas eram, na verdade, divindades ou heróis locais do panteão cananeu, associados a santuários específicos (Abraão com o carvalho de Manre em Hebrom, Isaque com Berseba, Jacó com Betel). Israel, ao conquistar a terra, teria assimilado esses cultos, "historificado" os deuses e os transformado em seus próprios ancestrais para legitimar sua posse dos locais sagrados.</li>
+                                <li><strong>Explicação Babilônica e Astral:</strong> Influenciada pela pan-babilonismo, essa linha de pensamento, representada por estudiosos como Hugo Winckler e Friedrich Delitzsch, buscava paralelos entre as narrativas de Gênesis e a mitologia/astronomia mesopotâmica. Sara (Sarratu) seria uma deusa da lua, Labão (branco) também associado à lua, e os doze filhos de Jacó, os doze signos do zodíaco ou os meses do ano.</li>
+                            </ul></div></div>
+                        </div>
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">🛡️</span> Resposta e Defesa da Historicidade <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>A perspectiva teológica reformada, em consonância com a visão histórica da Igreja, afirma a historicidade dos patriarcas como um pilar da fé. O apóstolo Paulo (Romanos 4) e o autor de Hebreus (Hebreus 11) tratam Abraão como uma pessoa real, cujo ato de fé tem implicações reais para os crentes. A negação de sua historicidade transforma a aliança abraâmica em um mito fundacional, esvaziando a promessa de sua força. Além disso, as críticas enfrentam sérios problemas:</p>
+                            <ul>
+                                <li><strong>O retrato honesto:</strong> As narrativas não escondem as falhas morais dos patriarcas (a mentira de Abraão sobre Sara, o engano de Jacó, etc.). Isso contraria a ideia de uma "autoidealização" nacional, que tenderia a criar heróis perfeitos.</li>
+                                <li><strong>Falta de evidências de culto:</strong> Não há qualquer indício arqueológico ou textual de que Israel tenha, em algum momento, adorado os patriarcas como deuses, o que enfraquece a teoria da origem cananeia ou babilônica. A Bíblia os apresenta como humanos que adoram a Deus, e não como seres adorados.</li>
+                                <li><strong>Conexões arqueológicas:</strong> Embora a arqueologia não possa "provar" a existência de um indivíduo como Abraão, descobertas como as tábuas de Mari e Nuzi revelam costumes sociais, legais e nomes próprios do segundo milênio a.C. que são notavelmente consistentes com os descritos em Gênesis, como costumes de herança, adoção e casamento. Isso situa as narrativas em um contexto histórico plausível, contrariando a ideia de que seriam invenções tardias.</li>
+                            </ul></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2: Formas da Revelação -->
+            <div class="acordeao-item">
+                <div class="acordeao-cabecalho">
+                    <h2>2. Formas da Revelação</h2>
+                    <span class="acordeao-icone">+</span>
+                </div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">🔥</span> Teofanias <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>Uma teofania (do grego <em>theos</em>, "Deus", e <em>phainō</em>, "aparecer") é uma manifestação visível e audível de Deus. No período patriarcal, Deus se revela de forma mais direta e pessoal do que nas narrativas anteriores. Em Gênesis 12.7, o texto diz que "o SENHOR apareceu a Abrão". Mais tarde, em Gênesis 18, o SENHOR aparece a Abraão junto aos carvalhos de Manre na forma de três "homens", com quem Abraão conversa e compartilha uma refeição. A teofania em Gênesis 15, durante a ratificação da aliança, é marcada por um profundo temor, com Deus passando entre os animais divididos como "um fogareiro fumegante e uma tocha de fogo", simbolizando sua presença santa e seu compromisso pactual.</p></div></div>
+                        </div>
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">👁️</span> Visões e Sonhos <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>Deus também se comunica por meios que não envolvem uma manifestação física direta. Em Gênesis 15.1, a palavra do SENHOR vem a Abrão "em uma visão". Os sonhos são um veículo comum de revelação, especialmente para Jacó, como na famosa visão da escada em Betel (Gênesis 28.12), que conectava o céu e a terra, simbolizando a mediação e a presença de Deus com seu povo. José, seu filho, também recebe revelações por meio de sonhos que prefiguram seu futuro (Gênesis 37.5-9). Frequentemente, os sonhos são concedidos a gentios (como Faraó e seus oficiais) para que o povo de Deus, através da interpretação, manifeste a sabedoria divina.</p></div></div>
+                        </div>
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">👼</span> O Anjo do Senhor <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>A figura do "Anjo do SENHOR" (<em>Malak YHWH</em>) é uma das mais teologicamente ricas e misteriosas do Antigo Testamento. Ele não é um anjo comum. Em várias passagens, ele fala como se fosse o próprio Deus (em primeira pessoa) e aceita adoração, algo que anjos criados recusam. Por exemplo, ao falar com Hagar (Gênesis 16.10), ele diz "Multiplicarei sobremodo a tua descendência", uma promessa que só Deus poderia fazer. Em Gênesis 22, o Anjo do SENHOR impede o sacrifício de Isaque e diz: "agora sei que temes a Deus, porquanto não me negaste o teu filho". A teologia cristã histórica, especialmente a reformada, frequentemente identifica o Anjo do SENHOR como uma teofania pré-encarnada do Filho, a segunda pessoa da Trindade. Ele é, ao mesmo tempo, distinto do SENHOR (como enviado) e identificado com o SENHOR (em essência e autoridade), uma antecipação da revelação plena da natureza de Deus no Novo Testamento.</p></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3: Principais Temas da Revelação -->
+            <div class="acordeao-item">
+                <div class="acordeao-cabecalho">
+                    <h2>3. Temas Principais da Revelação</h2>
+                    <span class="acordeao-icone">+</span>
+                </div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">🌍</span> O Princípio da Eleição <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>A eleição é o ato soberano e gracioso de Deus pelo qual Ele escolhe, dentre toda a humanidade, uma família para ser o canal de sua bênção redentora. A chamada de Abraão (Gênesis 12.1-3) é o ponto de partida. Essa escolha não se baseia em méritos de Abraão ou de seu povo, mas unicamente no beneplácito da vontade de Deus (Deuteronômio 7.7-8). É uma eleição particular (uma família) com um propósito universal: "em ti serão benditas todas as famílias da terra". Isso demonstra que o plano de Deus nunca foi exclusivista, mas sempre visou a redenção de pessoas de todas as nações, tribos e línguas, através do descendente prometido de Abraão, que é Cristo (Gálatas 3.16).</p></div></div>
+                        </div>
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">🎁</span> A Objetividade dos Dons <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>A religião patriarcal não é primariamente uma busca humana por Deus, mas uma resposta humana às iniciativas concretas e objetivas de Deus. A base da relação é a <strong>aliança</strong>, um pacto iniciado por Deus que contém promessas firmes. As três grandes promessas (descendência, terra e bênção universal) não são sentimentos subjetivos, mas dons concretos prometidos por Deus. A fé dos patriarcas não é um salto no escuro, mas uma confiança firmada na fidelidade de Deus em cumprir Sua palavra. A religião é, portanto, factual e histórica, baseada em atos divinos (chamada, promessa, teofania) que exigem uma resposta de fé e obediência.</p></div></div>
+                        </div>
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">⚡</span> O Sobrenaturalismo das Promessas <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>Um tema central é que o cumprimento das promessas de Deus ocorre de forma sobrenatural, demonstrando que a salvação é obra de Deus (monergismo), e não do esforço humano. O nascimento de Isaque de pais idosos e estéreis (Gênesis 21; Romanos 4.19) é o exemplo paradigmático. A promessa depende do poder de Deus que dá vida aos mortos, e não da capacidade humana. O nome divino proeminente neste período, <em>El-Shaddai</em> (geralmente traduzido como "Deus Todo-Poderoso"), carrega a ideia de um Deus que é suficiente em si mesmo e cujo poder subjuga as forças da natureza para cumprir seus propósitos redentores. A posse da terra também não seria por conquista militar própria, mas um dom futuro de Deus.</p></div></div>
+                        </div>
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">🙏</span> A Centralidade da Fé <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>Gênesis 15.6 é um texto seminal para toda a Bíblia: "Ele creu no SENHOR, e isso lhe foi imputado para justiça." A fé (hebraico <em>'aman</em>, de onde vem "Amém") não é mero assentimento intelectual, mas uma confiança pessoal e firme na pessoa e nas promessas de Deus. O apóstolo Paulo, em Romanos 4 e Gálatas 3, usa este exato momento para argumentar que a justificação (ser declarado justo diante de Deus) sempre foi pela fé, e não pelas obras da lei. A fé de Abraão é o modelo da fé salvadora: crer na promessa de Deus contra toda a esperança humana. O clímax de sua fé é visto no sacrifício de Isaque (Gênesis 22), onde ele demonstra estar disposto a confiar em Deus mesmo que isso significasse a morte do filho da promessa, crendo que Deus era poderoso até para ressuscitá-lo (Hebreus 11.19).</p></div></div>
+                        </div>
+                        <div class="sub-topico">
+                            <button class="sub-topico-btn"><span class="emoji">⚖️</span> Elementos Éticos <span class="icone-revelar">▼</span></button>
+                            <div class="sub-topico-conteudo"><div class="sub-topico-conteudo-interno"><p>A eleição e a justificação pela fé não levam ao antinomianismo (rejeição da lei moral). Pelo contrário, o favor de Deus está intrinsecamente ligado a uma vida de santidade. Em Gênesis 18.19, Deus diz sobre Abraão: "Porque eu o escolhi para que ordene a seus filhos e a sua casa depois dele, a fim de que guardem o caminho do SENHOR e pratiquem a justiça e o juízo; para que o SENHOR faça vir sobre Abraão o que tem falado a seu respeito." A conduta ética não é a <em>causa</em> da bênção, mas o <em>caminho</em> no qual a bênção é desfrutada e o meio pelo qual a aliança é administrada de geração em geração. A hospitalidade de Abraão (Gênesis 18), sua generosidade com Ló (Gênesis 13) e sua intercessão por Sodoma (Gênesis 18) são exemplos da vida transformada que flui da fé.</p></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4: Conclusão -->
+            <div class="acordeao-item">
+                <div class="acordeao-cabecalho">
+                    <h2>4. Conclusão e Importância</h2>
+                    <span class="acordeao-icone">+</span>
+                </div>
+                <div class="acordeao-conteudo">
+                    <div class="acordeao-conteudo-interno">
+                        <p>A história dos patriarcas, tal como relatada na Bíblia, não é uma coleção de lendas ou fábulas. Ela é apresentada como <strong>fundamento real da fé e da identidade do povo de Deus</strong>. Desconectar a fé cristã e judaica de seus fundamentos históricos, segundo a própria Escritura, é esvaziar o próprio sentido do plano da redenção, que é um plano que se desenrola na história humana real. A revelação patriarcal estabelece os pilares que serão desenvolvidos em toda a Bíblia: a soberania de Deus na eleição, a salvação pela graça mediante a fé, a natureza pactual do relacionamento de Deus com seu povo, a necessidade de uma vida santa como resposta à graça, e o propósito missionário universal de Deus. É o alicerce sobre o qual toda a estrutura da história redentora é construída, culminando na vinda do descendente prometido, Jesus Cristo.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer-principal">
+            <p>&copy; 2024. Conteúdo teológico apresentado de forma interativa.</p>
+        </footer>
+
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // --- Lógica para o Acordeão Principal ---
+        const acordeaoItens = document.querySelectorAll('.acordeao-item');
+        acordeaoItens.forEach(item => {
+            const cabecalho = item.querySelector('.acordeao-cabecalho');
+            cabecalho.addEventListener('click', () => {
+                const estaAtivo = item.classList.contains('ativo');
+                // Fecha todos os outros itens principais
+                acordeaoItens.forEach(outroItem => {
+                    if (outroItem !== item) {
+                        outroItem.classList.remove('ativo');
+                        outroItem.querySelector('.acordeao-conteudo').style.maxHeight = null;
+                        outroItem.querySelector('.acordeao-icone').textContent = '+';
+                    }
+                });
+                // Abre ou fecha o item clicado
+                if (estaAtivo) {
+                    item.classList.remove('ativo');
+                    item.querySelector('.acordeao-conteudo').style.maxHeight = null;
+                    item.querySelector('.acordeao-icone').textContent = '+';
+                } else {
+                    item.classList.add('ativo');
+                    const conteudo = item.querySelector('.acordeao-conteudo');
+                    conteudo.style.maxHeight = conteudo.scrollHeight + 'px';
+                    item.querySelector('.acordeao-icone').textContent = '×';
+                }
+            });
+        });
+
+        // --- Lógica para os Botões de Sub-tópico ---
+        const subTopicoBtns = document.querySelectorAll('.sub-topico-btn');
+        subTopicoBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Impede que o clique no botão feche o acordeão principal
+                const subTopico = btn.parentElement;
+                const outrosSubTopicos = subTopico.parentElement.querySelectorAll('.sub-topico');
+                const estaAtivo = subTopico.classList.contains('ativo');
+
+                // Fecha outros sub-tópicos dentro do mesmo acordeão principal
+                outrosSubTopicos.forEach(outro => {
+                    if (outro !== subTopico) {
+                        outro.classList.remove('ativo');
+                        outro.querySelector('.sub-topico-conteudo').style.maxHeight = null;
+                    }
+                });
+                
+                // Abre ou fecha o sub-tópico clicado
+                const conteudoSubTopico = subTopico.querySelector('.sub-topico-conteudo');
+                if (!estaAtivo) {
+                    subTopico.classList.add('ativo');
+                    // Define uma altura máxima fixa para a caixa de conteúdo, permitindo rolagem
+                    // Se o conteúdo for menor, ele ocupará apenas o espaço necessário.
+                    const alturaConteudo = conteudoSubTopico.scrollHeight;
+                    conteudoSubTopico.style.maxHeight = Math.min(alturaConteudo, 300) + 'px'; // Max 300px de altura
+                } else {
+                    subTopico.classList.remove('ativo');
+                    conteudoSubTopico.style.maxHeight = null;
+                }
+
+                // Reajusta a altura do acordeão principal para acomodar o novo conteúdo
+                const acordeaoPai = subTopico.closest('.acordeao-item');
+                if (acordeaoPai.classList.contains('ativo')) {
+                    // Timeout para garantir que o DOM foi atualizado antes de recalcular a altura
+                    setTimeout(() => {
+                        const conteudoAcordeao = acordeaoPai.querySelector('.acordeao-conteudo');
+                        conteudoAcordeao.style.maxHeight = conteudoAcordeao.scrollHeight + 'px';
+                    }, 400); // Duração da transição do sub-tópico
+                }
+            });
+        });
+        
+        // Opcional: Abrir o primeiro item principal por padrão
+        if (acordeaoItens.length > 0) {
+            const primeiroItem = acordeaoItens[0];
+            primeiroItem.classList.add('ativo');
+            const conteudo = primeiroItem.querySelector('.acordeao-conteudo');
+            conteudo.style.maxHeight = conteudo.scrollHeight + 'px';
+            primeiroItem.querySelector('.acordeao-icone').textContent = '×';
+        }
+    });
+    </script>
+
+</body>
+</html>

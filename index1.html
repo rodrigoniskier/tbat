@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador Interativo: Fundamentos da Teologia Bíblica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Parchment & Ink -->
+    <!-- Application Structure Plan: The application uses a thematic, interactive dashboard structure. A top navigation bar allows users to select a core concept from the source text. Clicking a theme dynamically displays a dedicated, interactive section below. This non-linear approach was chosen over a simple text scroll to encourage exploration. Key interactions include an HTML/CSS diagram, a comparative Radar chart, a toggle-based display for Covenants, and now interactive Flashcards and a Quiz to reinforce learning. This structure transforms a linear text into an explorable and testable knowledge base. -->
+    <!-- Visualization & Content Choices: 1. Theological Disciplines: Goal=Organize, Method=HTML/CSS Diagram, Interaction=Click. 2. Biblical vs. Systematic: Goal=Compare, Method=Chart.js Radar Chart, Interaction=Hover. 3. Characteristics: Goal=Inform, Method=Interactive HTML cards. 4. Covenants: Goal=Compare, Method=HTML Toggle. 5. Flashcards: Goal=Reinforce, Method=Flippable HTML cards, Interaction=Click to flip, Next/Prev buttons. Justification: Classic and effective method for memorization. 6. Quiz: Goal=Test Knowledge, Method=Multiple-choice questions, Interaction=Click to answer, immediate feedback. Justification: Active recall tool to assess understanding. All methods use HTML/CSS or Canvas via Chart.js. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #FDFBF5; 
+            color: #422F22;
+        }
+        h1, h2, h3, h4, h5, h6, .font-serif {
+            font-family: 'Merriweather', serif;
+        }
+        .nav-button {
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-button:hover, .nav-button.active {
+            border-bottom-color: #A16207;
+            color: #A16207;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .content-section {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .flashcard-container {
+            perspective: 1000px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 250px;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            border-radius: 0.5rem;
+            border: 1px solid #DED3C4;
+            background-color: #fff;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        .quiz-option {
+            transition: background-color 0.3s;
+        }
+    </style>
+</head>
+<body class="bg-[#FDFBF5]">
+
+    <div class="container mx-auto max-w-6xl p-4 sm:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#6D4C33] font-serif">Fundamentos da Teologia Bíblica</h1>
+            <p class="mt-2 text-lg text-[#856A54]">Uma Exploração Interativa</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-4 md:gap-6 mb-12 border-b border-[#DED3C4] pb-4">
+            <button class="nav-button text-lg font-semibold px-2 py-1" data-content="intro">Introdução</button>
+            <button class="nav-button text-lg font-semibold px-2 py-1" data-content="disciplinas">Disciplinas</button>
+            <button class="nav-button text-lg font-semibold px-2 py-1" data-content="caracteristicas">Características</button>
+            <button class="nav-button text-lg font-semibold px-2 py-1" data-content="comparacao">Comparação</button>
+            <button class="nav-button text-lg font-semibold px-2 py-1" data-content="pactos">Pactos</button>
+            <button class="nav-button text-lg font-semibold px-2 py-1" data-content="flashcards">Flashcards</button>
+            <button class="nav-button text-lg font-semibold px-2 py-1" data-content="quiz">Quiz</button>
+        </nav>
+
+        <main id="content-area">
+        </main>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contentArea = document.getElementById('content-area');
+            const navButtons = document.querySelectorAll('.nav-button');
+
+            const contentData = {
+                intro: {
+                    title: 'O que é Teologia Bíblica?',
+                    description: 'A Teologia, em sua essência, é a ciência que trata de Deus, fundamentada em Sua própria revelação. Dentro dela, a Teologia Bíblica se destaca como a disciplina que estuda o processo histórico da auto-revelação de Deus, conforme registrado nas Escrituras. Seu foco não é um sistema final, mas a jornada da revelação divina através do tempo.',
+                    details: 'Diferente da Teologia Sistemática que organiza a doutrina por temas lógicos, a Teologia Bíblica traça a linha do tempo da verdade, mostrando como conceitos como aliança, reino e redenção se desenvolvem progressivamente de Gênesis a Apocalipse. Ela nos convida a entender a mensagem da Bíblia nos seus próprios termos e contexto histórico.'
+                },
+                disciplinas: {
+                    title: 'O Lugar da Teologia Bíblica',
+                    description: 'A Teologia é um campo vasto, tradicionalmente dividido em quatro grandes áreas. A Teologia Bíblica é um ramo fundamental da Teologia Exegética, servindo de alicerce para as demais. Clique em cada disciplina para saber mais sobre sua função.',
+                    items: [
+                        { name: 'Teologia Exegética', detail: 'Fundamento de tudo. Envolve o estudo direto e a interpretação do texto bíblico em suas línguas originais. A Teologia Bíblica pertence a esta área.' },
+                        { name: 'Teologia Histórica', detail: 'Estuda como as doutrinas cristãs se desenvolveram e foram compreendidas ao longo da história da Igreja.' },
+                        { name: 'Teologia Sistemática', detail: 'Organiza as verdades da Bíblia inteira em um sistema lógico e coerente, abordando temas como Deus, Cristo, Salvação, etc.' },
+                        { name: 'Teologia Prática', detail: 'Aplica a verdade teológica à vida da Igreja e do cristão, abrangendo áreas como pregação, aconselhamento e missões.' }
+                    ]
+                },
+                caracteristicas: {
+                    title: 'As Características da Revelação Divina',
+                    description: 'A auto-revelação de Deus, estudada pela Teologia Bíblica, não é aleatória. Ela possui características distintas que revelam a sabedoria de seu Autor. Explore as quatro características principais abaixo.',
+                    items: [
+                        { name: 'Progressiva', detail: 'Deus não revelou Sua verdade de uma só vez, mas em etapas, como uma semente que cresce até se tornar uma árvore completa. A revelação é cumulativa e se torna cada vez mais clara, culminando em Cristo.', icon: '📈' },
+                        { name: 'Histórica', detail: 'A revelação não é uma série de ideias abstratas, mas está encarnada em eventos históricos reais: o Êxodo, a Aliança no Sinai, a Encarnação. Deus age e fala na história.', icon: '📜' },
+                        { name: 'Orgânica', detail: 'O progresso da revelação é como o de um organismo vivo, com períodos de rápido crescimento. A diversidade de autores e estilos na Bíblia reflete a riqueza multifacetada da verdade de Deus, e não contradições.', icon: '🌿' },
+                        { name: 'Prática', detail: 'A revelação foi dada no contexto da Aliança, para suprir as necessidades reais do povo de Deus. Seu objetivo não é a mera especulação, mas a comunhão, a adoração e a vida.', icon: '🤝' }
+                    ]
+                },
+                comparacao: {
+                    title: 'Teologia Bíblica vs. Teologia Sistemática',
+                    description: 'Ambas as disciplinas são essenciais e se baseiam na Bíblia, mas seus métodos e objetivos são diferentes, porém complementares. O gráfico abaixo ilustra suas distintas abordagens para entender a verdade bíblica.',
+                },
+                pactos: {
+                    title: 'As Duas Grandes Revelações: O Pacto de Obras e o Pacto da Graça',
+                    description: 'A Bíblia apresenta a relação de Deus com a humanidade através de duas grandes administrações pactuais. A primeira, antes da Queda, baseada na obediência. A segunda, após a Queda, baseada na graça de Deus em Cristo.',
+                    pactoObras: {
+                        name: 'Pacto de Obras (Revelação Pré-Redentora)',
+                        detail: 'Estabelecido com Adão na inocência, era uma revelação probatória. A vida eterna e confirmada era a recompensa prometida pela obediência perfeita.',
+                        symbols: [
+                            { icon: '🌳', text: 'A Árvore da Vida: Simbolizava a vida eterna a ser alcançada pela obediência.' },
+                            { icon: '🍎', text: 'A Árvore do Conhecimento: Instrumento do teste, exigindo obediência à Palavra de Deus acima de tudo.' }
+                        ]
+                    },
+                    pactoGraca: {
+                        name: 'Pacto da Graça (Revelação Redentora)',
+                        detail: 'Estabelecido após a Queda, é a revelação da salvação pela graça de Deus. Começa com a promessa em Gênesis 3:15 e se cumpre em Jesus Cristo.',
+                        symbols: [
+                            { icon: '🐍', text: 'A Serpente Amaldiçoada: Deus promete a derrota do inimigo.' },
+                            { icon: '👣', text: 'A Semente da Mulher: A promessa de um Redentor que viria da humanidade para esmagar a cabeça da serpente.' },
+                            { icon: '✝️', text: 'A Cruz de Cristo: O cumprimento final do Pacto da Graça, onde a justiça e a graça de Deus se encontram.' }
+                        ]
+                    }
+                },
+                flashcards: [
+                    { q: 'Qual a definição essencial de Teologia?', a: 'A ciência que trata de Deus, baseada em Sua auto-revelação.' },
+                    { q: 'Qual o princípio organizador da Teologia Bíblica?', a: 'O princípio da História. Ela traça o desenvolvimento da revelação ao longo do tempo.' },
+                    { q: 'Qual o princípio organizador da Teologia Sistemática?', a: 'O princípio da Lógica. Ela organiza a verdade bíblica em um sistema coerente por tópicos.' },
+                    { q: 'O que significa dizer que a revelação é "Progressiva"?', a: 'Significa que Deus revelou Sua verdade em etapas, com clareza crescente ao longo da história, culminando em Cristo.' },
+                    { q: 'O que era o Pacto de Obras?', a: 'Uma aliança probatória com Adão antes da Queda, baseada na condição de obediência perfeita para alcançar a vida eterna confirmada.' },
+                    { q: 'Onde encontramos a primeira promessa do Evangelho (protoevangelho)?', a: 'Em Gênesis 3:15, na maldição sobre a serpente, onde Deus promete que a semente da mulher esmagaria sua cabeça.' }
+                ],
+                quiz: [
+                    {
+                        q: 'Qual disciplina teológica foca no desenvolvimento histórico da revelação?',
+                        options: ['Teologia Prática', 'Teologia Sistemática', 'Teologia Bíblica', 'Teologia Histórica'],
+                        answer: 2
+                    },
+                    {
+                        q: 'A característica da revelação que a descreve como "encarnada em eventos reais" é a:',
+                        options: ['Orgânica', 'Histórica', 'Prática', 'Progressiva'],
+                        answer: 1
+                    },
+                    {
+                        q: 'O Pacto da Graça foi estabelecido:',
+                        options: ['Antes da Queda', 'Com Moisés no Sinai', 'Após a Queda', 'No Novo Testamento'],
+                        answer: 2
+                    },
+                    {
+                        q: 'O princípio organizador da Teologia Sistemática é:',
+                        options: ['A História', 'A Lógica', 'A Prática', 'A Experiência'],
+                        answer: 1
+                    }
+                ]
+            };
+            
+            function clearContent() {
+                contentArea.innerHTML = '';
+            }
+
+            function renderIntro() {
+                const data = contentData.intro;
+                const section = document.createElement('section');
+                section.className = 'content-section text-center max-w-3xl mx-auto bg-amber-50 p-8 rounded-lg shadow-sm border border-amber-200';
+                section.innerHTML = `
+                    <h2 class="text-3xl font-bold text-[#A16207] mb-4 font-serif">${data.title}</h2>
+                    <p class="text-lg text-stone-700 mb-4">${data.description}</p>
+                    <p class="text-md text-stone-600">${data.details}</p>
+                `;
+                contentArea.appendChild(section);
+            }
+
+            function renderDisciplinas() {
+                const data = contentData.disciplinas;
+                const section = document.createElement('section');
+                section.className = 'content-section';
+                section.innerHTML = `
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-[#A16207] font-serif">${data.title}</h2>
+                        <p class="mt-2 max-w-2xl mx-auto text-lg text-stone-700">${data.description}</p>
+                    </div>
+                    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+                        ${data.items.map((item) => `
+                            <div class="card bg-white p-6 rounded-lg border border-stone-200 cursor-pointer" onclick="this.querySelector('p').classList.toggle('hidden')">
+                                <h3 class="text-xl font-semibold text-[#6D4C33] font-serif">${item.name}</h3>
+                                <p class="text-stone-600 mt-2 hidden">${item.detail}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                contentArea.appendChild(section);
+            }
+            
+            function renderCaracteristicas() {
+                const data = contentData.caracteristicas;
+                const section = document.createElement('section');
+                section.className = 'content-section';
+                section.innerHTML = `
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-[#A16207] font-serif">${data.title}</h2>
+                        <p class="mt-2 max-w-2xl mx-auto text-lg text-stone-700">${data.description}</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                        ${data.items.map(item => `
+                            <div class="card text-center bg-white p-6 rounded-lg border border-stone-200">
+                                <div class="text-4xl mb-3">${item.icon}</div>
+                                <h3 class="text-xl font-semibold text-[#6D4C33] font-serif mb-2">${item.name}</h3>
+                                <p class="text-stone-600 text-sm">${item.detail}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                contentArea.appendChild(section);
+            }
+
+            function renderComparacao() {
+                const section = document.createElement('section');
+                section.className = 'content-section';
+                section.innerHTML = `
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-[#A16207] font-serif">${contentData.comparacao.title}</h2>
+                        <p class="mt-2 max-w-2xl mx-auto text-lg text-stone-700">${contentData.comparacao.description}</p>
+                    </div>
+                    <div class="bg-white p-4 sm:p-6 rounded-lg border border-stone-200 shadow-sm">
+                        <div class="chart-container">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                    </div>
+                `;
+                contentArea.appendChild(section);
+
+                const ctx = document.getElementById('comparisonChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Princípio', 'Forma', 'Foco', 'Resultado'],
+                        datasets: [{
+                            label: 'Teologia Bíblica',
+                            data: [10, 8, 9, 7],
+                            backgroundColor: 'rgba(161, 98, 7, 0.2)',
+                            borderColor: 'rgba(161, 98, 7, 1)',
+                            borderWidth: 2
+                        }, {
+                            label: 'Teologia Sistemática',
+                            data: [7, 9, 8, 10],
+                            backgroundColor: 'rgba(109, 76, 51, 0.2)',
+                            borderColor: 'rgba(109, 76, 51, 1)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        const labels = {
+                                            'Teologia Bíblica': ['História', 'Linha', 'Processo', 'Narrativa Histórica'],
+                                            'Teologia Sistemática': ['Lógica', 'Círculo', 'Tópicos', 'Doutrina Coerente']
+                                        };
+                                        return labels[context.dataset.label][context.dataIndex];
+                                    }
+                                }
+                            }
+                        },
+                        scales: { r: { angleLines: { color: '#DED3C4' }, grid: { color: '#DED3C4' }, pointLabels: { font: { size: 14, family: "'Merriweather', serif" }, color: '#422F22' }, ticks: { display: false, stepSize: 2 } } }
+                    }
+                });
+            }
+
+            function renderPactos() {
+                const data = contentData.pactos;
+                const section = document.createElement('section');
+                section.className = 'content-section';
+                section.innerHTML = `
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-[#A16207] font-serif">${data.title}</h2>
+                        <p class="mt-2 max-w-3xl mx-auto text-lg text-stone-700">${data.description}</p>
+                    </div>
+                    <div class="flex justify-center items-center my-6">
+                        <span class="mr-3 text-stone-600">Pacto de Obras</span>
+                        <label class="inline-flex relative items-center cursor-pointer">
+                            <input type="checkbox" id="pacto-toggle" class="sr-only peer">
+                            <div class="w-14 h-7 bg-amber-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#6D4C33]"></div>
+                        </label>
+                        <span class="ml-3 text-stone-600">Pacto da Graça</span>
+                    </div>
+                    <div id="pacto-content" class="mt-6"></div>
+                `;
+                contentArea.appendChild(section);
+
+                const toggle = document.getElementById('pacto-toggle');
+                const pactoContent = document.getElementById('pacto-content');
+
+                const renderPactoDetails = (isGraca) => {
+                    const pactoData = isGraca ? data.pactoGraca : data.pactoObras;
+                    pactoContent.innerHTML = `
+                        <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg border border-stone-200 shadow-sm transition-opacity duration-500">
+                            <h3 class="text-2xl font-bold text-center text-[#A16207] mb-4 font-serif">${pactoData.name}</h3>
+                            <p class="text-center text-stone-700 mb-6">${pactoData.detail}</p>
+                            <ul class="space-y-4">
+                                ${pactoData.symbols.map(symbol => `
+                                    <li class="flex items-start">
+                                        <span class="text-2xl mr-4">${symbol.icon}</span>
+                                        <span class="text-stone-600">${symbol.text}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                };
+
+                toggle.addEventListener('change', (e) => renderPactoDetails(e.target.checked));
+                renderPactoDetails(false);
+            }
+
+            function renderFlashcards() {
+                let currentCard = 0;
+                const section = document.createElement('section');
+                section.className = 'content-section max-w-xl mx-auto';
+                section.innerHTML = `
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-[#A16207] font-serif">Flashcards</h2>
+                        <p class="mt-2 text-lg text-stone-700">Clique no card para virar. Use os botões para navegar.</p>
+                    </div>
+                    <div class="flashcard-container mb-4">
+                        <div class="flashcard" id="flashcard">
+                            <div class="flashcard-face flashcard-front"><h3 class="text-2xl font-semibold"></h3></div>
+                            <div class="flashcard-face flashcard-back"><p class="text-lg"></p></div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <button id="prev-card" class="px-4 py-2 bg-[#856A54] text-white rounded hover:bg-[#6D4C33] transition-colors">Anterior</button>
+                        <span id="card-counter" class="text-stone-600 font-semibold"></span>
+                        <button id="next-card" class="px-4 py-2 bg-[#856A54] text-white rounded hover:bg-[#6D4C33] transition-colors">Próximo</button>
+                    </div>
+                `;
+                contentArea.appendChild(section);
+
+                const flashcard = document.getElementById('flashcard');
+                const cardFront = flashcard.querySelector('.flashcard-front h3');
+                const cardBack = flashcard.querySelector('.flashcard-back p');
+                const prevBtn = document.getElementById('prev-card');
+                const nextBtn = document.getElementById('next-card');
+                const counter = document.getElementById('card-counter');
+                const cards = contentData.flashcards;
+
+                function updateCard() {
+                    flashcard.classList.remove('is-flipped');
+                    setTimeout(() => {
+                        cardFront.textContent = cards[currentCard].q;
+                        cardBack.textContent = cards[currentCard].a;
+                        counter.textContent = `${currentCard + 1} / ${cards.length}`;
+                    }, 200);
+                }
+
+                flashcard.addEventListener('click', () => flashcard.classList.toggle('is-flipped'));
+                prevBtn.addEventListener('click', () => {
+                    currentCard = (currentCard - 1 + cards.length) % cards.length;
+                    updateCard();
+                });
+                nextBtn.addEventListener('click', () => {
+                    currentCard = (currentCard + 1) % cards.length;
+                    updateCard();
+                });
+
+                updateCard();
+            }
+
+            function renderQuiz() {
+                let currentQuestion = 0;
+                let score = 0;
+                const questions = contentData.quiz;
+                const section = document.createElement('section');
+                section.className = 'content-section max-w-2xl mx-auto';
+                section.innerHTML = `
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-[#A16207] font-serif">Quiz Rápido</h2>
+                        <p class="mt-2 text-lg text-stone-700">Teste seu conhecimento.</p>
+                    </div>
+                    <div id="quiz-container" class="bg-white p-8 rounded-lg border border-stone-200 shadow-sm"></div>
+                `;
+                contentArea.appendChild(section);
+                const quizContainer = document.getElementById('quiz-container');
+
+                function showQuestion() {
+                    if (currentQuestion >= questions.length) {
+                        showScore();
+                        return;
+                    }
+                    const q = questions[currentQuestion];
+                    quizContainer.innerHTML = `
+                        <h3 class="text-xl font-semibold text-center mb-6">${q.q}</h3>
+                        <div class="grid grid-cols-1 gap-4">
+                            ${q.options.map((opt, index) => `
+                                <button class="quiz-option w-full text-left p-4 border border-stone-300 rounded hover:bg-amber-100" data-index="${index}">${opt}</button>
+                            `).join('')}
+                        </div>
+                    `;
+                    quizContainer.querySelectorAll('.quiz-option').forEach(btn => {
+                        btn.addEventListener('click', handleAnswer);
+                    });
+                }
+
+                function handleAnswer(e) {
+                    const selectedIndex = parseInt(e.target.dataset.index);
+                    const correctIndex = questions[currentQuestion].answer;
+                    const options = quizContainer.querySelectorAll('.quiz-option');
+
+                    options.forEach(btn => btn.disabled = true);
+
+                    if (selectedIndex === correctIndex) {
+                        e.target.classList.add('bg-green-200', 'border-green-400');
+                        score++;
+                    } else {
+                        e.target.classList.add('bg-red-200', 'border-red-400');
+                        options[correctIndex].classList.add('bg-green-200', 'border-green-400');
+                    }
+                    
+                    const nextBtn = document.createElement('button');
+                    nextBtn.textContent = 'Próxima Pergunta';
+                    nextBtn.className = 'w-full mt-6 px-4 py-2 bg-[#A16207] text-white rounded hover:bg-[#856A54] transition-colors';
+                    nextBtn.onclick = () => {
+                        currentQuestion++;
+                        showQuestion();
+                    };
+                    quizContainer.appendChild(nextBtn);
+                }
+
+                function showScore() {
+                    quizContainer.innerHTML = `
+                        <div class="text-center">
+                            <h3 class="text-2xl font-bold font-serif text-[#6D4C33] mb-4">Quiz Finalizado!</h3>
+                            <p class="text-lg text-stone-700 mb-6">Você acertou ${score} de ${questions.length} perguntas.</p>
+                            <button id="restart-quiz" class="px-6 py-2 bg-[#A16207] text-white rounded hover:bg-[#856A54] transition-colors">Tentar Novamente</button>
+                        </div>
+                    `;
+                    document.getElementById('restart-quiz').addEventListener('click', () => {
+                        currentQuestion = 0;
+                        score = 0;
+                        showQuestion();
+                    });
+                }
+
+                showQuestion();
+            }
+            
+            function setActiveButton(btn) {
+                navButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            const renderMap = {
+                intro: renderIntro,
+                disciplinas: renderDisciplinas,
+                caracteristicas: renderCaracteristicas,
+                comparacao: renderComparacao,
+                pactos: renderPactos,
+                flashcards: renderFlashcards,
+                quiz: renderQuiz,
+            };
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const contentKey = button.dataset.content;
+                    clearContent();
+                    if (renderMap[contentKey]) {
+                        renderMap[contentKey]();
+                    }
+                    setActiveButton(button);
+                });
+            });
+
+            document.querySelector('[data-content="intro"]').click();
+        });
+    </script>
+</body>
+</html>
