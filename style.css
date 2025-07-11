@@ -1,0 +1,153 @@
+/* --- Variáveis de Cor e Fonte (uma boa prática dos teus ficheiros) --- */
+:root {
+    --cor-fundo-principal: #1A202C; /* Azul-ardósia escuro */
+    --cor-sidebar: #0D1B2A;         /* Azul-noite ainda mais escuro */
+    --cor-texto-sidebar: #E2E8F0;    /* Cinza-claro para texto */
+    --cor-acento: #4FD1C5;          /* Ciano/verde-água para destaque */
+    --cor-sombra: rgba(0, 0, 0, 0.2);
+    --font-titulo: 'Merriweather', serif;
+    --font-interface: 'Lato', sans-serif;
+    --transicao-padrao: all 0.3s ease;
+}
+
+/* --- Reset e Configurações Globais --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-interface);
+    background-color: var(--cor-fundo-principal);
+    color: var(--cor-texto-sidebar);
+    display: flex; /* Essencial para o layout de duas colunas */
+}
+
+/* --- Layout Principal --- */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: var(--cor-sidebar);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+}
+
+.main-content {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+    height: 100vh;
+    padding: 0;
+}
+
+#content-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+    animation: fadeIn 0.8s ease; /* Animação de entrada */
+}
+
+/* --- Estilos da Sidebar --- */
+.sidebar-header {
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h3 {
+    font-family: var(--font-titulo);
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaço entre os botões */
+}
+
+.nav-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: var(--cor-texto-sidebar);
+    font-family: var(--font-interface);
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: var(--transicao-padrao);
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+}
+
+.nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.nav-button.active {
+    background-color: var(--cor-acento);
+    color: var(--cor-sidebar);
+    font-weight: 900;
+    box-shadow: 0 4px 15px rgba(79, 209, 197, 0.2);
+}
+
+/* --- Estilos do Botão Mobile e Responsividade --- */
+.menu-toggle {
+    display: none; /* Escondido em telas grandes */
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1001;
+    background-color: var(--cor-sidebar);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 2px 10px var(--cor-sombra);
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        transform: translateX(-100%); /* Esconde a sidebar fora da tela */
+        box-shadow: 5px 0 15px var(--cor-sombra);
+    }
+
+    body.sidebar-open .sidebar {
+        transform: translateX(0); /* Mostra a sidebar */
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .menu-toggle {
+        display: block; /* Mostra o botão hambúrguer */
+    }
+}
+
+/* --- Animação de Fade-in --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
